@@ -115,37 +115,9 @@ namespace Overflow.src
                     {
                         tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
                     }
-                    else if(character == "Γ")
+                    else if(character == "|" || character == "-" || character == ".")
                     {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[0], "Wall");
-                    }
-                    else if(character == "⅂")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[1], "Wall");
-                    }
-                    else if (character == "⅃")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[2], "Wall");
-                    }
-                    else if (character == "L")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[3], "Wall");
-                    }
-                    else if (character == "-")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[4], "Wall");
-                    }
-                    else if (character == "|")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[5], "Wall");
-                    }
-                    else if (character == "_")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[6], "Wall");
-                    }
-                    else if (character == "l")
-                    {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[7], "Wall");
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), SelectWall(character, new int[] {i, j}), "Wall");
                     }
                     else if (character == "o")
                     {
@@ -168,6 +140,23 @@ namespace Overflow.src
             }
 
             return tiles;
+        }
+
+        private Texture2D SelectWall(string character, int[] position)
+        {
+            if(character == "-")
+            {
+                return _tileSet[4];
+            }
+            else if (character == "|")
+            {
+                return _tileSet[5];
+            }
+            else if (character == ".")
+            {
+
+            }
+            return _tileSet[0];
         }
 
         public Tile GetTile(Vector2 position)

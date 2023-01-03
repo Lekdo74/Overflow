@@ -41,20 +41,20 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "aΓ--o---⅂",
-                    "Γ       |",
-                    "l       |",
-                    "l       |",
-                    "l       |",
-                    "l       |",
-                    "L_______⅃"},
+                    "e.------.",
+                    ".⅃      |",
+                    "|       |",
+                    "|       |",
+                    "|       |",
+                    "|       |",
+                    ".-------."},
                     new string[] {
                     "Γ---o---⅂",
                     "l       |",
                     "l       |",
                     "L_______⅃"}
                 };
-                return new Room(rooms[random.Next(0, rooms.GetLength(0))], tileSet);
+                return new Room(rooms[0], tileSet);
             }
             return new Room(new string[] { "a", "b" }, tileSet);
         }
