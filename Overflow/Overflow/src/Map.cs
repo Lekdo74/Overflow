@@ -153,7 +153,7 @@ namespace Overflow.src
                     }
                 }
 
-                //rooms[x, y] = new Room(new Vector2(13, 11), _tileSet, doors);
+                rooms[x, y] = PremadeRooms.Room(doors, _tileSet);
             }
             Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
 

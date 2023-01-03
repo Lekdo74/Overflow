@@ -77,9 +77,9 @@ namespace Overflow
             _screenManager.LoadScreen(new Tutorial(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
 
-        public void LoadLevel1()
+        public void LoadRoomTest()
         {
-            _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new RoomTest(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
     }
 }

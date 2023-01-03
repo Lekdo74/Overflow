@@ -9,7 +9,7 @@ namespace Overflow.src
 {
     public static class PremadeRooms
     {/*
-        left top bottom right
+        top right bottom left
         0000
         0001
         0010
@@ -26,37 +26,276 @@ namespace Overflow.src
         1101
         1110
         1111
-        */
-        /*
-         Γ-⅂
-         l |
-         L_⅃
+
+         .-.
+         | |  Γ ⅂
+         .-.  L ⅃
          */
 
         private static Random random = new Random();
 
         public static Room Room(bool[] doors, Texture2D[] tileSet)
         {
-            if(doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false)
+            if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true)
             {
                 string[][] rooms = {
                     new string[] {
-                    "e.------.",
-                    ".⅃      |",
-                    "|       |",
-                    "|       |",
-                    "|       |",
-                    "|       |",
-                    ".-------."},
-                    new string[] {
-                    "Γ---o---⅂",
-                    "l       |",
-                    "l       |",
-                    "L_______⅃"}
-                };
-                return new Room(rooms[0], tileSet);
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".-------------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
             }
-            return new Room(new string[] { "a", "b" }, tileSet);
+            else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".-------------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".-------------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".-------------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    "ee.----o---.eee",
+                    "e.⅃        L.ee",
+                    ".⅃          L.e",
+                    "|            |e",
+                    "|           Γ.e",
+                    "|           |ee",
+                    "|           L-.",
+                    "|             |",
+                    "|             |",
+                    "|            Γ.",
+                    ".-⅂         Γ.e",
+                    "ee.⅂        |ee",
+                    "eee.--------.ee"},
+                    new string[] {
+                    "eeeeee.--o-----.eee",
+                    "eeeee.⅃        L.ee",
+                    "e.---⅃          L.e",
+                    "e|               |e",
+                    "e.⅂             Γ.e",
+                    "ee.⅂            |ee",
+                    ".--⅃            L-.",
+                    "|                 |",
+                    "|                 |",
+                    "|                Γ.",
+                    ".-⅂             Γ.e",
+                    "ee.⅂  Γ---⅂     |ee",
+                    "eee.--.eee.-----.ee"}
+                };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".-------------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             |",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".-------------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".-------------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == false)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "|             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == true)
+            {
+                string[][] rooms = {
+                    new string[] {
+                    ".------o------.",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    "o             o",
+                    "|             |",
+                    "|             |",
+                    "|             |",
+                    ".------o------."
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+            }
+
+            throw new Exception("Il n'existe pas de salle préfaite pour cette combinaison de porte");
         }
     }
 }

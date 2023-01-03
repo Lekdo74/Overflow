@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Overflow.src
 {
@@ -21,6 +22,9 @@ namespace Overflow.src
         private float yMin;
         private float xMax;
         private float yMax;
+
+        string[] terrain;
+        string[] walls;
 
         //private Enemy[] enemies
 
@@ -115,13 +119,32 @@ namespace Overflow.src
                     {
                         tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
                     }
-                    else if(character == "|" || character == "-" || character == ".")
+                    else if(character == "|" || character == "-" || character == "." || character == "Γ" || character == "⅂" || character == "⅃" || character == "L")
                     {
                         tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), SelectWall(character, new int[] {i, j}), "Wall");
                     }
                     else if (character == "o")
                     {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "Door");
+                        if(j == 0)
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorTop");
+                            SpawnPoints[0] = new Vector2(20 * i + 20 * 0.5f, 20 * 0.5f) + Position;
+                        }
+                        else if(i == Size.X - 1)
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorRight");
+                            SpawnPoints[1] = new Vector2(20 * i + 20 * 0.5f, 20 * j + 20 * 0.5f) + Position;
+                        }
+                        else if(j == Size.Y - 1)
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorBottom");
+                            SpawnPoints[2] = new Vector2(20 * i + 20 * 0.5f, 20 * j + 20 * 0.5f) + Position;
+                        }
+                        else if(i == 0)
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorLeft");
+                            SpawnPoints[3] = new Vector2(20 * 0.5f, 20 * j + 20 * 0.5f) + Position;
+                        }
                     }
                 }
             }
@@ -144,19 +167,166 @@ namespace Overflow.src
 
         private Texture2D SelectWall(string character, int[] position)
         {
-            if(character == "-")
+            if (character == "Γ")
             {
-                return _tileSet[4];
+                return _tileSet[0];
+            }
+            else if (character == "⅂")
+            {
+                return _tileSet[1];
+            }
+            else if (character == "⅃")
+            {
+                return _tileSet[2];
+            }
+            else if (character == "L")
+            {
+                return _tileSet[3];
+            }
+            else if (character == "-")
+            {
+                return SelectHorizontalWall(position);
             }
             else if (character == "|")
             {
-                return _tileSet[5];
+                return SelectVerticalWall(position);
             }
             else if (character == ".")
             {
-
+                return SelectCorner(position);
             }
-            return _tileSet[0];
+            return _tileSet[9];
+        }
+        private Texture2D SelectHorizontalWall(int[] position)
+        {
+            terrain = new string[] { " " };
+            //cotés
+            if (position[1] == 0)
+            {
+                return _tileSet[4];
+            }
+            else if (position[1] == Size.Y - 1)
+            {
+                return _tileSet[6];
+            }
+            //pas coté
+            else if (terrain.Contains(_room[position[1] + 1][position[0]].ToString()))
+            {
+                return _tileSet[4];
+            }
+            else if(terrain.Contains(_room[position[1] - 1][position[0]].ToString()))
+            {
+                return _tileSet[6];
+            }
+            throw new Exception("Une tile mur horizontal n'est pas définie");
+        }
+        private Texture2D SelectVerticalWall(int[] position)
+        {
+            terrain = new string[] { " " };
+            //cotés
+            if (position[0] == 0)
+            {
+                return _tileSet[7];
+            }
+            else if (position[0] == Size.X - 1)
+            {
+                return _tileSet[5];
+            }
+            //pas coté
+            else if (terrain.Contains(_room[position[1]][position[0] + 1].ToString()))
+            {
+                return _tileSet[7];
+            }
+            else if (terrain.Contains(_room[position[1]][position[0] - 1].ToString()))
+            {
+                return _tileSet[5];
+            }
+            throw new Exception("Une tile mur vertical n'est pas définie");
+        }
+        private Texture2D SelectCorner(int[] position)
+        {
+            //coins
+            walls = new string[] { "-", "|", "Γ", "⅂", "⅃", "L", "o" };
+            if (position[0] == 0 && position[1] == 0)
+            {
+                return _tileSet[12];
+            }
+            else if (position[0] == Size.X - 1 && position[1] == 0)
+            {
+                return _tileSet[13];
+            }
+            else if (position[0] == Size.X - 1 && position[1] == Size.Y - 1)
+            {
+                return _tileSet[10];
+            }
+            else if (position[0] == 0 && position[1] == Size.Y - 1)
+            {
+                return _tileSet[11];
+            }
+            else if(position[0] == 0)
+            {
+                if (walls.Contains(_room[position[1] + 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] + 1].ToString()))
+                {
+                    return _tileSet[12];
+                }
+                else if (walls.Contains(_room[position[1] - 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] + 1].ToString()))
+                {
+                    return _tileSet[11];
+                }
+            }
+            //cotés
+            else if (position[1] == 0)
+            {
+                if (walls.Contains(_room[position[1] + 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] + 1].ToString()))
+                {
+                    return _tileSet[12];
+                }
+                else if (walls.Contains(_room[position[1] + 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] - 1].ToString()))
+                {
+                    return _tileSet[13];
+                }
+            }
+            else if (position[0] == Size.X - 1)
+            {
+                if (walls.Contains(_room[position[1] + 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] - 1].ToString()))
+                {
+                    return _tileSet[13];
+                }
+                else if (walls.Contains(_room[position[1] - 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] - 1].ToString()))
+                {
+                    return _tileSet[10];
+                }
+            }
+            else if (position[1] == Size.Y - 1)
+            {
+                if (walls.Contains(_room[position[1] - 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] + 1].ToString()))
+                {
+                    return _tileSet[11];
+                }
+                else if (walls.Contains(_room[position[1] - 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] - 1].ToString()))
+                {
+                    return _tileSet[10];
+                }
+            }
+            //ni coin ni coté
+            else if(walls.Contains(_room[position[1] - 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] + 1].ToString()))
+            {
+                return _tileSet[11];
+            }
+            else if(walls.Contains(_room[position[1] + 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] + 1].ToString()))
+            {
+                return _tileSet[12];
+            }
+            else if (walls.Contains(_room[position[1] + 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] - 1].ToString()))
+            {
+                return _tileSet[13];
+            }
+            else if(walls.Contains(_room[position[1] - 1][position[0]].ToString()) && walls.Contains(_room[position[1]][position[0] - 1].ToString()))
+            {
+                return _tileSet[10];
+            }
+            Console.WriteLine((position[0], position[1]));
+            throw new Exception("Une tile corner n'est pas définie");
         }
 
         public Tile GetTile(Vector2 position)
