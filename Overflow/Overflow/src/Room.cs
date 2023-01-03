@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Overflow.src
 {
     public class Room : Component
     {
+        private string[] _room;
         private Vector2 _size;
         private bool[] _doors;
         private Vector2[] _spawnPoints;
@@ -22,10 +24,11 @@ namespace Overflow.src
 
         //private Enemy[] enemies
 
-        public Room(Vector2 size, Texture2D[] tileSet, bool[] doors)
+        public Room(string[] room, Texture2D[] tileSet)
         {
-            Size = size;
-            Doors = doors;
+            _room = room;
+            Size = new Vector2(room[0].Length, room.Length);
+            Doors = new bool[] {false, false, false, false};
             SpawnPoints = new Vector2[4];
             Obstacles = new List<Rectangle>();
             _tileSet = tileSet;
@@ -102,64 +105,65 @@ namespace Overflow.src
         private Tile[,] BuildRoom()
         {
             Tile[,] tiles = new Tile[(int)Size.X, (int)Size.Y];
-            for (int j = 1; j < Size.X - 1; j++)
+            Console.WriteLine(Size);
+            for (int j = 0; j < Size.Y; j++)
             {
-                for (int i = 1; i < Size.Y - 1; i++)
+                for (int i = 0; i < Size.X; i++)
                 {
-                    tiles[j, i] = new Tile(new Vector2(20 * j, 20 * i), _tileSet[8], "Grass");
+                    string character = _room[j][i].ToString();
+                    if (character == " ")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
+                    }
+                    else if(character == "Γ")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[0], "Wall");
+                    }
+                    else if(character == "⅂")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[1], "Wall");
+                    }
+                    else if (character == "⅃")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[2], "Wall");
+                    }
+                    else if (character == "L")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[3], "Wall");
+                    }
+                    else if (character == "-")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[4], "Wall");
+                    }
+                    else if (character == "|")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[5], "Wall");
+                    }
+                    else if (character == "_")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[6], "Wall");
+                    }
+                    else if (character == "l")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[7], "Wall");
+                    }
+                    else if (character == "o")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "Door");
+                    }
                 }
-            }
-
-            for (int j = 1; j < Size.X - 1; j++)
-            {
-                tiles[j, 0] = new Tile(new Vector2(20 * j, 0), _tileSet[4], "Wall");
-            }
-            for (int j = 1; j < Size.X - 1; j++)
-            {
-                tiles[j, (int)Size.Y - 1] = new Tile(new Vector2(20 * j, 20 * (Size.Y - 1)), _tileSet[6], "Wall");
-            }
-            for (int i = 1; i < Size.Y - 1; i++)
-            {
-                tiles[0, i] = new Tile(new Vector2(0, 20 * i), _tileSet[7], "Wall");
-            }
-            for (int i = 1; i < Size.Y - 1; i++)
-            {
-                tiles[(int)Size.X - 1, i] = new Tile(new Vector2(20 * (Size.X - 1), 20 * i), _tileSet[5], "Wall");
-            }
-
-            tiles[0, 0] = new Tile(new Vector2(0, 0), _tileSet[0], "Wall");
-            tiles[(int)Size.X - 1, 0] = new Tile(new Vector2(20 * (Size.X - 1), 0), _tileSet[1], "Wall");
-            tiles[(int)Size.X - 1, (int)Size.Y - 1] = new Tile(new Vector2(20 * (Size.X - 1), 20 * (Size.Y - 1)), _tileSet[2], "Wall");
-            tiles[0, (int)Size.Y - 1] = new Tile(new Vector2(0, 20 * (Size.Y - 1)), _tileSet[3], "Wall");
-
-            if (Doors[0])
-            {
-                tiles[(int)Size.X / 2, 0] = new Tile(new Vector2(20 * ((int)Size.X / 2), 0), _tileSet[9], "DoorTop");
-                SpawnPoints[0] = new Vector2(20 * ((int)Size.X / 2) + 20 * 0.5f, 20 * 0.5f) + Position;
-            }
-            if (Doors[1])
-            {
-                tiles[(int)Size.X - 1, (int)Size.Y / 2] = new Tile(new Vector2(20 * (Size.X - 1), 20 * ((int)Size.Y / 2)), _tileSet[9], "DoorRight");
-                SpawnPoints[1] = new Vector2(20 * ((int)Size.X - 1) + 20 * 0.5f, 20 * ((int)Size.Y / 2) + 20 * 0.5f) + Position;
-            }
-            if (Doors[2])
-            {
-                tiles[(int)Size.X / 2, (int)Size.Y - 1] = new Tile(new Vector2(20 * ((int)Size.X / 2), 20 * (Size.Y - 1)), _tileSet[9], "DoorBottom");
-                SpawnPoints[2] = new Vector2(20 * ((int)Size.X / 2) + 20 * 0.5f, 20 * ((int)Size.Y - 1) + 20 * 0.5f) + Position;
-            }
-            if (Doors[3])
-            {
-                tiles[0, (int)Size.Y / 2] = new Tile(new Vector2(0, 20 * ((int)Size.Y / 2)), _tileSet[9], "DoorLeft");
-                SpawnPoints[3] = new Vector2(20 * 0.5f, 20 * ((int)Size.Y / 2) + 20 * 0.5f) + Position;
             }
 
             foreach (Tile tile in tiles)
             {
-                tile.Position = new Vector2(tile.Position.X + Position.X, tile.Position.Y + Position.Y);
-
-                if (tile.Type == "Wall")
+                if(tile != null)
                 {
-                    Obstacles.Add(new Rectangle((int)tile.Position.X, (int)tile.Position.Y, tile.Texture.Width, tile.Texture.Height));
+                    tile.Position = new Vector2(tile.Position.X + Position.X, tile.Position.Y + Position.Y);
+
+                    if (tile.Type == "Wall")
+                    {
+                        Obstacles.Add(new Rectangle((int)tile.Position.X, (int)tile.Position.Y, tile.Texture.Width, tile.Texture.Height));
+                    }
                 }
             }
 
@@ -196,7 +200,10 @@ namespace Overflow.src
         {
             foreach (Tile tile in _tiles)
             {
-                tile.Draw(gameTime, spritebatch);
+                if(tile != null)
+                {
+                    tile.Draw(gameTime, spritebatch);
+                }
             }
         }
 

@@ -51,7 +51,7 @@ namespace Overflow.Scenes
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            Game.LoadTutorial();
+            Game.LoadLevel1();
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)

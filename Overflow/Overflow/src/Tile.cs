@@ -14,6 +14,10 @@ namespace Overflow.src
             Texture = texture;
             Type = type;
         }
+        public Tile(string type)
+        {
+            Type = type;
+        }
 
         public Rectangle Rectangle
         {
