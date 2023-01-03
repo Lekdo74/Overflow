@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Screens;
 using Overflow.src;
+using System;
 
 namespace Overflow.Scenes
 {
@@ -14,10 +15,8 @@ namespace Overflow.Scenes
         private Map map;
         private Room currentRoom;
         private Player player;
+
         private Vector2 initPositionPlayer;
-        private bool canPassThroughDoor;
-        private string currentTile;
-        private string previousTile;
 
         public override void Initialize()
         {
@@ -29,9 +28,9 @@ namespace Overflow.Scenes
             player = new Player(new Vector2(Settings.nativeWidthResolution / 2, Settings.nativeHeightResolution / 2), Content.Load<Texture2D>("perso"), 50);
             player.Position = currentRoom.Position + currentRoom.Size * 20 / 2 - new Vector2(player.Texture.Width / 2, player.Texture.Height / 2);
 
-            canPassThroughDoor = true;
-            previousTile = currentRoom.GetTile(player.Position, player).Type;
-            currentTile = currentRoom.GetTile(player.Position, player).Type;
+            player.CanPassThroughDoor = true;
+            player.PreviousTile = currentRoom.GetTile(player.Position, player).Type;
+            player.CurrentTile = currentRoom.GetTile(player.Position, player).Type;
         }
 
         public override void LoadContent()
@@ -56,63 +55,54 @@ namespace Overflow.Scenes
                 }
             }
 
-            currentTile = currentRoom.GetTile(player.Position, player).Type;
-            if (!canPassThroughDoor && (previousTile == "DoorTop" || previousTile == "DoorRight" || previousTile == "DoorBottom" || previousTile == "DoorLeft") && currentTile == "Grass")
-            {
-                canPassThroughDoor = true;
-            }
-            previousTile = currentTile;
+            ChangeRoom();
 
-            if (canPassThroughDoor)
-            {
-                if(currentTile == "DoorTop")
-                {
-                    ChangeRoom("top");
-                }
-                else if (currentTile == "DoorRight")
-                {
-                    ChangeRoom("right");
-                }
-                else if (currentTile == "DoorBottom")
-                {
-                    ChangeRoom("bottom");
-                }
-                else if (currentTile == "DoorLeft")
-                {
-                    ChangeRoom("left");
-                }
-            }
-            
             //Console.WriteLine(currentRoom.GetTile(player._position, player)._type);
         }
 
-        private void ChangeRoom(string direction)
+        private void ChangeRoom()
         {
-            switch (direction)
+            player.CurrentTile = currentRoom.GetTile(player.Position, player).Type;
+            if (!player.CanPassThroughDoor && (player.PreviousTile == "DoorTop" || player.PreviousTile == "DoorRight" || player.PreviousTile == "DoorBottom" || player.PreviousTile == "DoorLeft") && player.CurrentTile == "Grass")
             {
-                case "top":
-                    map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] - 1 };
-                    currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
-                    player.Position = currentRoom.SpawnPoints[2];
-                    break;
-                case "right":
-                    map.CurrentRoom = new int[] { map.CurrentRoom[0] + 1, map.CurrentRoom[1] };
-                    currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
-                    player.Position = currentRoom.SpawnPoints[3];
-                    break;
-                case "bottom":
-                    map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] + 1 };
-                    currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
-                    player.Position = currentRoom.SpawnPoints[0];
-                    break;
-                case "left":
-                    map.CurrentRoom = new int[] { map.CurrentRoom[0] - 1, map.CurrentRoom[1] };
-                    currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
-                    player.Position = currentRoom.SpawnPoints[1];
-                    break;
+                player.CanPassThroughDoor = true;
             }
-            player.Position -= new Vector2(player.Texture.Width / 2, player.Texture.Height / 2);
-            canPassThroughDoor = false;
+            player.PreviousTile = player.CurrentTile;
+
+            if (player.CanPassThroughDoor)
+            {
+                switch (player.CurrentTile)
+                {
+                    case "DoorTop":
+                        map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] - 1 };
+                        currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
+                        player.Position = currentRoom.SpawnPoints[2];
+                        player.Position -= new Vector2(player.Texture.Width / 2, player.Texture.Height / 2);
+                        player.CanPassThroughDoor = false;
+                        break;
+                    case "DoorRight":
+                        map.CurrentRoom = new int[] { map.CurrentRoom[0] + 1, map.CurrentRoom[1] };
+                        currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
+                        player.Position = currentRoom.SpawnPoints[3];
+                        player.Position -= new Vector2(player.Texture.Width / 2, player.Texture.Height / 2);
+                        player.CanPassThroughDoor = false;
+                        break;
+                    case "DoorBottom":
+                        map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] + 1 };
+                        currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
+                        player.Position = currentRoom.SpawnPoints[0];
+                        player.Position -= new Vector2(player.Texture.Width / 2, player.Texture.Height / 2);
+                        player.CanPassThroughDoor = false;
+                        break;
+                    case "DoorLeft":
+                        map.CurrentRoom = new int[] { map.CurrentRoom[0] - 1, map.CurrentRoom[1] };
+                        currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
+                        player.Position = currentRoom.SpawnPoints[1];
+                        player.Position -= new Vector2(player.Texture.Width / 2, player.Texture.Height / 2);
+                        player.CanPassThroughDoor = false;
+                        break;
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)

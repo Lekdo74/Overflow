@@ -9,6 +9,10 @@ namespace Overflow.src
         private Texture2D _texture;
         private int _speed;
 
+        private bool _canPassThroughDoor;
+        private string _previousTile;
+        private string _currentTile;
+
         public Player(Vector2 position, Texture2D texture, int speed)
         {
             _position = position;
@@ -52,6 +56,42 @@ namespace Overflow.src
             }
         }
 
+        public bool CanPassThroughDoor
+        {
+            get
+            {
+                return _canPassThroughDoor;
+            }
+            set
+            {
+                _canPassThroughDoor = value;
+            }
+        }
+
+        public string PreviousTile
+        {
+            get
+            {
+                return _previousTile;
+            }
+            set
+            {
+                _previousTile = value;
+            }
+        }
+
+        public string CurrentTile
+        {
+            get
+            {
+                return _currentTile;
+            }
+            set
+            {
+                _currentTile = value;
+            }
+        }
+
         public Rectangle _rectangle
         {
             get
@@ -59,15 +99,14 @@ namespace Overflow.src
                 return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
             }
         }
+        public override void Update(GameTime gameTime)
+        {
+
+        }
 
         public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
             spritebatch.Draw(_texture, _rectangle, Color.White);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-
         }
     }
 }
