@@ -28,11 +28,11 @@ namespace Overflow.src
 
         //private Enemy[] enemies
 
-        public Room(string[] room, Texture2D[] tileSet)
+        public Room(string[] room, Texture2D[] tileSet, bool[] doors)
         {
             _room = room;
             Size = new Vector2(room[0].Length, room.Length);
-            Doors = new bool[] {false, false, false, false};
+            Doors = doors;
             SpawnPoints = new Vector2[4];
             Obstacles = new List<Rectangle>();
             _tileSet = tileSet;

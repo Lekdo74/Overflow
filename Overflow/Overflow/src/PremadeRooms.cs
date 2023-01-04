@@ -28,8 +28,10 @@ namespace Overflow.src
         1111
 
          .-.
-         | |  Γ ⅂
+         | |  Γ ⌉
          .-.  L ⅃
+          ⋏
+         < >
          */
 
         private static Random random = new Random();
@@ -52,7 +54,7 @@ namespace Overflow.src
                     "e.⅂  |e.⅂  Γ--.",
                     "ee.--.ee.--.eee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false)
             {
@@ -70,7 +72,7 @@ namespace Overflow.src
                     "e.-..⅂     Γ--.",
                     "eeeee.-o---.eee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == true)
             {
@@ -90,7 +92,7 @@ namespace Overflow.src
                     "e.-..---⅂  Γ-⅂ Γ-.ee",
                     "eeeeeeee.-o.e.-.eeee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false)
             {
@@ -108,7 +110,7 @@ namespace Overflow.src
                     "e.⅂  |e.⅂  Γ--.",
                     "ee.--.ee.--.eee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == true)
             {
@@ -127,7 +129,7 @@ namespace Overflow.src
                     "e.⅂     |e.⅂    Γ--.",
                     "ee.-----.ee.----.eee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == false)
             {
@@ -146,23 +148,26 @@ namespace Overflow.src
                     "eeeee|        Γ.eee",
                     "eeeee.---o----.eeee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == true)
             {
                 string[][] rooms = {
                     new string[] {
-                    ".-------------.",
-                    "|             |",
-                    "|             |",
-                    "|             |",
-                    "o             o",
-                    "|             |",
-                    "|             |",
-                    "|             |",
-                    ".------o------."
+                    "eeee.-.eeeeee.---.eeee",
+                    ".---⅃ L.eeee.⅃   L-.ee",
+                    "|      L.ee.⅃      L.e",
+                    ".⅂      L..⅃        L.",
+                    ".⅃       L⅃          |",
+                    "|                    o",
+                    "o                    |",
+                    "|                    |",
+                    ".⅂ Γ⅂                |",
+                    "e.-..⅂            Γ--.",
+                    "eeeee|           Γ.eee",
+                    "eeeee.-----o-----.eeee",
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false)
             {
@@ -179,25 +184,29 @@ namespace Overflow.src
                     "e|           Γ.",
                     "e.⅂         Γ.e",
                     "ee.⅂  Γ-⅂   |ee",
-                    "eee.--.e.---.ee"},
-                };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                    "eee.--.e.---.ee",
+                    } };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == true)
             {
                 string[][] rooms = {
                     new string[] {
-                    ".------o------.",
-                    "|             |",
-                    "|             |",
-                    "|             |",
-                    "o             |",
-                    "|             |",
-                    "|             |",
-                    "|             |",
-                    ".-------------."
-                    } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                    "eee.---o-.ee.---.",
+                    "ee.⅃     L--⅃   |",
+                    "ee|            Γ.",
+                    "ee|           Γ.e",
+                    "e.⅃    Γ⅂     |ee",
+                    ".⅃    Γ..⅂    L.e",
+                    "|    Γ.e.⅃     L.",
+                    "o    |e.⅃       |",
+                    "|    L-⅃        |",
+                    "|               |",
+                    ".⅂            Γ-.",
+                    "e.⅂     Γ-⅂   |ee",
+                    "ee.-----.e.---.ee"},
+                    };
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == false)
             {
@@ -230,7 +239,7 @@ namespace Overflow.src
                     ".⅂           Γ.e",
                     "e.⅂  Γ⅂ Γ⅂   |ee",
                     "ee.--..o..---.ee"} };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == true)
             {
@@ -246,7 +255,7 @@ namespace Overflow.src
                     "|             |",
                     ".------o------."
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == false)
             {
@@ -262,7 +271,7 @@ namespace Overflow.src
                     "|             |",
                     ".-------------."
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == true)
             {
@@ -278,7 +287,7 @@ namespace Overflow.src
                     "|             |",
                     ".-------------."
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == false)
             {
@@ -294,7 +303,7 @@ namespace Overflow.src
                     "|             |",
                     ".------o------."
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
             else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == true)
             {
@@ -310,7 +319,7 @@ namespace Overflow.src
                     "|             |",
                     ".------o------."
                     } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet);
+                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors);
             }
 
             throw new Exception("Il n'existe pas de salle préfaite pour cette combinaison de porte");
