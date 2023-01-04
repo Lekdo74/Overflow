@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Overflow.src
 {
-    public class Player : Component
+    public class Player
     {
         private Vector2 _position;
         private Texture2D _texture;
@@ -99,12 +99,12 @@ namespace Overflow.src
                 return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
             }
         }
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
 
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
+        public void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
             spritebatch.Draw(_texture, _rectangle, Color.White);
         }

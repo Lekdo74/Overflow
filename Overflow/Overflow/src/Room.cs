@@ -218,6 +218,7 @@ namespace Overflow.src
             {
                 return _tileSet[6];
             }
+            Console.WriteLine((position[0], position[1]));
             throw new Exception("Une tile mur horizontal n'est pas définie");
         }
         private Texture2D SelectVerticalWall(int[] position)
@@ -241,6 +242,7 @@ namespace Overflow.src
             {
                 return _tileSet[5];
             }
+            Console.WriteLine((position[0], position[1]));
             throw new Exception("Une tile mur vertical n'est pas définie");
         }
         private Texture2D SelectCorner(int[] position)
