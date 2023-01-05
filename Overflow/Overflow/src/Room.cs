@@ -12,6 +12,7 @@ namespace Overflow.src
         private Vector2 _size;
         private bool[] _doors;
         private Vector2[] _spawnPoints;
+        private List<Vector2> _spawnPointsEnemies;
         private List<Rectangle> _obstacles;
         private Vector2 _position;
 
@@ -37,6 +38,7 @@ namespace Overflow.src
             Obstacles = new List<Rectangle>();
             _tileSet = tileSet;
             Position = new Vector2((Settings.nativeWidthResolution - Size.X * _tileSet[0].Width) / 2, (Settings.nativeHeightResolution - Size.Y * _tileSet[0].Height) / 2);
+            Position = CalculateStartPosition();
 
             xMin = Position.X;
             yMin = Position.Y;
@@ -106,6 +108,29 @@ namespace Overflow.src
             }
         }
 
+        private Vector2 CalculateStartPosition()
+        {
+            float x = 0;
+            float y = 0;
+            if (Doors[1])
+            {
+                x = Settings.nativeWidthResolution - Size.X * _tileSet[0].Width;
+            }
+            if (Doors[2])
+            {
+                y = Settings.nativeHeightResolution - Size.Y * _tileSet[0].Height;
+            }
+            if(Doors[1] && Doors[3])
+            {
+                x = (Settings.nativeWidthResolution - Size.X * _tileSet[0].Width) / 2;
+            }
+            if(Doors[1] && Doors[2])
+            {
+                y = (Settings.nativeHeightResolution - Size.Y * _tileSet[0].Height) / 2;
+            }
+            return new Vector2(x, y);
+        }
+
         private Tile[,] BuildRoom()
         {
             Tile[,] tiles = new Tile[(int)Size.X, (int)Size.Y];
@@ -149,6 +174,8 @@ namespace Overflow.src
                 }
             }
 
+            _spawnPointsEnemies = new List<Vector2>();
+            Console.WriteLine((SpawnPoints[0], SpawnPoints[1], SpawnPoints[2], SpawnPoints[3]));
             foreach (Tile tile in tiles)
             {
                 if(tile != null)
@@ -158,6 +185,30 @@ namespace Overflow.src
                     if (tile.Type == "Wall")
                     {
                         Obstacles.Add(new Rectangle((int)tile.Position.X, (int)tile.Position.Y, tile.Texture.Width, tile.Texture.Height));
+                    }
+
+                    if (tile.Type == "Grass")
+                    {
+                        bool spawnPointEnemy = true;
+                        for(int i = 0; i < Doors.Length; i++)
+                        {
+                            if(Doors[i] != false)
+                            {
+                                if (Vector2.Distance(SpawnPoints[i], tile.Position + new Vector2(tile.Texture.Width / 2, tile.Texture.Height / 2)) < 90)
+                                {
+                                    spawnPointEnemy = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (spawnPointEnemy)
+                        {
+                            _spawnPointsEnemies.Add(tile.Position);
+                        }
+                        else
+                        {
+                            Console.WriteLine((tile.Position));
+                        }
                     }
                 }
             }
@@ -365,6 +416,10 @@ namespace Overflow.src
                 {
                     tile.Draw(gameTime, spritebatch);
                 }
+            }
+            foreach(Vector2 position in _spawnPointsEnemies)
+            {
+                spritebatch.Draw(_tileSet[9], position, Color.Red);
             }
         }
 
