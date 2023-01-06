@@ -10,6 +10,8 @@ namespace Overflow.src
 {
     public class Enemy
     {
+        private Room _room;
+
         private Texture2D _texture;
         private Color _color;
 
@@ -22,11 +24,12 @@ namespace Overflow.src
 
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
 
-        public Enemy(Texture2D texture, Vector2 position)
+        public Enemy(Texture2D texture, Vector2 position, Room room)
         {
             Texture = texture;
             Color = Color.White;
             Position = position;
+            Room = room;
             Direction = Vector2.Zero;
             Speed = 30;
             IsExpired = false;
@@ -48,6 +51,11 @@ namespace Overflow.src
         {
             get { return _position; }
             set { _position = value; }
+        }
+        public Room Room
+        {
+            get { return _room; }
+            set { _room = value; }
         }
 
         public Vector2 Direction
@@ -117,9 +125,9 @@ namespace Overflow.src
             spriteBatch.Draw(Texture, Position, Color);
         }
 
-        public static Enemy CreateSeeker(Vector2 position)
+        public static Enemy CreateSeeker(Vector2 position, Room room)
         {
-            Enemy enemy = new Enemy(Art.enemy, position);
+            Enemy enemy = new Enemy(Art.enemy, position, room);
             enemy.AddBehaviour(enemy.FollowPlayer());
 
             return enemy;

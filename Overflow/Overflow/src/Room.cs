@@ -405,7 +405,7 @@ namespace Overflow.src
             for(int i = 0; i < 3; i++)
             {
                 int currentEnemySpawnPoint = random.Next(0, _spawnPointsEnemies.Count - 1);
-                enemies.Add(Enemy.CreateSeeker(_spawnPointsEnemies[currentEnemySpawnPoint]));
+                enemies.Add(Enemy.CreateSeeker(_spawnPointsEnemies[currentEnemySpawnPoint], this));
                 _spawnPointsEnemies.RemoveAt(currentEnemySpawnPoint);
             }
             return enemies;
