@@ -26,6 +26,11 @@ namespace Overflow.src
             }
         }
 
+        public static Vector2 CenteredPosition
+        {
+            get { return Position + new Vector2(Texture.Width / 2, Texture.Height / 2); }
+        }
+
         public static int[] GridPosition(Room room)
         {
             return new int[] { (int)(_position.X + Texture.Width / 2 - room.Position.X) / 20, (int)(_position.Y + Texture.Height / 2 - room.Position.Y) / 20 };

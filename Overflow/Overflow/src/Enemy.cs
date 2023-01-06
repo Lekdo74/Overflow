@@ -54,6 +54,11 @@ namespace Overflow.src
             set { _position = value; }
         }
 
+        public Vector2 CenteredPosition
+        {
+            get { return Position + new Vector2(Texture.Width / 2, Texture.Height / 2); }
+        }
+
         public Room Room
         {
             get { return _room; }
@@ -95,14 +100,14 @@ namespace Overflow.src
         {
             while (true)
             {
-                Vector2[] path = PathFinding.FindPath((Position + new Vector2(Texture.Width / 2, Texture.Height / 2) - Room.Position) / 20, (Player.Position + new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2) - Room.Position) / 20, Room);
+                Vector2[] path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
                 if (path.Length > 0)
                 {
                     Direction = (path[0] - Position);
                 }
                 else
                 {
-                    Direction = (Player.Position - Position);
+                    Direction = (Player.CenteredPosition - CenteredPosition);
                 }
                 Direction = Vector2.Normalize(Direction);
                 Position += Direction * _speed * deltaTime;
