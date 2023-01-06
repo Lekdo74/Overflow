@@ -15,13 +15,12 @@ namespace Overflow.Scenes
         private Map map;
         private Room currentRoom;
 
-        private Vector2 initPositionPlayer;
-
         public override void Initialize()
         {
             base.Initialize();
 
-            map = new Map(10, new Texture2D[] { Content.Load<Texture2D>("MapTiles/murHautGauche"), Content.Load<Texture2D>("MapTiles/murHautDroite"), Content.Load<Texture2D>("MapTiles/murBasDroite"), Content.Load<Texture2D>("MapTiles/murBasGauche"), Content.Load<Texture2D>("MapTiles/murHaut"), Content.Load<Texture2D>("MapTiles/murDroite"), Content.Load<Texture2D>("MapTiles/murBas"), Content.Load<Texture2D>("MapTiles/murGauche"), Content.Load<Texture2D>("MapTiles/herbe"), Content.Load<Texture2D>("MapTiles/porte"), Content.Load<Texture2D>("MapTiles/coinHautGauche"), Content.Load<Texture2D>("MapTiles/coinHautDroite"), Content.Load<Texture2D>("MapTiles/coinBasDroite"), Content.Load<Texture2D>("MapTiles/coinBasGauche") });
+            map = new Map(10, Art.tileset1);
+            
             currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
 
             Player.Texture = Art.player;
@@ -29,8 +28,8 @@ namespace Overflow.Scenes
             Player.Speed = 50;
 
             Player.CanPassThroughDoor = true;
-            Player.PreviousTile = currentRoom.GetTile(Player.Position).Type;
-            Player.CurrentTile = currentRoom.GetTile(Player.Position).Type;
+            Player.PreviousTile = currentRoom.GetTile(Player.Position);
+            Player.CurrentTile = currentRoom.GetTile(Player.Position);
         }
 
         public override void LoadContent()
@@ -45,10 +44,11 @@ namespace Overflow.Scenes
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Player.Update(gameTime, currentRoom.Obstacles);
-
-            ChangeRoom();
+            Player.Update(gameTime, currentRoom);
             map.Update(gameTime);
+            Player.CurrentTile = currentRoom.GetTile(Player.Position);
+            ChangeRoom();
+            Player.PreviousTile = Player.CurrentTile;
         }
 
         public override void Draw(GameTime gameTime)
@@ -70,16 +70,14 @@ namespace Overflow.Scenes
 
         private void ChangeRoom()
         {
-            Player.CurrentTile = currentRoom.GetTile(Player.Position).Type;
-            if (!Player.CanPassThroughDoor && (Player.PreviousTile == "DoorTop" || Player.PreviousTile == "DoorRight" || Player.PreviousTile == "DoorBottom" || Player.PreviousTile == "DoorLeft") && Player.CurrentTile == "Grass")
+            if (!Player.CanPassThroughDoor && (Player.PreviousTile.Type == "DoorTop" || Player.PreviousTile.Type == "DoorRight" || Player.PreviousTile.Type == "DoorBottom" || Player.PreviousTile.Type == "DoorLeft") && Player.CurrentTile.Type == "Grass")
             {
                 Player.CanPassThroughDoor = true;
             }
-            Player.PreviousTile = Player.CurrentTile;
 
             if (Player.CanPassThroughDoor)
             {
-                switch (Player.CurrentTile)
+                switch (Player.CurrentTile.Type)
                 {
                     case "DoorTop":
                         map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] - 1 };

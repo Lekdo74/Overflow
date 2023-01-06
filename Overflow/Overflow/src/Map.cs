@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Overflow.src
 {
-    public class Map : Component
+    public class Map
     {
         private int _roomNb;
         private Room[,] _rooms;
@@ -197,12 +197,12 @@ namespace Overflow.src
             return false;
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             _rooms[CurrentRoom[0], CurrentRoom[1]].Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
+        public void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
             _rooms[CurrentRoom[0], CurrentRoom[1]].Draw(gameTime, spritebatch);
         }

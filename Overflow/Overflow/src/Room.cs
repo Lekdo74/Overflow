@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Overflow.src
 {
-    public class Room : Component
+    public class Room
     {
         private string[] _room;
         private Vector2 _size;
@@ -50,7 +50,7 @@ namespace Overflow.src
             xMax = Position.X + (Size.X) * _tileSet[0].Width;
             yMax = Position.Y + (Size.Y) * _tileSet[0].Height;
 
-            _tiles = BuildRoom();
+            Tiles = BuildRoom();
 
             _enemies = new List<Enemy>();
             if(_roomType == 2)
@@ -125,6 +125,18 @@ namespace Overflow.src
             }
         }
 
+        public Tile[,] Tiles
+        {
+            get { return _tiles; }
+            set { _tiles = value; }
+        }
+
+        public List<Enemy> Enemies
+        {
+            get { return _enemies; }
+            set { _enemies = value; }
+        }
+
         private Vector2 CalculateStartPosition()
         {
             float x = 0;
@@ -158,38 +170,38 @@ namespace Overflow.src
                     string character = _room[j][i].ToString();
                     if (character == " ")
                     {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass", i, j);
                     }
                     else if(character == "x")
                     {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass", i, j);
                         SpawnPoint = new Vector2(20 * i, 20 * j) + Position;
                     }
                     else if(character == "|" || character == "-" || character == "." || character == "Γ" || character == "⅂" || character == "⅃" || character == "L")
                     {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), SelectWall(character, new int[] {i, j}), "Wall");
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), SelectWall(character, new int[] {i, j}), "Wall", i, j);
                     }
                     else if (character == "o")
                     {
                         if(j == 0)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorTop");
-                            SpawnPoints[0] = new Vector2(20 * i + 20 * 0.5f, 20 * 0.5f) + Position;
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorTop", i, j);
+                            SpawnPoints[0] = new Vector2(20 * i + 20 * 0.5f, 20 * 1f) + Position;
                         }
                         else if(i == Size.X - 1)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorRight");
-                            SpawnPoints[1] = new Vector2(20 * i + 20 * 0.5f, 20 * j + 20 * 0.5f) + Position;
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorRight", i, j);
+                            SpawnPoints[1] = new Vector2(20 * i + 20 * 0f, 20 * j + 20 * 0.5f) + Position;
                         }
                         else if(j == Size.Y - 1)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorBottom");
-                            SpawnPoints[2] = new Vector2(20 * i + 20 * 0.5f, 20 * j + 20 * 0.5f) + Position;
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorBottom", i, j);
+                            SpawnPoints[2] = new Vector2(20 * i + 20 * 0.5f, 20 * j + 20 * 0f) + Position;
                         }
                         else if(i == 0)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorLeft");
-                            SpawnPoints[3] = new Vector2(20 * 0.5f, 20 * j + 20 * 0.5f) + Position;
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[9], "DoorLeft", i, j);
+                            SpawnPoints[3] = new Vector2(20 * 1f, 20 * j + 20 * 0.5f) + Position;
                         }
                     }
                 }
@@ -413,7 +425,7 @@ namespace Overflow.src
 
         public Tile GetTile(Vector2 position)
         {
-            return _tiles[((int)position.X - (int)Position.X + Player.Texture.Width / 2) / _tileSet[0].Width, ((int)position.Y - (int)Position.Y + Player.Texture.Height / 2) / _tileSet[0].Height];
+            return Tiles[((int)position.X - (int)Position.X + Player.Texture.Width / 2) / _tileSet[0].Width, ((int)position.Y - (int)Position.Y + Player.Texture.Height / 2) / _tileSet[0].Height];
         }
 
         public bool InsideRoom(Vector2 position)
@@ -424,22 +436,38 @@ namespace Overflow.src
             }
             return true;
         }
-        public bool InsideRoom()
+
+        public List<Tile> GetNeighbours(Tile tile)
         {
-            if (Player.Position.Y < yMin || Player.Position.X + Player.Texture.Width > xMax || Player.Position.Y + Player.Texture.Height > yMax || Player.Position.X < xMin)
+            List<Tile> neighbours = new List<Tile>();
+
+            for(int x = -1; x <= 1; x++)
             {
-                return false;
+                for (int y = -1; y <= 1; y++)
+                {
+                    if((x == 0 && y == 0) || tile == null)
+                    {
+                        continue;
+                    }
+                    int currentX = tile.MapX + x;
+                    int currentY = tile.MapY + y;
+
+                    if (currentX >= 0 && currentX < Size.X && currentY >= 0 && currentY < Size.Y && _tiles[currentX, currentY] != null)
+                    {
+                        neighbours.Add(Tiles[currentX, currentY]);
+                    }
+                }
             }
-            return true;
+            return neighbours;
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
+        public void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
-            foreach (Tile tile in _tiles)
+            foreach (Tile tile in Tiles)
             {
                 if(tile != null)
                 {
-                    tile.Draw(gameTime, spritebatch);
+                    tile.Draw(gameTime, spritebatch, Color.White);
                 }
             }
             /* Position possible des ennemies
@@ -455,7 +483,7 @@ namespace Overflow.src
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             foreach(Enemy enemy in _enemies)
             {

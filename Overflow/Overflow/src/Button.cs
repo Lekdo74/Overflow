@@ -5,7 +5,7 @@ using System;
 
 namespace Overflow.src
 {
-    public class Button : Component
+    public class Button
     {
         private MouseState _currentMouse;
         private MouseState _previousMouse;
@@ -90,7 +90,7 @@ namespace Overflow.src
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
+        public void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
             Color color = Color.White;
 
@@ -108,7 +108,7 @@ namespace Overflow.src
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             _previousMouse = _currentMouse;
             mousePosition = PlayerInputs.MousePosition(out _currentMouse);

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,7 @@ namespace Overflow.src
             get { return _position; }
             set { _position = value; }
         }
+
         public Room Room
         {
             get { return _room; }
@@ -93,7 +95,15 @@ namespace Overflow.src
         {
             while (true)
             {
-                Direction += (Player.Position - Position);
+                Vector2[] path = PathFinding.FindPath((Position + new Vector2(Texture.Width / 2, Texture.Height / 2) - Room.Position) / 20, (Player.Position + new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2) - Room.Position) / 20, Room);
+                if (path.Length > 0)
+                {
+                    Direction = (path[0] - Position);
+                }
+                else
+                {
+                    Direction = (Player.Position - Position);
+                }
                 Direction = Vector2.Normalize(Direction);
                 Position += Direction * _speed * deltaTime;
                 yield return 0;
@@ -123,6 +133,10 @@ namespace Overflow.src
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, Color);
+            /*foreach (Vector2 position in PathFinding.FindPath((Position + new Vector2(Texture.Width / 2, Texture.Height / 2) - Room.Position) / 20, (Player.Position + new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2) - Room.Position) / 20, Room))
+            {
+                spriteBatch.Draw(Art.tileset1[8], position, Color.Red);
+            }*/
         }
 
         public static Enemy CreateSeeker(Vector2 position, Room room)

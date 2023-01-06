@@ -11,8 +11,8 @@ namespace Overflow.src
         private static int _speed;
 
         private static bool _canPassThroughDoor;
-        private static string _previousTile;
-        private static string _currentTile;
+        private static Tile _previousTile;
+        private static Tile _currentTile;
 
         public static Vector2 Position
         {
@@ -24,6 +24,11 @@ namespace Overflow.src
             {
                 _position = value;
             }
+        }
+
+        public static int[] GridPosition(Room room)
+        {
+            return new int[] { (int)(_position.X + Texture.Width / 2 - room.Position.X) / 20, (int)(_position.Y + Texture.Height / 2 - room.Position.Y) / 20 };
         }
 
         public static Texture2D Texture
@@ -62,7 +67,7 @@ namespace Overflow.src
             }
         }
 
-        public static string PreviousTile
+        public static Tile PreviousTile
         {
             get
             {
@@ -74,7 +79,7 @@ namespace Overflow.src
             }
         }
 
-        public static string CurrentTile
+        public static Tile CurrentTile
         {
             get
             {
@@ -93,7 +98,7 @@ namespace Overflow.src
                 return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
             }
         }
-        public static void Update(GameTime gameTime, List<Rectangle> obstacles)
+        public static void Update(GameTime gameTime, Room room)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -101,12 +106,12 @@ namespace Overflow.src
             Vector2 velocity = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState) * Speed * deltaTime;
 
             _position.X += velocity.X;
-            if (CheckCollision(obstacles))
+            if (CheckCollision(room.Obstacles) || !room.InsideRoom(Position))
             {
                 _position.X = initPositionPlayer.X;
             }
             _position.Y += velocity.Y;
-            if (CheckCollision(obstacles))
+            if (CheckCollision(room.Obstacles) || !room.InsideRoom(Position))
             {
                 _position.Y = initPositionPlayer.Y;
             }
