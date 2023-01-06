@@ -11,28 +11,37 @@ namespace Overflow.src
     public class Enemy
     {
         private Texture2D _texture;
-        private Color _colors;
+        private Color _color;
 
         private Vector2 _position;
         private Vector2 _direction;
+        private int _speed;
+        float deltaTime;
+
+        private bool _isExpired;
+
+        private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
 
         public Enemy(Texture2D texture, Vector2 position)
         {
-            _texture = texture;
-            _colors = Color.White;
-            _position = position;
-            _direction = Vector2.Zero;
+            Texture = texture;
+            Color = Color.White;
+            Position = position;
+            Direction = Vector2.Zero;
+            Speed = 30;
+            IsExpired = false;
         }
 
         public Texture2D Texture
         {
             get { return _texture; }
+            set { _texture = value; }
         }
 
         public Color Color
         {
-            get { return _colors; }
-            set { _colors = value; }
+            get { return _color; }
+            set { _color = value; }
         }
 
         public Vector2 Position
@@ -47,6 +56,18 @@ namespace Overflow.src
             set { _direction = value; }
         }
 
+        public int Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
+        }
+
+        public bool IsExpired
+        {
+            get { return _isExpired; }
+            set { _isExpired = value; }
+        }
+
         public Rectangle Rectangle
         {
             get
@@ -55,14 +76,53 @@ namespace Overflow.src
             }
         }
 
-        public void Update()
+        public void IsHurt()
         {
-            Position += Direction;
+            IsExpired = true;
+        }
+
+        IEnumerable<int> FollowPlayer()
+        {
+            while (true)
+            {
+                Direction += (Player.Position - Position);
+                Direction = Vector2.Normalize(Direction);
+                Position += Direction * _speed * deltaTime;
+                yield return 0;
+            }
+        }
+
+        private void AddBehaviour(IEnumerable<int> behaviour)
+        {
+            behaviours.Add(behaviour.GetEnumerator());
+        }
+
+        private void ApplyBehaviours()
+        {
+            for (int i = 0; i < behaviours.Count; i++)
+            {
+                if (!behaviours[i].MoveNext())
+                    behaviours.RemoveAt(i--);
+            }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            ApplyBehaviours();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(Texture, Position, Color);
+        }
 
+        public static Enemy CreateSeeker(Vector2 position)
+        {
+            Enemy enemy = new Enemy(Art.enemy, position);
+            enemy.AddBehaviour(enemy.FollowPlayer());
+
+            return enemy;
         }
     }
 }

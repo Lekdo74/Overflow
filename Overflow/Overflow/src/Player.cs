@@ -1,26 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Overflow.src
 {
-    public class Player
+    public static class Player
     {
-        private Vector2 _position;
-        private Texture2D _texture;
-        private int _speed;
+        private static Vector2 _position;
+        private static Texture2D _texture;
+        private static int _speed;
 
-        private bool _canPassThroughDoor;
-        private string _previousTile;
-        private string _currentTile;
+        private static bool _canPassThroughDoor;
+        private static string _previousTile;
+        private static string _currentTile;
 
-        public Player(Vector2 position, Texture2D texture, int speed)
-        {
-            _position = position;
-            _texture = texture;
-            _speed = speed;
-        }
-
-        public Vector2 Position
+        public static Vector2 Position
         {
             get
             {
@@ -32,7 +26,7 @@ namespace Overflow.src
             }
         }
 
-        public Texture2D Texture
+        public static Texture2D Texture
         {
             get
             {
@@ -44,7 +38,7 @@ namespace Overflow.src
             }
         }
 
-        public int Speed
+        public static int Speed
         {
             get
             {
@@ -56,7 +50,7 @@ namespace Overflow.src
             }
         }
 
-        public bool CanPassThroughDoor
+        public static bool CanPassThroughDoor
         {
             get
             {
@@ -68,7 +62,7 @@ namespace Overflow.src
             }
         }
 
-        public string PreviousTile
+        public static string PreviousTile
         {
             get
             {
@@ -80,7 +74,7 @@ namespace Overflow.src
             }
         }
 
-        public string CurrentTile
+        public static string CurrentTile
         {
             get
             {
@@ -92,21 +86,47 @@ namespace Overflow.src
             }
         }
 
-        public Rectangle _rectangle
+        public static Rectangle Rectangle
         {
             get
             {
                 return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
             }
         }
-        public void Update(GameTime gameTime)
+        public static void Update(GameTime gameTime, List<Rectangle> obstacles)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            Vector2 initPositionPlayer = Position;
+            Vector2 velocity = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState) * Speed * deltaTime;
+
+            _position.X += velocity.X;
+            if (CheckCollision(obstacles))
+            {
+                _position.X = initPositionPlayer.X;
+            }
+            _position.Y += velocity.Y;
+            if (CheckCollision(obstacles))
+            {
+                _position.Y = initPositionPlayer.Y;
+            }
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spritebatch)
+        public static void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
-            spritebatch.Draw(_texture, _rectangle, Color.White);
+            spritebatch.Draw(_texture, Rectangle, Color.White);
+        }
+
+        private static bool CheckCollision(List<Rectangle> obstacles)
+        {
+            foreach (Rectangle obstacle in obstacles)
+            {
+                if (Rectangle.Intersects(obstacle))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

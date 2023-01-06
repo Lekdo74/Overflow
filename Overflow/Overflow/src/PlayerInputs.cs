@@ -8,8 +8,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Overflow.src
 {
-    public class PlayerInputs
+    public static class PlayerInputs
     {
+        private static KeyboardState _keyBoardState;
+
+        public static KeyboardState KeyBoardState
+        {
+            get { return _keyBoardState; }
+            set { _keyBoardState = value; }
+        }
+
         public static Vector2 MousePosition()
         {
             return new Vector2(Mouse.GetState().X * Settings.nativeWidthResolution / Settings.currentWidthResolution, Mouse.GetState().Y * Settings.nativeHeightResolution / Settings.currentHeightResolution);

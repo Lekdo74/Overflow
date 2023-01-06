@@ -20,7 +20,7 @@ namespace Overflow.Scenes
             base.Initialize();
 
             tileset = new Texture2D[] { Content.Load<Texture2D>("MapTiles/murHautGauche"), Content.Load<Texture2D>("MapTiles/murHautDroite"), Content.Load<Texture2D>("MapTiles/murBasDroite"), Content.Load<Texture2D>("MapTiles/murBasGauche"), Content.Load<Texture2D>("MapTiles/murHaut"), Content.Load<Texture2D>("MapTiles/murDroite"), Content.Load<Texture2D>("MapTiles/murBas"), Content.Load<Texture2D>("MapTiles/murGauche"), Content.Load<Texture2D>("MapTiles/herbe"), Content.Load<Texture2D>("MapTiles/porte"), Content.Load<Texture2D>("MapTiles/coinHautGauche"), Content.Load<Texture2D>("MapTiles/coinHautDroite"), Content.Load<Texture2D>("MapTiles/coinBasDroite"), Content.Load<Texture2D>("MapTiles/coinBasGauche") };
-            room = PremadeRooms.Room(new bool[] { true, true, true, true }, tileset);
+            room = PremadeRooms.Room(new bool[] { true, true, true, true }, tileset, 1);
         }
 
         public override void LoadContent()

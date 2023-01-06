@@ -14,7 +14,6 @@ namespace Overflow
         private readonly ScreenManager _screenManager;
         public GraphicsDeviceManager _graphics;
         public SpriteBatch _spriteBatch;
-        public KeyboardState _keyboardState;
         public RenderTarget2D renderTarget;
 
         public Main()
@@ -37,6 +36,7 @@ namespace Overflow
             renderTarget = new RenderTarget2D(GraphicsDevice, Settings.nativeWidthResolution, Settings.nativeHeightResolution);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Art.Load(Content);
 
             LoadMainMenu();
             base.Initialize();

@@ -153,7 +153,7 @@ namespace Overflow.src
                     }
                 }
 
-                rooms[x, y] = PremadeRooms.Room(doors, _tileSet);
+                rooms[x, y] = PremadeRooms.Room(doors, _tileSet, map[x, y]);
             }
             Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
 
@@ -196,14 +196,15 @@ namespace Overflow.src
             }
             return false;
         }
-        public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
-        {
-            _rooms[CurrentRoom[0], CurrentRoom[1]].Draw(gameTime, spritebatch);
-        }
 
         public override void Update(GameTime gameTime)
         {
+            _rooms[CurrentRoom[0], CurrentRoom[1]].Update(gameTime);
+        }
 
+        public override void Draw(GameTime gameTime, SpriteBatch spritebatch)
+        {
+            _rooms[CurrentRoom[0], CurrentRoom[1]].Draw(gameTime, spritebatch);
         }
     }
 }

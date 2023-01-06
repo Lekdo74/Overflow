@@ -11,7 +11,10 @@ namespace Overflow.src
         private string[] _room;
         private Vector2 _size;
         private bool[] _doors;
-        private Vector2[] _spawnPoints;
+        private int _roomType;
+
+        private Vector2 _spawnPoint;
+        private Vector2[] _spawnPoints; // doors
         private List<Vector2> _spawnPointsEnemies;
         private List<Rectangle> _obstacles;
         private Vector2 _position;
@@ -27,13 +30,15 @@ namespace Overflow.src
         string[] terrain;
         string[] walls;
 
-        //private Enemy[] enemies
+        private List<Enemy> _enemies;
 
-        public Room(string[] room, Texture2D[] tileSet, bool[] doors)
+        public Room(string[] room, Texture2D[] tileSet, bool[] doors, int roomType)
         {
             _room = room;
             Size = new Vector2(room[0].Length, room.Length);
             Doors = doors;
+            _roomType = roomType;
+
             SpawnPoints = new Vector2[4];
             Obstacles = new List<Rectangle>();
             _tileSet = tileSet;
@@ -46,6 +51,12 @@ namespace Overflow.src
             yMax = Position.Y + (Size.Y) * _tileSet[0].Height;
 
             _tiles = BuildRoom();
+
+            _enemies = new List<Enemy>();
+            if(_roomType == 2)
+            {
+                _enemies = CreateEnemies();
+            }
         }
 
         public Vector2 Size
@@ -70,6 +81,12 @@ namespace Overflow.src
             {
                 _doors = value;
             }
+        }
+
+        public Vector2 SpawnPoint
+        {
+            get { return _spawnPoint; }
+            set { _spawnPoint = value; }
         }
 
         public Vector2[] SpawnPoints
@@ -134,7 +151,6 @@ namespace Overflow.src
         private Tile[,] BuildRoom()
         {
             Tile[,] tiles = new Tile[(int)Size.X, (int)Size.Y];
-            Console.WriteLine(Size);
             for (int j = 0; j < Size.Y; j++)
             {
                 for (int i = 0; i < Size.X; i++)
@@ -143,6 +159,11 @@ namespace Overflow.src
                     if (character == " ")
                     {
                         tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
+                    }
+                    else if(character == "x")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet[8], "Grass");
+                        SpawnPoint = new Vector2(20 * i, 20 * j) + Position;
                     }
                     else if(character == "|" || character == "-" || character == "." || character == "Γ" || character == "⅂" || character == "⅃" || character == "L")
                     {
@@ -175,7 +196,6 @@ namespace Overflow.src
             }
 
             _spawnPointsEnemies = new List<Vector2>();
-            Console.WriteLine((SpawnPoints[0], SpawnPoints[1], SpawnPoints[2], SpawnPoints[3]));
             foreach (Tile tile in tiles)
             {
                 if(tile != null)
@@ -204,10 +224,6 @@ namespace Overflow.src
                         if (spawnPointEnemy)
                         {
                             _spawnPointsEnemies.Add(tile.Position);
-                        }
-                        else
-                        {
-                            Console.WriteLine((tile.Position));
                         }
                     }
                 }
@@ -382,13 +398,22 @@ namespace Overflow.src
             throw new Exception("Une tile corner n'est pas définie");
         }
 
+        private List<Enemy> CreateEnemies()
+        {
+            Random random = new Random();
+            List<Enemy> enemies = new List<Enemy>();
+            for(int i = 0; i < 3; i++)
+            {
+                int currentEnemySpawnPoint = random.Next(0, _spawnPointsEnemies.Count - 1);
+                enemies.Add(Enemy.CreateSeeker(_spawnPointsEnemies[currentEnemySpawnPoint]));
+                _spawnPointsEnemies.RemoveAt(currentEnemySpawnPoint);
+            }
+            return enemies;
+        }
+
         public Tile GetTile(Vector2 position)
         {
-            return _tiles[((int)position.X - (int)Position.X) / _tileSet[0].Width, ((int)position.Y - (int)Position.Y) / _tileSet[0].Height];
-        }
-        public Tile GetTile(Vector2 position, Player player)
-        {
-            return _tiles[((int)position.X - (int)Position.X + player.Texture.Width / 2) / _tileSet[0].Width, ((int)position.Y - (int)Position.Y + player.Texture.Height / 2) / _tileSet[0].Height];
+            return _tiles[((int)position.X - (int)Position.X + Player.Texture.Width / 2) / _tileSet[0].Width, ((int)position.Y - (int)Position.Y + Player.Texture.Height / 2) / _tileSet[0].Height];
         }
 
         public bool InsideRoom(Vector2 position)
@@ -399,9 +424,9 @@ namespace Overflow.src
             }
             return true;
         }
-        public bool InsideRoom(Player player)
+        public bool InsideRoom()
         {
-            if (player.Position.Y < yMin || player.Position.X + player.Texture.Width > xMax || player.Position.Y + player.Texture.Height > yMax || player.Position.X < xMin)
+            if (Player.Position.Y < yMin || Player.Position.X + Player.Texture.Width > xMax || Player.Position.Y + Player.Texture.Height > yMax || Player.Position.X < xMin)
             {
                 return false;
             }
@@ -417,15 +442,25 @@ namespace Overflow.src
                     tile.Draw(gameTime, spritebatch);
                 }
             }
+            /* Position possible des ennemies
             foreach(Vector2 position in _spawnPointsEnemies)
             {
                 spritebatch.Draw(_tileSet[9], position, Color.Red);
+            }
+            */
+
+            foreach(Enemy enemy in _enemies)
+            {
+                enemy.Draw(gameTime, spritebatch);
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-
+            foreach(Enemy enemy in _enemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
     }
 }
