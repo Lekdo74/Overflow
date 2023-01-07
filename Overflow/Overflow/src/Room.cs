@@ -170,7 +170,26 @@ namespace Overflow.src
                     string character = _room[j][i].ToString();
                     if (character == " ")
                     {
-                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Terrain, "Grass", i, j);
+                        if(j == 0)
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Terrain, "Grass", i, j);
+                        }
+                        else if (_room[j - 1][i].ToString() == "L")
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.TerrainWithWallBorderLeft, "Grass", i, j);
+                        }
+                        else if (_room[j - 1][i].ToString() == "⅃")
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.TerrainWithWallBorderRight, "Grass", i, j);
+                        }
+                        else if (PremadeRooms.walls.Contains(_room[j - 1][i].ToString()))
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.TerrainWithWall, "Grass", i, j);
+                        }
+                        else
+                        {
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Terrain, "Grass", i, j);
+                        }
                     }
                     else if(character == "x")
                     {
@@ -185,22 +204,22 @@ namespace Overflow.src
                     {
                         if(j == 0)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Door, "DoorTop", i, j);
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.TopDoor, "DoorTop", i, j);
                             SpawnPoints[0] = new Vector2(20 * i + 20 * 0.5f, 20 * 1f) + Position;
                         }
                         else if(i == Size.X - 1)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Door, "DoorRight", i, j);
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.RightDoor, "DoorRight", i, j);
                             SpawnPoints[1] = new Vector2(20 * i + 20 * 0f, 20 * j + 20 * 0.5f) + Position;
                         }
                         else if(j == Size.Y - 1)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Door, "DoorBottom", i, j);
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.BottomDoor, "DoorBottom", i, j);
                             SpawnPoints[2] = new Vector2(20 * i + 20 * 0.5f, 20 * j + 20 * 0f) + Position;
                         }
                         else if(i == 0)
                         {
-                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.Door, "DoorLeft", i, j);
+                            tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileSet.LeftDoor, "DoorLeft", i, j);
                             SpawnPoints[3] = new Vector2(20 * 1f, 20 * j + 20 * 0.5f) + Position;
                         }
                     }

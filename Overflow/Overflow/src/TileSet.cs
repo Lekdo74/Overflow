@@ -25,10 +25,16 @@ namespace Overflow.src
         private Texture2D[] _bottomLeftCorner;
 
         private Texture2D[] _terrain;
+        private Texture2D[] _terrainWithWall;
+        private Texture2D[] _terrainWithWallBorderLeft;
+        private Texture2D[] _terrainWithWallBorderRight;
 
-        private Texture2D[] _door;
+        private Texture2D[] _topDoor;
+        private Texture2D[] _rightDoor;
+        private Texture2D[] _bottomDoor;
+        private Texture2D[] _leftDoor;
 
-        public TileSet(int tileSize, Texture2D[] topWall, Texture2D[] rightWall, Texture2D[] bottomWall, Texture2D[] leftWall, Texture2D[] topLeftWall, Texture2D[] topRightWall, Texture2D[] bottomRightWall, Texture2D[] bottomLeftWall, Texture2D[] topLeftCorner, Texture2D[] topRightCorner, Texture2D[] bottomRightCorner, Texture2D[] bottomLeftCorner, Texture2D[] terrain, Texture2D[] door)
+        public TileSet(int tileSize, Texture2D[] topWall, Texture2D[] rightWall, Texture2D[] bottomWall, Texture2D[] leftWall, Texture2D[] topLeftWall, Texture2D[] topRightWall, Texture2D[] bottomRightWall, Texture2D[] bottomLeftWall, Texture2D[] topLeftCorner, Texture2D[] topRightCorner, Texture2D[] bottomRightCorner, Texture2D[] bottomLeftCorner, Texture2D[] terrain, Texture2D[] terrainWithWall, Texture2D[] terrainWithWallBorderLeft, Texture2D[] terrainWithWallBorderRight, Texture2D[] topDoor, Texture2D[] rightDoor, Texture2D[] bottomDoor, Texture2D[] leftDoor)
         {
             _tileSize = tileSize;
 
@@ -48,8 +54,14 @@ namespace Overflow.src
             _bottomLeftCorner = bottomLeftCorner;
 
             _terrain = terrain;
+            _terrainWithWall = terrainWithWall;
+            _terrainWithWallBorderLeft = terrainWithWallBorderLeft;
+            _terrainWithWallBorderRight = terrainWithWallBorderRight;
 
-            _door = door;
+            _topDoor = topDoor;
+            _rightDoor = rightDoor;
+            _bottomDoor = bottomDoor;
+            _leftDoor = leftDoor;
         }
 
         public int TileSize
@@ -112,10 +124,34 @@ namespace Overflow.src
         {
             get { return _terrain[random.Next(0, _terrain.Length)]; }
         }
-
-        public Texture2D Door
+        public Texture2D TerrainWithWall
         {
-            get { return _door[random.Next(0, _door.Length)]; }
+            get { return _terrainWithWall[random.Next(0, _terrainWithWall.Length)]; }
+        }
+        public Texture2D TerrainWithWallBorderLeft
+        {
+            get { return _terrainWithWallBorderLeft[random.Next(0, _terrainWithWallBorderLeft.Length)]; }
+        }
+        public Texture2D TerrainWithWallBorderRight
+        {
+            get { return _terrainWithWallBorderRight[random.Next(0, _terrainWithWallBorderRight.Length)]; }
+        }
+
+        public Texture2D TopDoor
+        {
+            get { return _topDoor[random.Next(0, _topDoor.Length)]; }
+        }
+        public Texture2D RightDoor
+        {
+            get { return _rightDoor[random.Next(0, _rightDoor.Length)]; }
+        }
+        public Texture2D BottomDoor
+        {
+            get { return _bottomDoor[random.Next(0, _bottomDoor.Length)]; }
+        }
+        public Texture2D LeftDoor
+        {
+            get { return _leftDoor[random.Next(0, _leftDoor.Length)]; }
         }
     }
 }

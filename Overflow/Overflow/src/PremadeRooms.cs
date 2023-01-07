@@ -34,6 +34,9 @@ namespace Overflow.src
          < >
          */
 
+        public static List<string> walls = new List<string> { "Γ", "⌉", "⅃", "L", "-", "|", "." };
+        public static List<string> terrains = new List<string> { " ", "o", "x" };
+
         private static Random random = new Random();
 
         public static Room Room(bool[] doors, TileSet tileSet, int roomType)
