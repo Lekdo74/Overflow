@@ -11,11 +11,11 @@ namespace Overflow.src
         private Room[,] _rooms;
         private int[] _currentRoom;
 
-        private Texture2D[] _tileSet;
+        private TileSet _tileSet;
         private int _mapSizeX;
         private int _mapSizeY;
 
-        public Map(int roomNb, Texture2D[] tileSet)
+        public Map(int roomNb, TileSet tileSet)
         {
             _roomNb = roomNb;
             _tileSet = tileSet;

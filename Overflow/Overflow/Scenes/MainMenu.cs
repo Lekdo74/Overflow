@@ -69,21 +69,21 @@ namespace Overflow.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(Game.renderTarget);
+            GraphicsDevice.SetRenderTarget(Main.renderTarget);
             Game.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Game._spriteBatch.Begin();
+            Main._spriteBatch.Begin();
             foreach (Button button in buttons)
             {
-                button.Draw(gameTime, Game._spriteBatch);
+                button.Draw(gameTime, Main._spriteBatch);
             }
-            Game._spriteBatch.End();
+            Main._spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
-            Game._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            Game._spriteBatch.Draw(Game.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
-            Game._spriteBatch.End();
+            Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            Main._spriteBatch.Draw(Main.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
+            Main._spriteBatch.End();
         }
     }
 }

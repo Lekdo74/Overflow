@@ -108,9 +108,9 @@ namespace Overflow.Scenes
                 textResolution = $"  {Settings.availableResolutionsStrings[Settings.currentResolution]}  ";
                 Settings.currentWidthResolution = (int)Settings.availableResolutions[Settings.currentResolution].X;
                 Settings.currentHeightResolution = (int)Settings.availableResolutions[Settings.currentResolution].Y;
-                Game._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
-                Game._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
-                Game._graphics.ApplyChanges();
+                Main._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
+                Main._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
+                Main._graphics.ApplyChanges();
                 textResolutionPosition = new Vector2((Settings.nativeWidthResolution / 2) - (font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (font.MeasureString(textResolution).Y / 2));
                 buttons[0].Position = new Vector2(textResolutionPosition.X - flecheGauche.Width, textResolutionPosition.Y - flecheGauche.Height / 2 + font.MeasureString(textResolution).Y / 2);
                 buttons[1].Position = new Vector2(textResolutionPosition.X + font.MeasureString(textResolution).X, textResolutionPosition.Y - flecheDroite.Height / 2 + font.MeasureString(textResolution).Y / 2);
@@ -125,9 +125,9 @@ namespace Overflow.Scenes
                 textResolution = $"  {Settings.availableResolutionsStrings[Settings.currentResolution]}  ";
                 Settings.currentWidthResolution = (int)Settings.availableResolutions[Settings.currentResolution].X;
                 Settings.currentHeightResolution = (int)Settings.availableResolutions[Settings.currentResolution].Y;
-                Game._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
-                Game._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
-                Game._graphics.ApplyChanges();
+                Main._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
+                Main._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
+                Main._graphics.ApplyChanges();
                 textResolutionPosition = new Vector2((Settings.nativeWidthResolution / 2) - (font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (font.MeasureString(textResolution).Y / 2));
                 buttons[0].Position = new Vector2(textResolutionPosition.X - flecheGauche.Width, textResolutionPosition.Y - flecheGauche.Height / 2 + font.MeasureString(textResolution).Y / 2);
                 buttons[1].Position = new Vector2(textResolutionPosition.X + font.MeasureString(textResolution).X, textResolutionPosition.Y - flecheDroite.Height / 2 + font.MeasureString(textResolution).Y / 2);
@@ -141,7 +141,7 @@ namespace Overflow.Scenes
                 Settings.currentFps -= 1;
                 textFps = $"  {Settings.availableFps[Settings.currentFps]} FPS  ";
                 Game.TargetElapsedTime = TimeSpan.FromSeconds(1f / Settings.availableFps[Settings.currentFps]);
-                Game._graphics.ApplyChanges();
+                Main._graphics.ApplyChanges();
                 textFpsPosition = new Vector2((Settings.nativeWidthResolution / 2) - (font.MeasureString(textFps).X / 2), (int)(Settings.nativeHeightResolution * 0.5f) - (font.MeasureString(textFps).Y / 2));
                 buttons[2].Position = new Vector2(textFpsPosition.X - flecheGauche.Width, textFpsPosition.Y - flecheGauche.Height / 2 + font.MeasureString(textFps).Y / 2);
                 buttons[3].Position = new Vector2(textFpsPosition.X + font.MeasureString(textFps).X, textFpsPosition.Y - flecheDroite.Height / 2 + font.MeasureString(textFps).Y / 2);
@@ -155,7 +155,7 @@ namespace Overflow.Scenes
                 Settings.currentFps += 1;
                 textFps = $"  {Settings.availableFps[Settings.currentFps]} FPS  ";
                 Game.TargetElapsedTime = TimeSpan.FromSeconds(1f / Settings.availableFps[Settings.currentFps]);
-                Game._graphics.ApplyChanges();
+                Main._graphics.ApplyChanges();
                 textFpsPosition = new Vector2((Settings.nativeWidthResolution / 2) - (font.MeasureString(textFps).X / 2), (int)(Settings.nativeHeightResolution * 0.5f) - (font.MeasureString(textFps).Y / 2));
                 buttons[2].Position = new Vector2(textFpsPosition.X - flecheGauche.Width, textFpsPosition.Y - flecheGauche.Height / 2 + font.MeasureString(textFps).Y / 2);
                 buttons[3].Position = new Vector2(textFpsPosition.X + font.MeasureString(textFps).X, textFpsPosition.Y - flecheDroite.Height / 2 + font.MeasureString(textFps).Y / 2);
@@ -168,13 +168,13 @@ namespace Overflow.Scenes
             {
                 buttons[4].Texture = caseVide;
                 Settings.fullscreen = false;
-                Game._graphics.IsFullScreen = false;
+                Main._graphics.IsFullScreen = false;
                 textResolution = $"  {Settings.availableResolutionsStrings[Settings.currentResolution]}  ";
                 Settings.currentWidthResolution = (int)Settings.availableResolutions[Settings.currentResolution].X;
                 Settings.currentHeightResolution = (int)Settings.availableResolutions[Settings.currentResolution].Y;
-                Game._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
-                Game._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
-                Game._graphics.ApplyChanges();
+                Main._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
+                Main._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
+                Main._graphics.ApplyChanges();
                 textResolutionPosition = new Vector2((Settings.nativeWidthResolution / 2) - (font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (font.MeasureString(textResolution).Y / 2));
                 buttons[0].Position = new Vector2(textResolutionPosition.X - flecheGauche.Width, textResolutionPosition.Y - flecheGauche.Height / 2 + font.MeasureString(textResolution).Y / 2);
                 buttons[1].Position = new Vector2(textResolutionPosition.X + font.MeasureString(textResolution).X, textResolutionPosition.Y - flecheDroite.Height / 2 + font.MeasureString(textResolution).Y / 2);
@@ -183,13 +183,13 @@ namespace Overflow.Scenes
             {
                 buttons[4].Texture = caseCochee;
                 Settings.fullscreen = true;
-                Game._graphics.IsFullScreen = true;
-                textResolution = $"  {Game._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width}x{Game._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height}  ";
-                Settings.currentWidthResolution = Game._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
-                Settings.currentHeightResolution = Game._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-                Game._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
-                Game._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
-                Game._graphics.ApplyChanges();
+                Main._graphics.IsFullScreen = true;
+                textResolution = $"  {Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width}x{Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height}  ";
+                Settings.currentWidthResolution = Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+                Settings.currentHeightResolution = Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+                Main._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
+                Main._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
+                Main._graphics.ApplyChanges();
                 textResolutionPosition = new Vector2((Settings.nativeWidthResolution / 2) - (font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (font.MeasureString(textResolution).Y / 2));
                 buttons[0].Position = new Vector2(textResolutionPosition.X - flecheGauche.Width, textResolutionPosition.Y - flecheGauche.Height / 2 + font.MeasureString(textResolution).Y / 2);
                 buttons[1].Position = new Vector2(textResolutionPosition.X + font.MeasureString(textResolution).X, textResolutionPosition.Y - flecheDroite.Height / 2 + font.MeasureString(textResolution).Y / 2);
@@ -211,24 +211,24 @@ namespace Overflow.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(Game.renderTarget);
+            GraphicsDevice.SetRenderTarget(Main.renderTarget);
             Game.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Game._spriteBatch.Begin();
-            Game._spriteBatch.DrawString(font, textResolution, textResolutionPosition, Color.Black);
-            Game._spriteBatch.DrawString(font, textFullscreen, textFullscreenPosition, Color.Black);
-            Game._spriteBatch.DrawString(font, textFps, textFpsPosition, Color.Black);
+            Main._spriteBatch.Begin();
+            Main._spriteBatch.DrawString(font, textResolution, textResolutionPosition, Color.Black);
+            Main._spriteBatch.DrawString(font, textFullscreen, textFullscreenPosition, Color.Black);
+            Main._spriteBatch.DrawString(font, textFps, textFpsPosition, Color.Black);
             foreach (Button button in buttons)
             {
-                button.Draw(gameTime, Game._spriteBatch);
+                button.Draw(gameTime, Main._spriteBatch);
             }
-            Game._spriteBatch.End();
+            Main._spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
-            Game._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            Game._spriteBatch.Draw(Game.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
-            Game._spriteBatch.End();
+            Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            Main._spriteBatch.Draw(Main.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
+            Main._spriteBatch.End();
         }
     }
 }

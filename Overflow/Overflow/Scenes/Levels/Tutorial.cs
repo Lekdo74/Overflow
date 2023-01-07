@@ -53,19 +53,19 @@ namespace Overflow.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(Game.renderTarget);
+            GraphicsDevice.SetRenderTarget(Main.renderTarget);
             Game.GraphicsDevice.Clear(Color.Black);
 
-            Game._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            map.Draw(gameTime, Game._spriteBatch);
-            Player.Draw(gameTime, Game._spriteBatch);
-            Game._spriteBatch.End();
+            Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            map.Draw(gameTime, Main._spriteBatch);
+            Player.Draw(gameTime, Main._spriteBatch);
+            Main._spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
-            Game._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            Game._spriteBatch.Draw(Game.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
-            Game._spriteBatch.End();
+            Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
+            Main._spriteBatch.Draw(Main.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
+            Main._spriteBatch.End();
         }
 
         private void ChangeRoom()

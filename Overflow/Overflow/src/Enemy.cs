@@ -17,7 +17,10 @@ namespace Overflow.src
         private Color _color;
 
         private Vector2 _position;
+        private Vector2 _initPositionEnemy;
         private Vector2 _direction;
+        private Vector2 _velocity;
+        private Vector2[] _path;
         private int _speed;
         float deltaTime;
 
@@ -59,6 +62,12 @@ namespace Overflow.src
             get { return Position + new Vector2(Texture.Width / 2, Texture.Height / 2); }
         }
 
+        public Vector2 InitPositionEnemy
+        {
+            get { return _initPositionEnemy; }
+            set { _initPositionEnemy = value; }
+        }
+
         public Room Room
         {
             get { return _room; }
@@ -69,6 +78,18 @@ namespace Overflow.src
         {
             get { return _direction; }
             set { _direction = value; }
+        }
+
+        public Vector2 Velocity
+        {
+            get { return _velocity; }
+            set { _velocity = value; }
+        }
+
+        public Vector2[] Path
+        {
+            get { return _path; }
+            set { _path = value; }
         }
 
         public int Speed
@@ -100,19 +121,47 @@ namespace Overflow.src
         {
             while (true)
             {
-                Vector2[] path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
-                if (path.Length > 0)
+                Path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
+                if (Path.Length > 0)
                 {
-                    Direction = (path[0] - Position);
+                    Direction = (Path[0] - Position);
                 }
                 else
                 {
                     Direction = (Player.CenteredPosition - CenteredPosition);
                 }
-                Direction = Vector2.Normalize(Direction);
-                Position += Direction * _speed * deltaTime;
+                Velocity = Vector2.Normalize(Direction) * _speed * deltaTime;
+
+                InitPositionEnemy = Position;
+                _position.X += Velocity.X;
+                if (CheckCollision(Room.Obstacles) || !Room.InsideRoom(Position))
+                {
+                    Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
+                }
+                _position.X = InitPositionEnemy.X;
+                
+                _position.Y += Velocity.Y;
+                if (CheckCollision(Room.Obstacles) || !Room.InsideRoom(Position))
+                {
+                    Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
+                }
+                _position.Y = InitPositionEnemy.Y;
+
+                _position += Velocity;
+                
                 yield return 0;
             }
+        }
+        private bool CheckCollision(List<Rectangle> obstacles)
+        {
+            foreach (Rectangle obstacle in obstacles)
+            {
+                if (Rectangle.Intersects(obstacle))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void AddBehaviour(IEnumerable<int> behaviour)

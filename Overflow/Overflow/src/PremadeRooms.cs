@@ -36,7 +36,7 @@ namespace Overflow.src
 
         private static Random random = new Random();
 
-        public static Room Room(bool[] doors, Texture2D[] tileSet, int roomType)
+        public static Room Room(bool[] doors, TileSet tileSet, int roomType)
         {
             if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true)
             {
@@ -340,21 +340,21 @@ namespace Overflow.src
                     "eee.--.eee.-o--.eeeeeeee",
                     },
                     new string[] {
-                    ".-----------o----------.",
-                    "|                      |",
-                    "|   Γ---⅂      Γ---⅂   |",
-                    "|   L---⅃      L---⅃   |",
-                    "|                      |",
+                    "eeeeeeeee.-o-.eeeeeeeeee",
+                    "eeee.----⅃   L-----.eeee",
+                    "eeee|              |eeee",
+                    "eeee|  Γ-⅂    Γ-⅂  |eeee",
+                    ".---⅃  L-⅃    L-⅃  L---.",
                     "|                      |",
                     "o          x           o",
                     "|                      |",
-                    "|   Γ--------------⅂   |",
-                    "|   L--------------⅃   |",
-                    "|                      |",
-                    "|                      |",
-                    ".---------o------------.",
+                    ".---⅂  Γ--------⅂  Γ---.",
+                    "eeee|  L--------⅃  |eeee",
+                    "eeee|              |eeee",
+                    "eeee.----⅂   Γ-----.eeee",
+                    "eeeeeeeee.-o-.eeeeeeeeee",
                 } };
-                return new Room(rooms[random.Next(0, rooms.Length)], tileSet, doors, roomType);
+                return new Room(rooms[1], tileSet, doors, roomType);
             }
 
             throw new Exception("Il n'existe pas de salle préfaite pour cette combinaison de porte");

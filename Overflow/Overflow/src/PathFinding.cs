@@ -52,7 +52,7 @@ namespace Overflow.src
                     {
                         waypoints.Add(tile.Position);
                     }
-                    return waypoints.ToArray();
+                    return SymplifyPath(path);
                 }
 
                 foreach(Tile neighbour in room.GetNeighbours(currentTile))
@@ -92,6 +92,25 @@ namespace Overflow.src
 
             path.Reverse();
             return path;
+        }
+
+        private static Vector2[] SymplifyPath(List<Tile> path)
+        {
+            List<Vector2> waypoints = new List<Vector2>();
+
+            Vector2 directionOld = Vector2.Zero;
+
+            for (int i = 1; i < path.Count; i++)
+            {
+                Vector2 directionNew = new Vector2(path[i - 1].MapX - path[i].MapX, path[i - 1].MapY - path[i].MapY);
+                if (directionNew != directionOld)
+                {
+                    waypoints.Add(path[i].Position);
+                }
+                directionOld = directionNew;
+            }
+
+            return waypoints.ToArray();
         }
 
         private static int GetDistance(Tile tileA, Tile tileB)

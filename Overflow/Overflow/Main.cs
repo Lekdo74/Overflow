@@ -12,9 +12,9 @@ namespace Overflow
     public class Main : Game
     {
         private readonly ScreenManager _screenManager;
-        public GraphicsDeviceManager _graphics;
-        public SpriteBatch _spriteBatch;
-        public RenderTarget2D renderTarget;
+        public static GraphicsDeviceManager _graphics;
+        public static SpriteBatch _spriteBatch;
+        public static RenderTarget2D renderTarget;
 
         public Main()
         {
