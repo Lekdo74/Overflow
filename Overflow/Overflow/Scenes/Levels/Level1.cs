@@ -21,12 +21,14 @@ namespace Overflow.Scenes
             base.Initialize();
             Sound.ChangeBackgroundMusic(Sound.level1);
 
-            map = new Map(10, new int[] {2, 6}, Art.tilesetLevel1, Art.enemysetLevel1, Sound.level1);
+            map = new Map(10, new int[] {3, 7}, Art.tilesetLevel1, Art.enemysetLevel1, Sound.level1);
             
             currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
 
             Player.Texture = Art.player;
             Player.Perso = new AnimatedSprite(Art.playerSpriteSheet);
+            Player.Health = 5;
+            Player.IFramesDuration = 1f;
             Player.Position = currentRoom.SpawnPoint;
             Player.Speed = 50;
             Player.NewPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
@@ -53,6 +55,7 @@ namespace Overflow.Scenes
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Player.Update(gameTime, currentRoom);
+            Player.TakeDamage(Player.CheckDamage(currentRoom.Enemies, currentRoom.Projectiles));
             map.Update(gameTime);
             Player.CurrentTile = currentRoom.GetPlayerTile();
             if (Player.CurrentTile != Player.PreviousTile)

@@ -37,7 +37,7 @@
 /processorParam:TextureFormat=Color
 /build:Character/SpriteSheet.png
 
-#begin EnemySets/Level1/Archer.png
+#begin EnemySets/Level1/ArcherLaser.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,7 +47,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:EnemySets/Level1/Archer.png
+/build:EnemySets/Level1/ArcherLaser.png
 
 #begin EnemySets/Level1/SeekerTentacles.png
 /importer:TextureImporter
@@ -103,7 +103,7 @@
 /processorParam:Quality=Best
 /build:Musics/Tutorial.mp3
 
-#begin perso.png
+#begin Projectiles/Laser.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -113,7 +113,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:perso.png
+/build:Projectiles/Laser.png
 
 #begin TileSets/Level1/BottomDoor.png
 /importer:TextureImporter

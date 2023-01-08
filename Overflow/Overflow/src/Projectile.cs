@@ -15,17 +15,21 @@ namespace Overflow.src
 
         private Vector2 _position;
         private Vector2 _direction;
+        private float _rotation;
+        private int _speed;
         private Vector2 _origin;
 
         private Room _room;
 
         private bool _isExpired = false;
 
-        public Projectile(Texture2D texture, Vector2 position, Vector2 direction, Room room)
+        public Projectile(Texture2D texture, Vector2 position, Vector2 direction, int speed, Room room)
         {
             Texture = texture;
             Position = position;
             Direction = direction;
+            Rotation = (float)Math.Atan2(Direction.Y, Direction.X);
+            Speed = speed;
             Room = room;
         }
 
@@ -43,6 +47,16 @@ namespace Overflow.src
         {
             get { return _direction; }
             set { _direction = value; }
+        }
+        public float Rotation
+        {
+            get { return _rotation; }
+            set { _rotation = value; }
+        }
+        public int Speed
+        {
+            get { return _speed; }
+            set { _speed = value; }
         }
         public Vector2 Origin
         {
@@ -69,7 +83,7 @@ namespace Overflow.src
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Position += Direction * deltaTime;
+            Position += Direction * deltaTime * Speed;
             if (!Room.InsideRoom(Position) || Room.GetTile(Position).Type == "Wall")
             {
                 _isExpired = true;
@@ -78,7 +92,7 @@ namespace Overflow.src
 
         public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(Texture, Rectangle, null, Color.White, 0f, Origin, SpriteEffects.None, 0);
+            spritebatch.Draw(Texture, Rectangle, null, Color.White, Rotation, Origin, SpriteEffects.None, 0);
         }
     }
 }

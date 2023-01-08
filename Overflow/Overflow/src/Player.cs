@@ -3,12 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
+using System;
 using System.Collections.Generic;
 
 namespace Overflow.src
 {
     public static class Player
     {
+        private static int _health;
+        private static float _iFramesDuration;
+        private static float _iFramesTimeRemaining;
+
         private static Vector2 _position;
         private static Texture2D _texture;
 
@@ -22,6 +27,24 @@ namespace Overflow.src
         private static bool _canPassThroughDoor;
         private static Tile _previousTile;
         private static Tile _currentTile;
+
+        public static int Health
+        {
+            get { return _health; }
+            set { _health = value; }
+        }
+
+        public static float IFramesDuration
+        {
+            get { return _iFramesDuration; }
+            set { _iFramesDuration = value; }
+        }
+
+        public static float IFramesTimeRemaining
+        {
+            get { return _iFramesTimeRemaining; }
+            set { _iFramesTimeRemaining = value; }
+        }
 
         public static Vector2 Position
         {
@@ -144,9 +167,59 @@ namespace Overflow.src
                 return new Rectangle((int)Position.X + 1, (int)Position.Y + 2, _texture.Width + 1, _texture.Height - 2);
             }
         }
+
+        private static bool CheckCollision(List<Rectangle> obstacles)
+        {
+            foreach (Rectangle obstacle in obstacles)
+            {
+                if (HitBox.Intersects(obstacle))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        public static int CheckDamage(List<Enemy> enemies, List<Projectile> projectiles)
+        {
+            foreach (Enemy enemy in enemies)
+            {
+                if (HitBox.Intersects(enemy.Rectangle))
+                {
+                    return 1;
+                }
+            }
+            foreach (Projectile projectile in projectiles)
+            {
+                if (HitBox.Intersects(projectile.Rectangle))
+                {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+
+        public static void TakeDamage(int damage)
+        {
+            if(damage != 0)
+            {
+                if(IFramesTimeRemaining <= 0)
+                {
+                    Health -= damage;
+                    IFramesTimeRemaining = IFramesDuration;
+                    Console.WriteLine(Health);
+                    if (Health <= 0)
+                        Console.WriteLine("Dead.");
+                }
+            }
+        }
+
         public static void Update(GameTime gameTime, Room room)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if(IFramesTimeRemaining > 0)
+                IFramesTimeRemaining -= deltaTime;
 
             Vector2 initPositionPlayer = Position;
             _newPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
@@ -173,18 +246,6 @@ namespace Overflow.src
             spritebatch.Draw(_perso, Position);
             //spritebatch.Draw(Art.tilesetLevel1.TopDoor, Position, Color.Red);
             //spritebatch.Draw(Art.tilesetLevel1.TopDoor, CenteredPosition, Color.Green);
-        }
-
-        private static bool CheckCollision(List<Rectangle> obstacles)
-        {
-            foreach (Rectangle obstacle in obstacles)
-            {
-                if (HitBox.Intersects(obstacle))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

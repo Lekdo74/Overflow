@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,8 @@ namespace Overflow.src
 {
     public class Enemy
     {
+        private static Random random = new Random();
+
         private Room _room;
 
         private string _type;
@@ -18,7 +21,7 @@ namespace Overflow.src
         private Texture2D _texture;
         private float _rotation;
         private float _defaultRotation;
-        private Color _color;
+        private Color _color = Color.White;
 
         private Vector2 _position;
         private Vector2 _origin = new Vector2 (7, 7);
@@ -28,6 +31,9 @@ namespace Overflow.src
         private Vector2 _velocity;
         private int _speed;
         float deltaTime;
+        private float _defaultTimeBetweenShots;
+        private float _currentTimeBetweenShots;
+        private float _timeSinceLastShot;
 
         private Tile _previousTile;
         private Tile _currentTile;
@@ -43,11 +49,9 @@ namespace Overflow.src
         {
             _type = type;
             Texture = texture;
-            Color = Color.White;
             Position = position;
             Room = room;
             Direction = Vector2.Zero;
-            Speed = 35;
             IsExpired = false;
         }
         public Enemy(Room room, string type, Texture2D texture, Vector2 position, float defaultRotation)
@@ -55,12 +59,10 @@ namespace Overflow.src
             _type = type;
             Texture = texture;
             _defaultRotation = defaultRotation;
-            Color = Color.White;
             Position = position;
             Room = room;
             _currentTile = Room.GetTile(position);
             Direction = Vector2.Zero;
-            Speed = 35;
             IsExpired = false;
         }
 
@@ -133,6 +135,24 @@ namespace Overflow.src
         {
             get { return _speed; }
             set { _speed = value; }
+        }
+
+        public float DefaultTimeBetweenShots
+        {
+            get { return _defaultTimeBetweenShots; }
+            set { _defaultTimeBetweenShots = value; }
+        }
+
+        public float CurrentTimeBetweenShots
+        {
+            get { return _currentTimeBetweenShots; }
+            set { _currentTimeBetweenShots = value; }
+        }
+
+        public float TimeSinceLastShot
+        {
+            get { return _timeSinceLastShot; }
+            set { _timeSinceLastShot = value; }
         }
 
         public bool CalculPath
@@ -222,7 +242,7 @@ namespace Overflow.src
                 }
                 _position.Y = InitPositionEnemy.Y;
 
-                Rotation = (float)(Math.Atan2(Direction.Y, Direction.X));
+                Rotation = (float)Math.Atan2(Direction.Y, Direction.X);
                 _position += Velocity;
 
                 if(_previousTile != _currentTile)
@@ -295,6 +315,12 @@ namespace Overflow.src
                         CalculPath = true;
                     }
                 }
+                else if(TimeSinceLastShot > CurrentTimeBetweenShots)
+                {
+                    CurrentTimeBetweenShots = random.Next((int)(DefaultTimeBetweenShots * 0.6 * 100), (int)(DefaultTimeBetweenShots * 1.4 * 100)) / 100f;
+                    TimeSinceLastShot = 0f;
+                    Shoot(Art.laser);
+                }
 
                 yield return 0;
             }
@@ -312,9 +338,9 @@ namespace Overflow.src
             return false;
         }
 
-        public void Shoot()
+        public void Shoot(Texture2D projectile)
         {
-            Room.Projectiles.Add(new Projectile(Art.checkedCase, Position, Vector2.Normalize(Player.Position - Position), Room));
+            Room.Projectiles.Add(new Projectile(projectile, CenteredPosition, Vector2.Normalize(Player.Position - Position), 100, Room));
         }
 
         private void AddBehaviour(IEnumerable<int> behaviour)
@@ -335,9 +361,9 @@ namespace Overflow.src
         {
             _previousTile = Room.GetTile(Position);
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TimeSinceLastShot += deltaTime;
             if (_calculPath)
             {
-                Shoot();
                 Room.LineOfView(Room, Position, Player.Position);
                 Path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
                 _calculPath = false;
@@ -362,10 +388,12 @@ namespace Overflow.src
             {
                 case Texture2D value when value == Art.enemysetLevel1.Seekers[0]:
                     enemy = new Enemy(room, "Seeker", texture, position, (float)(Math.PI * -0.25f));
+                    enemy.Speed = 40;
                     enemy.AddBehaviour(enemy.FollowPlayer());
                     return enemy;
             }
             enemy = new Enemy(room, "Seeker", texture, position);
+            enemy.Speed = 40;
             enemy.AddBehaviour(enemy.FollowPlayer());
 
             return enemy;
@@ -375,6 +403,9 @@ namespace Overflow.src
         {
             Enemy enemy;
             enemy = new Enemy(room, "Archer", texture, position);
+            enemy.Speed = 35;
+            enemy.DefaultTimeBetweenShots = 2f;
+            enemy.CurrentTimeBetweenShots = random.Next((int)(enemy.DefaultTimeBetweenShots * 0.6 * 100), (int)(enemy.DefaultTimeBetweenShots * 1.4 * 100)) / 100f;
             enemy.AddBehaviour(enemy.FollowPlayerThenShoot());
 
             return enemy;

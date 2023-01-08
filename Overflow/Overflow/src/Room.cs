@@ -594,6 +594,11 @@ namespace Overflow.src
             {
                 enemy.Draw(gameTime, spritebatch);
             }
+
+            foreach (Projectile projectile in Projectiles)
+            {
+                projectile.Draw(spritebatch);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -602,11 +607,16 @@ namespace Overflow.src
             {
                 enemy.Update(gameTime);
             }
+            List<Projectile> outOfRoom = new List<Projectile>();
             foreach(Projectile projectile in Projectiles)
             {
                 projectile.Update(gameTime);
                 if (projectile.IsExpired)
-                    Projectiles.Remove(projectile);
+                    outOfRoom.Add(projectile);
+            }
+            foreach(Projectile projectile in outOfRoom)
+            {
+                Projectiles.Remove(projectile);
             }
         }
     }
