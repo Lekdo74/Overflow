@@ -51,5 +51,64 @@ namespace Overflow.src
                 direction.Normalize();
             return direction;
         }
+
+        public static string GetAnimation(Vector2 oldDirection, Vector2 newDirection)
+        {
+            if(newDirection == Vector2.Zero)
+            {
+                if (oldDirection == Vector2.Zero)
+                    return Player.CurrentAnimation;
+                else if (oldDirection.X < 0)
+                {
+                    Player.CurrentAnimation = "idleLeft";
+                    return "idleLeft";
+                }
+                else
+                {
+                    Player.CurrentAnimation = "idleRight";
+                    return "idleRight";
+                }
+            }
+            else if (newDirection.X == 0)
+            {
+                if(newDirection.Y < 0)
+                {
+                    Player.CurrentAnimation = "up";
+                    return "up";
+                }
+                else if (newDirection.Y > 0)
+                {
+                    Player.CurrentAnimation = "down";
+                    return "down";
+                }
+            }
+            else if(newDirection.X  < 0)
+            {
+                if(newDirection.Y < 0)
+                {
+                    Player.CurrentAnimation = "leftBack";
+                    return "leftBack";
+                }
+                else if (newDirection.Y >= 0)
+                {
+                    Player.CurrentAnimation = "leftFront";
+                    return "leftFront";
+                }
+            }
+            else
+            {
+                if (newDirection.Y < 0)
+                {
+                    Player.CurrentAnimation = "rightBack";
+                    return "rightBack";
+                }
+                else if (newDirection.Y >= 0)
+                {
+                    Player.CurrentAnimation = "rightFront";
+                    return "rightFront";
+                }
+            }
+            return null;
+        }
     }
 }

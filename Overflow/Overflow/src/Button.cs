@@ -12,7 +12,6 @@ namespace Overflow.src
         private Vector2 mousePosition;
 
         private Texture2D _texture;
-        private SpriteFont _font;
         private bool _isHovering;
 
         public event EventHandler Click;
@@ -21,17 +20,27 @@ namespace Overflow.src
         private Vector2 _position;
         private string _text;
 
-
-        public Button(Texture2D texture, SpriteFont font)
-        {
-            _texture = texture;
-            _font = font;
-            FontColor = Color.Black;
-        }
-
         public Button(Texture2D texture)
         {
             _texture = texture;
+        }
+        public Button(string text)
+        {
+            foreach(Texture2D texture in Art.buttons)
+            {
+                if(Art.font.MeasureString(text).X + 6 < texture.Width)
+                {
+                    _texture = texture;
+                    break;
+                }
+            }
+            if(_texture == null)
+            {
+                _texture = Art.buttons[Art.buttons.Length - 1];
+            }
+            
+            Text = text;
+            FontColor = Color.Black;
         }
 
         public Texture2D Texture
@@ -82,6 +91,14 @@ namespace Overflow.src
             }
         }
 
+        public Vector2 TextPosition
+        {
+            get
+            {
+                return new Vector2((int)(Position.X + (Texture.Width - Art.font.MeasureString(Text).X) / 2), (int)(Position.Y + (Texture.Height - Art.font.MeasureString(Text).Y) / 2));
+            }
+        }
+
         public Rectangle Rectangle
         {
             get
@@ -101,10 +118,7 @@ namespace Overflow.src
 
             if (!string.IsNullOrEmpty(Text))
             {
-                float x = Rectangle.X + Rectangle.Width / 2 - _font.MeasureString(Text).X / 2;
-                float y = Rectangle.Y + Rectangle.Height / 2 - _font.MeasureString(Text).Y / 2;
-
-                spritebatch.DrawString(_font, Text, new Vector2(x, y), FontColor);
+                spritebatch.DrawString(Art.font, Text, TextPosition, FontColor);
             }
         }
 

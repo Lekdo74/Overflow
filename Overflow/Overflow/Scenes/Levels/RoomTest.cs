@@ -19,8 +19,8 @@ namespace Overflow.Scenes
         {
             base.Initialize();
 
-            tileset = Art.tileset1;
-            room = PremadeRooms.Room(new bool[] { true, true, true, true }, tileset, 1);
+            tileset = Art.tilesetLevel1;
+            room = PremadeRooms.Room(new bool[] { true, true, true, true }, 1, new int[] { 2, 6}, tileset, Art.enemysetLevel1, Sound.tutorial);
 
             Player.Texture = Art.player;
             Player.Position = room.SpawnPoint;

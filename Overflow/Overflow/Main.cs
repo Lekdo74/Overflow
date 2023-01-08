@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 using Overflow.Scenes;
@@ -36,7 +37,9 @@ namespace Overflow
             renderTarget = new RenderTarget2D(GraphicsDevice, Settings.nativeWidthResolution, Settings.nativeHeightResolution);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             Art.Load(Content);
+            Sound.Load(Content);
 
             LoadMainMenu();
             base.Initialize();
@@ -72,9 +75,9 @@ namespace Overflow
             _screenManager.LoadScreen(new SettingsMenu(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
 
-        public void LoadTutorial()
+        public void LoadLevel1()
         {
-            _screenManager.LoadScreen(new Tutorial(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
 
         public void LoadRoomTest()

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Content;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.TextureAtlases;
 using System.Collections.Generic;
 
 namespace Overflow.src
@@ -8,6 +11,12 @@ namespace Overflow.src
     {
         private static Vector2 _position;
         private static Texture2D _texture;
+
+        private static string _currentAnimation;
+        private static AnimatedSprite _perso;
+
+        private static Vector2 _oldPlayerDirection;
+        private static Vector2 _newPlayerDirection;
         private static int _speed;
 
         private static bool _canPassThroughDoor;
@@ -48,6 +57,18 @@ namespace Overflow.src
             }
         }
 
+        public static AnimatedSprite Perso
+        {
+            get { return _perso; }
+            set { _perso = value; }
+        }
+
+        public static string CurrentAnimation
+        {
+            get { return _currentAnimation; }
+            set { _currentAnimation = value; }
+        }
+
         public static int Speed
         {
             get
@@ -58,6 +79,18 @@ namespace Overflow.src
             {
                 _speed = value;
             }
+        }
+
+        public static Vector2 OldPlayerDirection
+        {
+            get { return _oldPlayerDirection; }
+            set { _oldPlayerDirection = value; }
+        }
+
+        public static Vector2 NewPlayerDirection
+        {
+            get { return _newPlayerDirection; }
+            set { _newPlayerDirection = value; }
         }
 
         public static bool CanPassThroughDoor
@@ -100,7 +133,15 @@ namespace Overflow.src
         {
             get
             {
-                return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+            }
+        }
+
+        public static Rectangle HitBox
+        {
+            get
+            {
+                return new Rectangle((int)Position.X + 1, (int)Position.Y + 2, _texture.Width + 1, _texture.Height - 2);
             }
         }
         public static void Update(GameTime gameTime, Room room)
@@ -108,7 +149,8 @@ namespace Overflow.src
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Vector2 initPositionPlayer = Position;
-            Vector2 velocity = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState) * Speed * deltaTime;
+            _newPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
+            Vector2 velocity = _newPlayerDirection * Speed * deltaTime;
 
             _position.X += velocity.X;
             if (CheckCollision(room.Obstacles) || !room.InsideRoom(Position))
@@ -120,18 +162,24 @@ namespace Overflow.src
             {
                 _position.Y = initPositionPlayer.Y;
             }
+
+            _perso.Play(PlayerInputs.GetAnimation(_oldPlayerDirection, _newPlayerDirection));
+            _perso.Update(gameTime);
+            _oldPlayerDirection = _newPlayerDirection;
         }
 
         public static void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
-            spritebatch.Draw(_texture, Rectangle, Color.White);
+            spritebatch.Draw(_perso, Position);
+            //spritebatch.Draw(Art.tilesetLevel1.TopDoor, Position, Color.Red);
+            //spritebatch.Draw(Art.tilesetLevel1.TopDoor, CenteredPosition, Color.Green);
         }
 
         private static bool CheckCollision(List<Rectangle> obstacles)
         {
             foreach (Rectangle obstacle in obstacles)
             {
-                if (Rectangle.Intersects(obstacle))
+                if (HitBox.Intersects(obstacle))
                 {
                     return true;
                 }

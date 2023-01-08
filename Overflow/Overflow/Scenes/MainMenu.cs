@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 using Overflow.src;
 using System;
@@ -15,30 +17,27 @@ namespace Overflow.Scenes
         private new Main Game => (Main)base.Game;
         public MainMenu(Main game) : base(game) { }
 
-        private SpriteFont font;
         private List<Button> buttons;
 
         public override void Initialize()
         {
             Game.IsMouseVisible = true;
-            font = Content.Load<SpriteFont>("Font");
+            Sound.ChangeBackgroundMusic(Sound.menu);
 
             base.Initialize();
         }
 
         public override void LoadContent()
         {
-            Button playButton = new Button(Content.Load<Texture2D>("bouton"), font)
+            Button playButton = new Button("Jouer")
             {
-                Position = new Vector2(50, 40),
-                Text = "Jouer"
+                Position = new Vector2(50, 40)
             };
             playButton.Click += PlayButton_Click;
 
-            Button settingsButton = new Button(Content.Load<Texture2D>("bouton"), font)
+            Button settingsButton = new Button("Options")
             {
-                Position = new Vector2(50, 100),
-                Text = "Options"
+                Position = new Vector2(50, 100)
             };
             settingsButton.Click += SettingsButton_Click;
 
@@ -51,7 +50,7 @@ namespace Overflow.Scenes
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            Game.LoadTutorial();
+            Game.LoadLevel1();
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
@@ -64,6 +63,33 @@ namespace Overflow.Scenes
             foreach (Button button in buttons)
             {
                 button.Update(gameTime);
+            }
+
+            KeyboardState keyboardState;
+            keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.A)){
+                Sound.ChangeBackgroundMusic(Sound.menu);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Z))
+            {
+                Sound.ChangeBackgroundMusic(Sound.tutorial);
+            }
+            else if (keyboardState.IsKeyDown(Keys.E))
+            {
+                Sound.ChangeBackgroundMusic(Sound.level1);
+            }
+            else if (keyboardState.IsKeyDown(Keys.R))
+            {
+                Sound.ChangeBackgroundMusic(Sound.level2);
+            }
+            else if (keyboardState.IsKeyDown(Keys.T))
+            {
+                Sound.ChangeBackgroundMusic(Sound.boss);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Y))
+            {
+                Sound.ChangeBackgroundMusic(Sound.ending);
             }
         }
 

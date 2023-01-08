@@ -27,5 +27,9 @@ namespace Overflow.src
         public static int currentFps = 3;
         public static int[] availableFps = new int[] { 30, 60, 120, 144, 240, 360 };
         public static int FPS = availableFps[currentFps];
+
+        public static int currentMusicVolume = 3;
+        public static float[] availableMusicVolumes = new float[] { 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1f };
+        public static float soundVolume = availableMusicVolumes[currentMusicVolume];
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 
@@ -11,14 +12,22 @@ namespace Overflow.src
         private Room[,] _rooms;
         private int[] _currentRoom;
 
+        private int[] _enemyNb;
+
         private TileSet _tileSet;
         private int _mapSizeX;
         private int _mapSizeY;
 
-        public Map(int roomNb, TileSet tileSet)
+        private EnemySet _enemyset;
+        private Song _backgroundMusic;
+
+        public Map(int roomNb, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroundMusic)
         {
             _roomNb = roomNb;
+            _enemyNb = enemyNb;
+            _backgroundMusic = backgroundMusic;
             _tileSet = tileSet;
+            _enemyset = enemyset;
             _rooms = GenerateMap();
         }
 
@@ -153,7 +162,7 @@ namespace Overflow.src
                     }
                 }
 
-                rooms[x, y] = PremadeRooms.Room(doors, _tileSet, map[x, y]);
+                rooms[x, y] = PremadeRooms.Room(doors, map[x, y], _enemyNb, _tileSet, _enemyset, _backgroundMusic);
             }
             Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
 
