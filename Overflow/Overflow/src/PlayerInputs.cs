@@ -58,15 +58,25 @@ namespace Overflow.src
             {
                 if (oldDirection == Vector2.Zero)
                     return Player.CurrentAnimation;
+                else if (oldDirection.Y < 0 || Player.CurrentAnimation == "leftBack" || Player.CurrentAnimation == "rightBack")
+                {
+                    Player.CurrentAnimation = "idleUp";
+                    return "idleUp";
+                }
                 else if (oldDirection.X < 0)
                 {
                     Player.CurrentAnimation = "idleLeft";
                     return "idleLeft";
                 }
-                else
+                else if(oldDirection.X > 0)
                 {
                     Player.CurrentAnimation = "idleRight";
                     return "idleRight";
+                }
+                else
+                {
+                    Player.CurrentAnimation = "idleDown";
+                    return "idleDown";
                 }
             }
             else if (newDirection.X == 0)

@@ -11,8 +11,13 @@ namespace Overflow.src
     public static class Player
     {
         private static int _health;
+
         private static float _iFramesDuration;
         private static float _iFramesTimeRemaining;
+        private static float _knockbackDuration;
+        private static float _knockbackTimeRemaining;
+        private static bool _isKnockbacked = true;
+        private static int _knockbackSpeed;
 
         private static Vector2 _position;
         private static Texture2D _texture;
@@ -46,16 +51,31 @@ namespace Overflow.src
             set { _iFramesTimeRemaining = value; }
         }
 
+        public static float KnockbackDuration
+        {
+            get { return _knockbackDuration; }
+            set { _knockbackDuration = value; }
+        }
+        public static float KnockbackTimeRemaining
+        {
+            get { return _knockbackTimeRemaining; }
+            set { _knockbackTimeRemaining = value; }
+        }
+        public static bool IsKnockbacked
+        {
+            get { return _isKnockbacked; }
+            set { _isKnockbacked = value; }
+        }
+        public static int KnockbackSpeed
+        {
+            get { return _knockbackSpeed; }
+            set { _knockbackSpeed = value; }
+        }
+
         public static Vector2 Position
         {
-            get
-            {
-                return _position;
-            }
-            set
-            {
-                _position = value;
-            }
+            get { return _position; }
+            set { _position = value; }
         }
 
         public static Vector2 CenteredPosition
@@ -180,19 +200,33 @@ namespace Overflow.src
             return false;
         }
         
-        public static int CheckDamage(List<Enemy> enemies, List<Projectile> projectiles)
+        public static int CheckDamage(Room currentRoom)
         {
-            foreach (Enemy enemy in enemies)
+            if(IFramesTimeRemaining <= 0)
             {
-                if (HitBox.Intersects(enemy.Rectangle))
+                foreach (Enemy enemy in currentRoom.Enemies)
                 {
-                    return 1;
+                    if (HitBox.Intersects(enemy.Rectangle))
+                    {
+                        if (enemy.Direction != Vector2.Zero)
+                            NewPlayerDirection = Vector2.Normalize(enemy.Direction);
+                        else
+                            NewPlayerDirection = Vector2.Normalize(CenteredPosition - enemy.CenteredPosition);
+                        return 1;
+                    }
                 }
-            }
-            foreach (Projectile projectile in projectiles)
-            {
-                if (HitBox.Intersects(projectile.Rectangle))
+                Projectile projectileThatTouched = null;
+                foreach (Projectile projectile in currentRoom.Projectiles)
                 {
+                    if (HitBox.Intersects(projectile.Rectangle))
+                    {
+                        NewPlayerDirection = Vector2.Normalize(projectile.Direction);
+                        projectileThatTouched = projectile;
+                    }
+                }
+                if(projectileThatTouched != null)
+                {
+                    currentRoom.Projectiles.Remove(projectileThatTouched);
                     return 1;
                 }
             }
@@ -205,11 +239,11 @@ namespace Overflow.src
             {
                 if(IFramesTimeRemaining <= 0)
                 {
+                    IsKnockbacked = false;
                     Health -= damage;
+                    KnockbackTimeRemaining = KnockbackDuration;
                     IFramesTimeRemaining = IFramesDuration;
                     Console.WriteLine(Health);
-                    if (Health <= 0)
-                        Console.WriteLine("Dead.");
                 }
             }
         }
@@ -220,10 +254,24 @@ namespace Overflow.src
 
             if(IFramesTimeRemaining > 0)
                 IFramesTimeRemaining -= deltaTime;
+            if (KnockbackTimeRemaining > 0)
+            {
+                KnockbackTimeRemaining -= deltaTime;
+            }
+            else if (!IsKnockbacked)
+                IsKnockbacked = true;
 
             Vector2 initPositionPlayer = Position;
-            _newPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
-            Vector2 velocity = _newPlayerDirection * Speed * deltaTime;
+            Vector2 velocity;
+            if (IsKnockbacked)
+            {
+                _newPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
+                velocity = _newPlayerDirection * Speed * deltaTime;
+            }
+            else
+            {
+                velocity = _newPlayerDirection * KnockbackSpeed * deltaTime;
+            }
 
             _position.X += velocity.X;
             if (CheckCollision(room.Obstacles) || !room.InsideRoom(Position))

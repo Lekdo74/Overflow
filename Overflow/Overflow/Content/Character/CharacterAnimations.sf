@@ -15,6 +15,16 @@
       "isLooping": false,
       "frameDuration": 0.2
     },
+    "idleDown": {
+      "frames": [2],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "idleUp": {
+      "frames": [3],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
     "down": {
       "frames": [10,11,12,13,14,15,16,17,18,19],
       "isLooping": false,

@@ -91,12 +91,6 @@
 /processorParam:Quality=Best
 /build:Musics/Menu.mp3
 
-#begin Musics/Test.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Musics/Test.mp3
-
 #begin Musics/Tutorial.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

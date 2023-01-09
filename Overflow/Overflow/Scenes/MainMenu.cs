@@ -22,7 +22,7 @@ namespace Overflow.Scenes
         public override void Initialize()
         {
             Game.IsMouseVisible = true;
-            Sound.ChangeBackgroundMusic(Sound.menu);
+            //Sound.ChangeBackgroundMusic(Sound.menu);
 
             base.Initialize();
         }

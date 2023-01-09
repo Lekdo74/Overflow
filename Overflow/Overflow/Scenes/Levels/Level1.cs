@@ -19,7 +19,7 @@ namespace Overflow.Scenes
         public override void Initialize()
         {
             base.Initialize();
-            Sound.ChangeBackgroundMusic(Sound.level1);
+            //Sound.ChangeBackgroundMusic(Sound.level1);
 
             map = new Map(10, new int[] {3, 7}, Art.tilesetLevel1, Art.enemysetLevel1, Sound.level1);
             
@@ -27,8 +27,10 @@ namespace Overflow.Scenes
 
             Player.Texture = Art.player;
             Player.Perso = new AnimatedSprite(Art.playerSpriteSheet);
-            Player.Health = 5;
+            Player.Health = 10;
             Player.IFramesDuration = 1f;
+            Player.KnockbackDuration = 0.2f;
+            Player.KnockbackSpeed = 140;
             Player.Position = currentRoom.SpawnPoint;
             Player.Speed = 50;
             Player.NewPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
@@ -55,7 +57,11 @@ namespace Overflow.Scenes
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Player.Update(gameTime, currentRoom);
-            Player.TakeDamage(Player.CheckDamage(currentRoom.Enemies, currentRoom.Projectiles));
+            Player.TakeDamage(Player.CheckDamage(currentRoom));
+            if(Player.Health <= 0)
+            {
+                Game.LoadMainMenu();
+            }
             map.Update(gameTime);
             Player.CurrentTile = currentRoom.GetPlayerTile();
             if (Player.CurrentTile != Player.PreviousTile)
@@ -129,7 +135,7 @@ namespace Overflow.Scenes
         {
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
             Player.CanPassThroughDoor = false;
-            Sound.ChangeBackgroundMusic(currentRoom.BackgroundMusic);
+            //Sound.ChangeBackgroundMusic(currentRoom.BackgroundMusic);
         }
     }
 }
