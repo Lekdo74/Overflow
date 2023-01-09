@@ -19,7 +19,7 @@ namespace Overflow.Scenes
         public override void Initialize()
         {
             base.Initialize();
-            //Sound.ChangeBackgroundMusic(Sound.level1);
+            Sound.ChangeBackgroundMusic(Sound.level1);
 
             map = new Map(10, new int[] {3, 7}, Art.tilesetLevel1, Art.enemysetLevel1, Sound.level1);
             
@@ -29,14 +29,15 @@ namespace Overflow.Scenes
             Player.Perso = new AnimatedSprite(Art.playerSpriteSheet);
             Player.Health = 10;
             Player.IFramesDuration = 1f;
-            Player.KnockbackDuration = 0.2f;
-            Player.KnockbackSpeed = 140;
+            Player.KnockbackDuration = 0.12f;
+            Player.KnockbackSpeed = 160;
             Player.Position = currentRoom.SpawnPoint;
             Player.Speed = 50;
             Player.NewPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
             Player.OldPlayerDirection = Player.NewPlayerDirection;
             Player.CurrentAnimation = "idleRight";
             Player.Perso.Origin = new Vector2(0, 0);
+            PlayerSlash.Slash.Play("slash");
 
 
             Player.CanPassThroughDoor = true;
@@ -73,6 +74,15 @@ namespace Overflow.Scenes
             }
             ChangeRoom();
             Player.PreviousTile = Player.CurrentTile;
+
+            MouseState mouseState = Mouse.GetState();
+            if (PlayerSlash.RemainingAnimationTime > 0)
+                PlayerSlash.RemainingAnimationTime -= deltaTime;
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                PlayerSlash.Slash.Play("slash");
+                PlayerSlash.RemainingAnimationTime = 0.35f;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -82,6 +92,7 @@ namespace Overflow.Scenes
 
             Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
             map.Draw(gameTime, Main._spriteBatch);
+            PlayerHealthBar.Draw(Main._spriteBatch);
             Player.Draw(gameTime, Main._spriteBatch);
             Main._spriteBatch.End();
 
@@ -135,7 +146,7 @@ namespace Overflow.Scenes
         {
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
             Player.CanPassThroughDoor = false;
-            //Sound.ChangeBackgroundMusic(currentRoom.BackgroundMusic);
+            Sound.ChangeBackgroundMusic(currentRoom.BackgroundMusic);
         }
     }
 }

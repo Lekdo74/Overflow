@@ -39,7 +39,7 @@ namespace Overflow
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Art.Load(Content);
-            //Sound.Load(Content);
+            Sound.Load(Content);
 
             LoadMainMenu();
             base.Initialize();

@@ -286,12 +286,14 @@ namespace Overflow.src
 
             _perso.Play(PlayerInputs.GetAnimation(_oldPlayerDirection, _newPlayerDirection));
             _perso.Update(gameTime);
+            PlayerSlash.Update(deltaTime);
             _oldPlayerDirection = _newPlayerDirection;
         }
 
         public static void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
             spritebatch.Draw(_perso, Position);
+            PlayerSlash.Draw(spritebatch, Position);
             //spritebatch.Draw(Art.tilesetLevel1.TopDoor, Position, Color.Red);
             //spritebatch.Draw(Art.tilesetLevel1.TopDoor, CenteredPosition, Color.Green);
         }
