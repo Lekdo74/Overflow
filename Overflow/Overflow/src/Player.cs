@@ -29,9 +29,9 @@ namespace Overflow.src
 
         private static float _knockbackDuration;
         private static float _knockbackTimeRemaining;
-        private static bool _isKnockbacked = true;
         private static int _knockbackSpeed;
 
+        private static int _attackNumber = 1; // Pour ne pas qu'un ennemi puisque recevoir plusieurs fois des dégâts avec une seule attaque du joueur
         private static float _timeBetweenAttacks;
         private static float _timeBeforeNextAttack;
 
@@ -135,17 +135,16 @@ namespace Overflow.src
             get { return _knockbackTimeRemaining; }
             set { _knockbackTimeRemaining = value; }
         }
-        public static bool IsKnockbacked
-        {
-            get { return _isKnockbacked; }
-            set { _isKnockbacked = value; }
-        }
         public static int KnockbackSpeed
         {
             get { return _knockbackSpeed; }
             set { _knockbackSpeed = value; }
         }
-
+        public static int AttackNumber
+        {
+            get { return _attackNumber; }
+            set { _attackNumber = value; }
+        }
         public static float TimeBetweenAttacks
         {
             get { return _timeBetweenAttacks; }
@@ -287,6 +286,8 @@ namespace Overflow.src
         
         public static int CheckDamage(Room currentRoom)
         {
+            if (Settings.noDamage)
+                return 0;
             if(IFramesTimeRemaining <= 0)
             {
                 foreach (Enemy enemy in currentRoom.Enemies)
@@ -324,11 +325,9 @@ namespace Overflow.src
             {
                 if(IFramesTimeRemaining <= 0)
                 {
-                    IsKnockbacked = false;
                     Health -= damage;
                     KnockbackTimeRemaining = KnockbackDuration;
                     IFramesTimeRemaining = IFramesDuration;
-                    Console.WriteLine(Health);
                 }
             }
         }
@@ -344,8 +343,6 @@ namespace Overflow.src
             {
                 KnockbackTimeRemaining -= deltaTime;
             }
-            else if (!IsKnockbacked)
-                IsKnockbacked = true;
 
             if (TimeBeforeNextAttack > 0)
                 TimeBeforeNextAttack -= deltaTime;
@@ -366,9 +363,11 @@ namespace Overflow.src
 
             Vector2 initPositionPlayer = Position;
             Vector2 velocity;
-            if (IsKnockbacked)
+            if (KnockbackTimeRemaining <= 0)
             {
-                _newPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
+                Vector2 inputs = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
+                if(!(DashTimeRemaining > 0 && inputs == Vector2.Zero))
+                    _newPlayerDirection = inputs;
                 velocity = _newPlayerDirection * Speed * deltaTime;
             }
             else
@@ -398,6 +397,7 @@ namespace Overflow.src
                 PlayerSlash.RemainingAnimationTime -= deltaTime;
             if (PlayerInputs.MouseState.LeftButton == ButtonState.Pressed && TimeBeforeNextAttack <= 0)
             {
+                AttackNumber += 1;
                 TimeBeforeNextAttack = TimeBetweenAttacks;
                 PlayerSlash.RemainingAnimationTime = 0.35f;
                 PlayerSlash.Slash.Play("slash");

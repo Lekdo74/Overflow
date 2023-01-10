@@ -27,6 +27,9 @@ namespace Overflow.Scenes
         private string textFullscreen;
         private Vector2 textFullscreenPosition;
 
+        private string textNoDamage;
+        private Vector2 textNoDamagePosition;
+
         private string textMusicVolume;
         private Vector2 textMusicVolumePosition;
         private Texture2D musicVolumeBar;
@@ -44,6 +47,9 @@ namespace Overflow.Scenes
 
             textFullscreen = "Fullscreen";
             textFullscreenPosition = new Vector2((Settings.nativeWidthResolution * 0.5f) - (Art.font.MeasureString(textFullscreen).X / 2), (int)(Settings.nativeHeightResolution * 0.75f) - (Art.font.MeasureString(textFullscreen).Y / 2));
+
+            textNoDamage = "No Damage";
+            textNoDamagePosition = new Vector2((Settings.nativeWidthResolution * 0.8f) - (Art.font.MeasureString(textFullscreen).X / 2), (int)(Settings.nativeHeightResolution * 0.9f) - (Art.font.MeasureString(textFullscreen).Y / 2));
 
             musicVolumeBar = Art.volumeBar[Settings.currentMusicVolume];
             textMusicVolume = "Musique";
@@ -96,6 +102,23 @@ namespace Overflow.Scenes
             }
             fullscreenButton.Click += FullscreenButton_Click;
 
+            Button noDamage;
+            if (Settings.noDamage)
+            {
+                noDamage = new Button(Art.checkedCase)
+                {
+                    Position = PlaceToRight(textNoDamagePosition, textNoDamage, Art.emptyCase)
+                };
+            }
+            else
+            {
+                noDamage = new Button(Art.emptyCase)
+                {
+                    Position = PlaceToRight(textNoDamagePosition, textNoDamage, Art.emptyCase)
+                };
+            }
+            noDamage.Click += NoDamageButton_Click;
+
             Button leftArrowVolumeButton = new Button(Art.leftArrow)
             {
                 Position = PlaceToLeft(musicVolumeBarPosition, musicVolumeBar, Art.leftArrow)
@@ -116,8 +139,16 @@ namespace Overflow.Scenes
 
             buttons = new List<Button>()
             {
-                leftArrowResolutionButton, rightArrowResolutionButton, leftArrowFpsButton, rightArrowFpsButton, fullscreenButton, leftArrowVolumeButton, rightArrowVolumeButton, returnButton
+                leftArrowResolutionButton, rightArrowResolutionButton, leftArrowFpsButton, rightArrowFpsButton, fullscreenButton, leftArrowVolumeButton, rightArrowVolumeButton, returnButton, noDamage
             };
+
+            if (Settings.fullscreen)
+            {
+                textResolution = $"{Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width}x{Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height}";
+                textResolutionPosition = new Vector2((Settings.nativeWidthResolution * 0.3f) - (Art.font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (Art.font.MeasureString(textResolution).Y / 2));
+                buttons[0].Position = PlaceToLeft(textResolutionPosition, textResolution, Art.leftArrow);
+                buttons[1].Position = PlaceToRight(textResolutionPosition, textResolution, Art.rightArrow);
+            }
 
             base.LoadContent();
         }
@@ -180,6 +211,20 @@ namespace Overflow.Scenes
                 Settings.currentHeightResolution = Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
             }
             ChangeFullScreen();
+        }
+
+        private void NoDamageButton_Click(object sender, EventArgs e)
+        {
+            if (Settings.noDamage)
+            {
+                buttons[8].Texture = Art.emptyCase;
+                Settings.noDamage = false;
+            }
+            else
+            {
+                buttons[8].Texture = Art.checkedCase;
+                Settings.noDamage = true;
+            }
         }
 
         private void LeftArrowVolumeButton_Click(object sender, EventArgs e)
@@ -278,8 +323,10 @@ namespace Overflow.Scenes
             Game.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             Main._spriteBatch.Begin();
+            Main._spriteBatch.Draw(Art.backgroundSettingsMenu, Vector2.Zero, Color.White);
             Main._spriteBatch.DrawString(Art.font, textResolution, textResolutionPosition, Color.Black);
             Main._spriteBatch.DrawString(Art.font, textFullscreen, textFullscreenPosition, Color.Black);
+            Main._spriteBatch.DrawString(Art.font, textNoDamage, textNoDamagePosition, Color.Black);
             Main._spriteBatch.DrawString(Art.font, textFps, textFpsPosition, Color.Black);
             foreach (Button button in buttons)
             {

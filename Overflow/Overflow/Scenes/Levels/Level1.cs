@@ -30,7 +30,7 @@ namespace Overflow.Scenes
             Player.Perso = new AnimatedSprite(Art.playerSpriteSheet);
             Player.Health = 10;
             Player.IFramesDuration = 1f;
-            Player.TimeBetweenDashes = 1.5f;
+            Player.TimeBetweenDashes = 1.2f;
             Player.DashDuration = 0.3f;
             Player.DashSpeed = 120;
             Player.TimeBetweenDashEffects = 0.05f;
@@ -151,6 +151,7 @@ namespace Overflow.Scenes
 
         private void ChangedRoom()
         {
+            Player.AttackNumber = 0;
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
             Player.GhostEffectDashes = new List<GhostEffectDash>();
             Player.CanPassThroughDoor = false;

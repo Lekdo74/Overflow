@@ -627,19 +627,30 @@ namespace Overflow.src
                 Projectiles.Remove(projectile);
             }
 
-            List<Enemy> enemiesTouched = new List<Enemy>(); ;
+            List<Enemy> enemiesToDelete = new List<Enemy>(); ;
             if (PlayerSlash.RemainingAnimationTime > 0)
             {
                 Rectangle slashRectangle = PlayerSlash.Rectangle;
                 foreach (Enemy enemy in Enemies)
                 {
-                    if (enemy.Rectangle.Intersects(slashRectangle))
+                    if (enemy.AttackNumber != Player.AttackNumber && enemy.Rectangle.Intersects(slashRectangle))
                     {
-                        enemiesTouched.Add(enemy);
+                        if (enemy.Health > 1)
+                        {
+                            enemy.AttackNumber = Player.AttackNumber;
+                            enemy.Health -= 1;
+                            if(enemy.Type != "Boss")
+                            {
+                                enemy.KnockbackDirection = Vector2.Normalize(enemy.CenteredPosition - Player.CenteredPosition);
+                                enemy.KnockbackTimeRemaining = enemy.KnockbackDuration;
+                            }
+                        }
+                        else
+                            enemiesToDelete.Add(enemy);
                     }
                 }
             }
-            foreach(Enemy enemy in enemiesTouched)
+            foreach(Enemy enemy in enemiesToDelete)
             {
                 Enemies.Remove(enemy);
             }

@@ -16,14 +16,14 @@ namespace Overflow.src
 
         private static Vector2 _offSetPosition;
 
-        private static Vector2 _positionTop = new Vector2(0, -4);
-        private static Vector2 _positionTopRight = new Vector2(2, -4);
-        private static Vector2 _positionRight = new Vector2(1, 0);
-        private static Vector2 _positionBottomRight = new Vector2(2, 4);
-        private static Vector2 _positionBottom = new Vector2(0, 4);
-        private static Vector2 _positionBottomLeft = new Vector2(-2, 4);
-        private static Vector2 _positionLeft = new Vector2(-1, 0);
-        private static Vector2 _positionTopLeft = new Vector2(-2, -4);
+        private static Vector2 _positionTop = new Vector2(0, -6);
+        private static Vector2 _positionTopRight = new Vector2(3, -6);
+        private static Vector2 _positionRight = new Vector2(2, 0);
+        private static Vector2 _positionBottomRight = new Vector2(3, 6);
+        private static Vector2 _positionBottom = new Vector2(0, 6);
+        private static Vector2 _positionBottomLeft = new Vector2(-3, 5);
+        private static Vector2 _positionLeft = new Vector2(-2, 0);
+        private static Vector2 _positionTopLeft = new Vector2(-3, -6);
 
         public static AnimatedSprite Slash
         {

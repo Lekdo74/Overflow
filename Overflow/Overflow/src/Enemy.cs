@@ -29,8 +29,17 @@ namespace Overflow.src
         private Vector2 _initPositionEnemy;
         private Vector2 _direction;
         private Vector2 _velocity;
+
+        private int _health;
         private int _speed;
+        private int _attackNumber;
         float deltaTime;
+
+        private Vector2 _knockbackDirection;
+        private float _knockbackDuration = 0.14f;
+        private float _knockbackTimeRemaining;
+        private int _knockbackSpeed = 170;
+
         private float _defaultTimeBetweenShots;
         private float _currentTimeBetweenShots;
         private float _timeSinceLastShot;
@@ -45,25 +54,33 @@ namespace Overflow.src
 
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
 
-        public Enemy(Room room, string type, Texture2D texture, Vector2 position)
+        public Enemy(Room room, string type, Texture2D texture, Vector2 position, int health)
         {
             _type = type;
             Texture = texture;
             Position = position;
+            Health = health;
             Room = room;
             Direction = Vector2.Zero;
             IsExpired = false;
         }
-        public Enemy(Room room, string type, Texture2D texture, Vector2 position, float defaultRotation)
+        public Enemy(Room room, string type, Texture2D texture, Vector2 position, float defaultRotation, int health)
         {
             _type = type;
             Texture = texture;
             _defaultRotation = defaultRotation;
             Position = position;
+            Health = health;
             Room = room;
             _currentTile = Room.GetTile(position);
             Direction = Vector2.Zero;
             IsExpired = false;
+        }
+
+        public string Type
+        {
+            get { return _type; }
+            set { _type = value; }
         }
 
         public Texture2D Texture
@@ -131,10 +148,43 @@ namespace Overflow.src
             set { _path = value; }
         }
 
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
+        }
+
         public int Speed
         {
             get { return _speed; }
             set { _speed = value; }
+        }
+
+        public Vector2 KnockbackDirection
+        {
+            get { return _knockbackDirection; }
+            set { _knockbackDirection = value; }
+        }
+        public float KnockbackDuration
+        {
+            get { return _knockbackDuration; }
+            set { _knockbackDuration = value; }
+        }
+        public float KnockbackTimeRemaining
+        {
+            get { return _knockbackTimeRemaining; }
+            set { _knockbackTimeRemaining = value; }
+        }
+        public int KnockbackSpeed
+        {
+            get { return _knockbackSpeed; }
+            set { _knockbackSpeed = value; }
+        }
+
+        public  int AttackNumber
+        {
+            get { return _attackNumber; }
+            set { _attackNumber = value; }
         }
 
         public float DefaultTimeBetweenShots
@@ -207,7 +257,7 @@ namespace Overflow.src
                 float distanceToPlayer = DistanceToPlayer;
                 InitPositionEnemy = Position;
                 _position.X += Velocity.X;
-                if (CheckCollision(Room.Obstacles) || !Room.InsideRoom(Position))
+                if (CheckCollision() || !Room.InsideRoom(Position))
                 {
                     Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
                 }
@@ -225,7 +275,7 @@ namespace Overflow.src
                 _position.X = InitPositionEnemy.X;
                 
                 _position.Y += Velocity.Y;
-                if (CheckCollision(Room.Obstacles) || !Room.InsideRoom(Position))
+                if (CheckCollision() || !Room.InsideRoom(Position))
                 {
                     Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
                 }
@@ -273,7 +323,7 @@ namespace Overflow.src
                     float distanceToPlayer = DistanceToPlayer;
                     InitPositionEnemy = Position;
                     _position.X += Velocity.X;
-                    if (CheckCollision(Room.Obstacles) || !Room.InsideRoom(Position))
+                    if (CheckCollision() || !Room.InsideRoom(Position))
                     {
                         Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
                     }
@@ -291,7 +341,7 @@ namespace Overflow.src
                     _position.X = InitPositionEnemy.X;
 
                     _position.Y += Velocity.Y;
-                    if (CheckCollision(Room.Obstacles) || !Room.InsideRoom(Position))
+                    if (CheckCollision() || !Room.InsideRoom(Position))
                     {
                         Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
                     }
@@ -317,7 +367,7 @@ namespace Overflow.src
                 }
                 else if(TimeSinceLastShot > CurrentTimeBetweenShots)
                 {
-                    CurrentTimeBetweenShots = random.Next((int)(DefaultTimeBetweenShots * 0.6 * 100), (int)(DefaultTimeBetweenShots * 1.4 * 100)) / 100f;
+                    CurrentTimeBetweenShots = random.Next((int)(DefaultTimeBetweenShots * 0.8 * 100), (int)(DefaultTimeBetweenShots * 1.5 * 100)) / 100f;
                     TimeSinceLastShot = 0f;
                     Shoot(Art.laser);
                 }
@@ -326,9 +376,9 @@ namespace Overflow.src
             }
         }
 
-        private bool CheckCollision(List<Rectangle> obstacles)
+        private bool CheckCollision()
         {
-            foreach (Rectangle obstacle in obstacles)
+            foreach (Rectangle obstacle in Room.Obstacles)
             {
                 if (Rectangle.Intersects(obstacle))
                 {
@@ -359,16 +409,38 @@ namespace Overflow.src
 
         public void Update(GameTime gameTime)
         {
-            _previousTile = Room.GetTile(Position);
-            deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            TimeSinceLastShot += deltaTime;
-            if (_calculPath)
+            if (KnockbackTimeRemaining > 0)
             {
-                Room.LineOfView(Room, Position, Player.Position);
-                Path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
-                _calculPath = false;
+                KnockbackTimeRemaining -= deltaTime;
             }
-            ApplyBehaviours();
+            if (KnockbackTimeRemaining <= 0)
+            {
+                _previousTile = Room.GetTile(Position);
+                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                TimeSinceLastShot += deltaTime;
+                if (_calculPath)
+                {
+                    Room.LineOfView(Room, Position, Player.Position);
+                    Path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
+                    _calculPath = false;
+                }
+                ApplyBehaviours();
+            }
+            else
+            {
+                Vector2 initPosition = Position;
+                Vector2 velocity = KnockbackDirection * KnockbackSpeed * deltaTime;
+
+                _position.X += velocity.X;
+                if (CheckCollision())
+                    _position.X = initPosition.X;
+
+                _position.Y += velocity.Y;
+                if (CheckCollision())
+                    _position.Y = initPosition. Y;
+            }
+
+            
             _currentTile = _previousTile;
         }
 
@@ -387,12 +459,12 @@ namespace Overflow.src
             switch (texture)
             {
                 case Texture2D value when value == Art.enemysetLevel1.Seekers[0]:
-                    enemy = new Enemy(room, "Seeker", texture, position, (float)(Math.PI * -0.25f));
+                    enemy = new Enemy(room, "Seeker", texture, position, (float)(Math.PI * -0.25f), 3);
                     enemy.Speed = 40;
                     enemy.AddBehaviour(enemy.FollowPlayer());
                     return enemy;
             }
-            enemy = new Enemy(room, "Seeker", texture, position);
+            enemy = new Enemy(room, "Seeker", texture, position, 3);
             enemy.Speed = 40;
             enemy.AddBehaviour(enemy.FollowPlayer());
 
@@ -402,10 +474,10 @@ namespace Overflow.src
         public static Enemy CreateArcher(Texture2D texture, Vector2 position, Room room)
         {
             Enemy enemy;
-            enemy = new Enemy(room, "Archer", texture, position);
+            enemy = new Enemy(room, "Archer", texture, position, 2);
             enemy.Speed = 35;
-            enemy.DefaultTimeBetweenShots = 2f;
-            enemy.CurrentTimeBetweenShots = random.Next((int)(enemy.DefaultTimeBetweenShots * 0.6 * 100), (int)(enemy.DefaultTimeBetweenShots * 1.4 * 100)) / 100f;
+            enemy.DefaultTimeBetweenShots = 3.5f;
+            enemy.CurrentTimeBetweenShots = random.Next((int)(enemy.DefaultTimeBetweenShots * 0.7 * 100), (int)(enemy.DefaultTimeBetweenShots * 1.5 * 100)) / 100f;
             enemy.AddBehaviour(enemy.FollowPlayerThenShoot());
 
             return enemy;

@@ -122,7 +122,12 @@ namespace Overflow.src
 
         public Texture2D Terrain
         {
-            get { return _terrain[random.Next(0, _terrain.Length)]; }
+            get
+            {
+                if (random.Next(0, 11) <= 9)
+                    return _terrain[0];
+                return _terrain[random.Next(1, _terrain.Length)];
+            }
         }
         public Texture2D TerrainWithWall
         {

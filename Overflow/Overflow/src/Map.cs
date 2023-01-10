@@ -167,7 +167,7 @@ namespace Overflow.src
 
                 rooms[x, y] = PremadeRooms.Room(doors, map[x, y], _enemyNb, _tileSet, _enemyset, _backgroundMusic);
             }
-            Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
+            //Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
 
             return rooms;
         }
