@@ -22,15 +22,15 @@ namespace Overflow.Scenes
             base.Initialize();
             Sound.ChangeBackgroundMusic(Sound.level1);
 
-            map = new Map(10, new int[] {3, 7}, Art.tilesetLevel1, Art.enemysetLevel1, Sound.level1);
+            map = new Map(2, new int[] {3, 7}, Art.tilesetLevel1, Art.enemysetLevel1, Sound.level1);
             
             currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
 
             Player.Texture = Art.player;
-            Player.Perso = new AnimatedSprite(Art.playerSpriteSheet);
+            Player.PersoSprite = new AnimatedSprite(Art.playerSpriteSheet);
             Player.Health = 10;
             Player.IFramesDuration = 1f;
-            Player.TimeBetweenDashes = 1.2f;
+            Player.TimeBetweenDashes = 1.5f;
             Player.DashDuration = 0.3f;
             Player.DashSpeed = 120;
             Player.TimeBetweenDashEffects = 0.05f;
@@ -43,8 +43,16 @@ namespace Overflow.Scenes
             Player.NewPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
             Player.OldPlayerDirection = Player.NewPlayerDirection;
             Player.CurrentAnimation = "idleRight";
-            Player.Perso.Origin = new Vector2(0, 0);
+            Player.PersoSprite.Origin = Vector2.Zero;
             PlayerSlash.Slash.Play("slash");
+
+            Boss.BossSprite = new AnimatedSprite(Art.bossSpriteSheet);
+            Boss.Width = 32;
+            Boss.Height = 32;
+            Boss.OffSetX = 16;
+            Boss.OffSetY = 16;
+            Boss.BossSprite.Origin = Vector2.Zero;
+            Boss.TimeBetweenAttacksOne = 2f;
 
 
             Player.CanPassThroughDoor = true;
@@ -151,7 +159,6 @@ namespace Overflow.Scenes
 
         private void ChangedRoom()
         {
-            Player.AttackNumber = 0;
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
             Player.GhostEffectDashes = new List<GhostEffectDash>();
             Player.CanPassThroughDoor = false;

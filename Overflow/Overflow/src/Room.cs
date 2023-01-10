@@ -76,6 +76,10 @@ namespace Overflow.src
             {
                 _enemies = CreateEnemies();
             }
+            else if(_roomType == 3)
+            {
+                _enemies.Add(CreateBoss());
+            }
 
             _projectiles = new List<Projectile>();
         }
@@ -107,6 +111,12 @@ namespace Overflow.src
             {
                 _doors = value;
             }
+        }
+
+        public int RoomType
+        {
+            get { return _roomType; }
+            set { _roomType = value; }
         }
 
         public Song BackgroundMusic
@@ -487,6 +497,11 @@ namespace Overflow.src
                 _spawnPointsEnemies.RemoveAt(currentEnemySpawnPoint);
             }
             return enemies;
+        }
+
+        private Enemy CreateBoss()
+        {
+            return Enemy.CreateBoss(SpawnPoint, this);
         }
 
         public Tile GetTile(Vector2 position)

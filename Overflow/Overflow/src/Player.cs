@@ -31,7 +31,7 @@ namespace Overflow.src
         private static float _knockbackTimeRemaining;
         private static int _knockbackSpeed;
 
-        private static int _attackNumber = 1; // Pour ne pas qu'un ennemi puisque recevoir plusieurs fois des dégâts avec une seule attaque du joueur
+        private static int _attackNumber = 1; // Pour ne pas qu'un ennemi puisse recevoir plusieurs fois des dégâts avec une seule attaque du joueur
         private static float _timeBetweenAttacks;
         private static float _timeBeforeNextAttack;
 
@@ -39,7 +39,7 @@ namespace Overflow.src
         private static Texture2D _texture;
 
         private static string _currentAnimation;
-        private static AnimatedSprite _perso;
+        private static AnimatedSprite _persoSprite;
 
         private static Vector2 _oldPlayerDirection;
         private static Vector2 _newPlayerDirection;
@@ -184,10 +184,10 @@ namespace Overflow.src
             }
         }
 
-        public static AnimatedSprite Perso
+        public static AnimatedSprite PersoSprite
         {
-            get { return _perso; }
-            set { _perso = value; }
+            get { return _persoSprite; }
+            set { _persoSprite = value; }
         }
 
         public static string CurrentAnimation
@@ -386,12 +386,12 @@ namespace Overflow.src
                 _position.Y = initPositionPlayer.Y;
             }
 
-            _perso.Play(PlayerInputs.GetAnimation(_oldPlayerDirection, _newPlayerDirection, ref _currentDashTexture));
+            _persoSprite.Play(PlayerInputs.GetAnimation(_oldPlayerDirection, _newPlayerDirection, ref _currentDashTexture));
 
             if(DashTimeRemaining > 0)
-                _perso.Update(deltaTime * 2);
+                _persoSprite.Update(deltaTime * 2);
             else
-                _perso.Update(deltaTime);
+                _persoSprite.Update(deltaTime);
 
             if (PlayerSlash.RemainingAnimationTime > 0)
                 PlayerSlash.RemainingAnimationTime -= deltaTime;
@@ -430,7 +430,7 @@ namespace Overflow.src
 
         public static void Draw(GameTime gameTime, SpriteBatch spritebatch)
         {
-            spritebatch.Draw(_perso, Position);
+            spritebatch.Draw(_persoSprite, Position);
             PlayerSlash.Draw(spritebatch);
             foreach (GhostEffectDash ghostEffectDash in GhostEffectDashes)
             {

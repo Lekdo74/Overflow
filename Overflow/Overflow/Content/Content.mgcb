@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:BackgroundMenus/SettingsMenu.png
 
+#begin Boss/SpriteSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Boss/SpriteSheet.png
+
 #begin Character/DashEffect/DashDown.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -895,18 +907,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/HealthBar/HealthBar9.png
-
-#begin UI/HealthBarHider.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:UI/HealthBarHider.png
 
 #begin UI/LeftArrow.png
 /importer:TextureImporter

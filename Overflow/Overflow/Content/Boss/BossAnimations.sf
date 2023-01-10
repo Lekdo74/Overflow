@@ -1,0 +1,49 @@
+{
+  "textureAtlas": {
+    "texture": "SpriteSheet.png",
+    "regionWidth": 64,
+    "regionHeight": 64
+  },
+  "cycles": {
+    "idleLeft": {
+      "frames": [6],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "idleRight": {
+      "frames": [19],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "walkLeft": {
+      "frames": [0,1,2,3,4],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "walkRight": {
+      "frames": [13,14,15,16,17],
+      "isLooping": false,
+      "frameDuration": 0.1
+    },
+    "attackOneLeft": {
+      "frames": [26,27,28,29,30,31,32,33,34,35,36,37,38],
+      "isLooping": false,
+      "frameDuration": 0.12
+    },
+    "attackOneRight": {
+      "frames": [39,40,41,42,43,44,45,46,47,48,49,50,51],
+      "isLooping": false,
+      "frameDuration": 0.12
+    },
+    "attackTwoLeft": {
+      "frames": [52,53,54,55,56,57,58,59,60,61],
+      "isLooping": false,
+      "frameDuration": 0.12
+    },
+    "attackTwoRight": {
+      "frames": [65,66,67,68,69,70,71,72,73,74],
+      "isLooping": false,
+      "frameDuration": 0.12
+    }
+  }
+}

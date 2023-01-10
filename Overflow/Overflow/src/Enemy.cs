@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Sprites;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +34,7 @@ namespace Overflow.src
         private int _health;
         private int _speed;
         private int _attackNumber;
-        float deltaTime;
+        float _deltaTime;
 
         private Vector2 _knockbackDirection;
         private float _knockbackDuration = 0.14f;
@@ -54,6 +55,15 @@ namespace Overflow.src
 
         private List<IEnumerator<int>> behaviours = new List<IEnumerator<int>>();
 
+        public Enemy(Room room, string type, Vector2 position, int health)
+        {
+            _type = type;
+            Position = position;
+            Health = health;
+            Room = room;
+            Direction = Vector2.Zero;
+            IsExpired = false;
+        }
         public Enemy(Room room, string type, Texture2D texture, Vector2 position, int health)
         {
             _type = type;
@@ -115,7 +125,12 @@ namespace Overflow.src
 
         public Vector2 CenteredPosition
         {
-            get { return Position + new Vector2(Texture.Width / 2, Texture.Height / 2); }
+            get
+            {
+                if (!(Type == "Boss"))
+                    return Position + new Vector2(Texture.Width / 2, Texture.Height / 2);
+                return Position + new Vector2(Boss.OffSetX + Boss.Width / 2,Boss.OffSetY + Boss.Height / 2);
+            }
         }
 
         public Vector2 InitPositionEnemy
@@ -221,7 +236,9 @@ namespace Overflow.src
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+                if(!(Type == "Boss"))
+                    return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+                return Boss.Rectangle;
             }
         }
 
@@ -252,14 +269,14 @@ namespace Overflow.src
                 {
                     Direction = (Player.CenteredPosition - CenteredPosition);
                 }
-                Velocity = Vector2.Normalize(Direction) * _speed * deltaTime;
+                Velocity = Vector2.Normalize(Direction) * _speed * _deltaTime;
 
                 float distanceToPlayer = DistanceToPlayer;
                 InitPositionEnemy = Position;
                 _position.X += Velocity.X;
                 if (CheckCollision() || !Room.InsideRoom(Position))
                 {
-                    Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
+                    Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * _deltaTime);
                 }
                 else
                 {
@@ -268,7 +285,7 @@ namespace Overflow.src
                         float distanceToEnemy = Vector2.Distance(Position, enemy.Position);
                         if (enemy._type == "Seeker" && enemy != this && distanceToEnemy < 10 && distanceToPlayer > enemy.DistanceToPlayer)
                         {
-                            Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
+                            Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * _deltaTime);
                         }
                     }
                 }
@@ -277,7 +294,7 @@ namespace Overflow.src
                 _position.Y += Velocity.Y;
                 if (CheckCollision() || !Room.InsideRoom(Position))
                 {
-                    Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
+                    Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * _deltaTime, 0);
                 }
                 else
                 {
@@ -286,7 +303,7 @@ namespace Overflow.src
                         float distanceToEnemy = Vector2.Distance(Position, enemy.Position);
                         if (enemy._type == "Seeker" && enemy != this && distanceToEnemy < 10 && distanceToPlayer > enemy.DistanceToPlayer)
                         {
-                            Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
+                            Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * _deltaTime, 0);
                         }
                     }
                 }
@@ -318,14 +335,14 @@ namespace Overflow.src
                     {
                         Direction = (Player.CenteredPosition - CenteredPosition);
                     }
-                    Velocity = Vector2.Normalize(Direction) * _speed * deltaTime;
+                    Velocity = Vector2.Normalize(Direction) * _speed * _deltaTime;
 
                     float distanceToPlayer = DistanceToPlayer;
                     InitPositionEnemy = Position;
                     _position.X += Velocity.X;
                     if (CheckCollision() || !Room.InsideRoom(Position))
                     {
-                        Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
+                        Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * _deltaTime);
                     }
                     else
                     {
@@ -334,7 +351,7 @@ namespace Overflow.src
                             float distanceToEnemy = Vector2.Distance(Position, enemy.Position);
                             if (enemy != this && distanceToEnemy < 10 && distanceToPlayer > enemy.DistanceToPlayer)
                             {
-                                Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * deltaTime);
+                                Velocity = new Vector2(0, Math.Sign(Velocity.Y) * Speed * _deltaTime);
                             }
                         }
                     }
@@ -343,7 +360,7 @@ namespace Overflow.src
                     _position.Y += Velocity.Y;
                     if (CheckCollision() || !Room.InsideRoom(Position))
                     {
-                        Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
+                        Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * _deltaTime, 0);
                     }
                     else
                     {
@@ -352,7 +369,7 @@ namespace Overflow.src
                             float distanceToEnemy = Vector2.Distance(Position, enemy.Position);
                             if (enemy != this && distanceToEnemy < 10 && distanceToPlayer > enemy.DistanceToPlayer)
                             {
-                                Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * deltaTime, 0);
+                                Velocity = new Vector2(Math.Sign(Velocity.X) * Speed * _deltaTime, 0);
                             }
                         }
                     }
@@ -376,6 +393,20 @@ namespace Overflow.src
             }
         }
 
+        IEnumerable<int> BossState()
+        {
+            while (true)
+            {
+                if (Boss.TimeBeforeNextAttack <= 0)
+                {
+                    BossAttackOne(Art.laser);
+                    Boss.TimeBeforeNextAttack = Boss.TimeBetweenAttacksOne;
+                }
+
+                yield return 0;
+            }
+        }
+
         private bool CheckCollision()
         {
             foreach (Rectangle obstacle in Room.Obstacles)
@@ -391,6 +422,15 @@ namespace Overflow.src
         public void Shoot(Texture2D projectile)
         {
             Room.Projectiles.Add(new Projectile(projectile, CenteredPosition, Vector2.Normalize(Player.Position - Position), 100, Room));
+        }
+
+        public void BossAttackOne(Texture2D projectile)
+        {
+            int step = 10;
+            for (int j = 1; j < Room.Size.Y * 20 / step; j++)
+            {
+                Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 100, Room));
+            }
         }
 
         private void AddBehaviour(IEnumerable<int> behaviour)
@@ -409,44 +449,62 @@ namespace Overflow.src
 
         public void Update(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _deltaTime = deltaTime;
+
             if (KnockbackTimeRemaining > 0)
             {
                 KnockbackTimeRemaining -= deltaTime;
             }
-            if (KnockbackTimeRemaining <= 0)
+            if(Type != "Boss")
             {
-                _previousTile = Room.GetTile(Position);
-                deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                TimeSinceLastShot += deltaTime;
-                if (_calculPath)
+                if (KnockbackTimeRemaining <= 0)
                 {
-                    Room.LineOfView(Room, Position, Player.Position);
-                    Path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
-                    _calculPath = false;
+                    _previousTile = Room.GetTile(Position);
+                    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    TimeSinceLastShot += deltaTime;
+                    if (_calculPath)
+                    {
+                        Room.LineOfView(Room, Position, Player.Position);
+                        Path = PathFinding.FindPath((CenteredPosition - Room.Position) / 20, (Player.CenteredPosition - Room.Position) / 20, Room);
+                        _calculPath = false;
+                    }
+                    ApplyBehaviours();
                 }
-                ApplyBehaviours();
+                else
+                {
+                    Vector2 initPosition = Position;
+                    Vector2 velocity = KnockbackDirection * KnockbackSpeed * deltaTime;
+
+                    _position.X += velocity.X;
+                    if (CheckCollision())
+                        _position.X = initPosition.X;
+
+                    _position.Y += velocity.Y;
+                    if (CheckCollision())
+                        _position.Y = initPosition.Y;
+                }
             }
             else
             {
-                Vector2 initPosition = Position;
-                Vector2 velocity = KnockbackDirection * KnockbackSpeed * deltaTime;
-
-                _position.X += velocity.X;
-                if (CheckCollision())
-                    _position.X = initPosition.X;
-
-                _position.Y += velocity.Y;
-                if (CheckCollision())
-                    _position.Y = initPosition. Y;
+                if (Boss.TimeBeforeNextAttack > 0)
+                {
+                    Boss.TimeBeforeNextAttack -= deltaTime;
+                }
+                ApplyBehaviours();
             }
-
             
             _currentTile = _previousTile;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + Origin.X), (int)(Position.Y + Origin.Y), Texture.Width, Texture.Height), null, Color, Rotation, Origin, SpriteEffects.None, 0f);
+            if(Type != "Boss")
+                spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + Origin.X), (int)(Position.Y + Origin.Y), Texture.Width, Texture.Height), null, Color, Rotation, Origin, SpriteEffects.None, 0f);
+            else
+            {
+                spriteBatch.Draw(Boss.BossSprite, Position);
+            }
             /*foreach (Vector2 position in PathFinding.FindPath((Position + new Vector2(Texture.Width / 2, Texture.Height / 2) - Room.Position) / 20, (Player.Position + new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2) - Room.Position) / 20, Room))
             {
                 spriteBatch.Draw(Art.tilesetLevel1.TopDoor, position, Color.Red);
@@ -479,6 +537,17 @@ namespace Overflow.src
             enemy.DefaultTimeBetweenShots = 3.5f;
             enemy.CurrentTimeBetweenShots = random.Next((int)(enemy.DefaultTimeBetweenShots * 0.7 * 100), (int)(enemy.DefaultTimeBetweenShots * 1.5 * 100)) / 100f;
             enemy.AddBehaviour(enemy.FollowPlayerThenShoot());
+
+            return enemy;
+        }
+
+        public static Enemy CreateBoss(Vector2 position, Room room)
+        {
+            Enemy enemy;
+            enemy = new Enemy(room, "Boss", position, 5);
+            Boss.Position = position;
+            enemy.Speed = 35;
+            enemy.AddBehaviour(enemy.BossState());
 
             return enemy;
         }

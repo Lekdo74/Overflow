@@ -84,9 +84,12 @@ namespace Overflow.src
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Position += Direction * deltaTime * Speed;
-            if (!Room.InsideRoom(Position) || Room.GetTile(Position).Type == "Wall")
+            if(Room.RoomType != 3)
             {
-                _isExpired = true;
+                if (!Room.InsideRoom(Position) || (Room.GetTile(Position) != null && Room.GetTile(Position).Type == "Wall"))
+                {
+                    _isExpired = true;
+                }
             }
         }
 

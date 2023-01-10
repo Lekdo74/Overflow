@@ -33,6 +33,8 @@ namespace Overflow.src
         public static EnemySet enemysetLevel1;
         public static Texture2D laser;
 
+        public static SpriteSheet bossSpriteSheet;
+
         public static Texture2D player;
         public static SpriteSheet playerSpriteSheet;
         public static SpriteSheet slashSpriteSheet;
@@ -55,6 +57,8 @@ namespace Overflow.src
             tilesetLevel1 = new TileSet(20, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TopWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/RightWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/BottomWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/LeftWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TopLeftWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TopRightWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/BottomRightWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/BottomLeftWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TopLeftCorner") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TopRightCorner") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/BottomRightCorner") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/BottomLeftCorner") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/Terrain"), content.Load<Texture2D>("TileSets/Level1/Terrain2"), content.Load<Texture2D>("TileSets/Level1/Terrain3"), content.Load<Texture2D>("TileSets/Level1/Terrain4"), content.Load<Texture2D>("TileSets/Level1/Terrain5"), content.Load<Texture2D>("TileSets/Level1/Terrain6"), content.Load<Texture2D>("TileSets/Level1/Terrain7"), content.Load<Texture2D>("TileSets/Level1/Terrain8"), content.Load<Texture2D>("TileSets/Level1/Terrain9") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TerrainWithWall") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TerrainWithWallBorderLeft") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TerrainWithWallBorderRight") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/TopDoor") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/RightDoor") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/BottomDoor") }, new Texture2D[] { content.Load<Texture2D>("TileSets/Level1/LeftDoor") }) ;
             enemysetLevel1 = new EnemySet(new Texture2D[] { content.Load<Texture2D>("EnemySets/Level1/SeekerTentacles") }, new Texture2D[] { content.Load<Texture2D>("EnemySets/Level1/ArcherLaser") });
             laser =  content.Load<Texture2D>("Projectiles/Laser");
+
+            bossSpriteSheet = content.Load<SpriteSheet>("Boss/BossAnimations.sf", new JsonContentLoader());
 
             player = content.Load<Texture2D>("Character/IdleLeft");
             playerSpriteSheet = content.Load<SpriteSheet>("Character/CharacterAnimations.sf", new JsonContentLoader());

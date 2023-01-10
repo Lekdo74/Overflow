@@ -128,6 +128,7 @@ namespace Overflow.src
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine();
 
             Room[,] rooms = new Room[_mapSizeX, _mapSizeY];
             foreach (int[] coordinates in roomCoordinates)
@@ -165,7 +166,10 @@ namespace Overflow.src
                     }
                 }
 
-                rooms[x, y] = PremadeRooms.Room(doors, map[x, y], _enemyNb, _tileSet, _enemyset, _backgroundMusic);
+                if (map[x, y] == 3)
+                    rooms[x, y] = PremadeRooms.BossRoom(doors, map[x, y], _enemyNb, _tileSet, _enemyset, _backgroundMusic);
+                else
+                    rooms[x, y] = PremadeRooms.Room(doors, map[x, y], _enemyNb, _tileSet, _enemyset, _backgroundMusic);
             }
             //Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
 
