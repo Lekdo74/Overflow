@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Overflow.src
 {
@@ -115,7 +116,9 @@ namespace Overflow.src
             }
             map[roomCoordinates[0][0] - xMin, roomCoordinates[0][1] - yMin] = 1;
             CurrentRoom = new int[] { roomCoordinates[0][0] - xMin, roomCoordinates[0][1] - yMin };
-            map[roomCoordinates[roomCoordinates.Count - 1][0] - xMin, roomCoordinates[roomCoordinates.Count - 1][1] - yMin] = 3;
+
+            int[] farestRoomFromStartCoordinates = FarestRoom(roomCoordinates);
+            map[farestRoomFromStartCoordinates[0] - xMin, farestRoomFromStartCoordinates[1] - yMin] = 3;
 
             for (int j = 0; j < map.GetLength(1); j++)
             {
@@ -204,6 +207,19 @@ namespace Overflow.src
                 }
             }
             return false;
+        }
+
+        private int[] FarestRoom(List<int[]> roomCoordinates)
+        {
+            int[] faresetRoomCoordinates = new int[] {0, 0};
+            foreach (int[] coordinates in roomCoordinates)
+            {
+                if (Math.Abs(coordinates[0]) + Math.Abs(coordinates[1]) > Math.Abs(faresetRoomCoordinates[0]) + Math.Abs(faresetRoomCoordinates[1]))
+                {
+                    faresetRoomCoordinates = coordinates;
+                }
+            }
+            return faresetRoomCoordinates;
         }
 
         public void Update(GameTime gameTime)

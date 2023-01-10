@@ -9,13 +9,15 @@ namespace Overflow.src
 {
     public class Room
     {
+        private static List<string> _doorsTypes = new List<string> { "DoorTop", "DoorRight", "DoorBottom", "DoorLeft" };
+
         private string[] _room;
         private Vector2 _size;
         private bool[] _doors;
         private int _roomType;
         private int[] _enemyNb;
 
-        private Vector2 _spawnPoint;
+        private Vector2 _spawnPoint; // start position if the player spawn in the room
         private Vector2[] _spawnPoints; // doors
         private List<Vector2> _spawnPointsEnemies;
         private List<Rectangle> _obstacles;
@@ -76,6 +78,11 @@ namespace Overflow.src
             }
 
             _projectiles = new List<Projectile>();
+        }
+
+        public static List<string> DoorsTypes
+        {
+            get { return _doorsTypes; }
         }
 
         public Vector2 Size
@@ -529,7 +536,7 @@ namespace Overflow.src
         {
             Vector2 direction = Vector2.Normalize(targetPosition - startPosition);
             Vector2 currentLocation = startPosition;
-            Tile currentTile = GetTile(currentLocation);
+            Tile currentTile;
             int step = _tileset.TileSize / 10;
 
             while (room.InsideRoom(currentLocation))
@@ -566,7 +573,7 @@ namespace Overflow.src
                 currentLocation += direction * step;
 
                 currentTile = GetTile(currentLocation);
-                if (currentTile.Type == "Wall")
+                if (currentTile == null || currentTile.Type == "Wall")
                 {
                     return false;
                 }
@@ -607,16 +614,34 @@ namespace Overflow.src
             {
                 enemy.Update(gameTime);
             }
-            List<Projectile> outOfRoom = new List<Projectile>();
+
+            List<Projectile> projectilesOutOfRoom = new List<Projectile>();
             foreach(Projectile projectile in Projectiles)
             {
                 projectile.Update(gameTime);
                 if (projectile.IsExpired)
-                    outOfRoom.Add(projectile);
+                    projectilesOutOfRoom.Add(projectile);
             }
-            foreach(Projectile projectile in outOfRoom)
+            foreach(Projectile projectile in projectilesOutOfRoom)
             {
                 Projectiles.Remove(projectile);
+            }
+
+            List<Enemy> enemiesTouched = new List<Enemy>(); ;
+            if (PlayerSlash.RemainingAnimationTime > 0)
+            {
+                Rectangle slashRectangle = PlayerSlash.Rectangle;
+                foreach (Enemy enemy in Enemies)
+                {
+                    if (enemy.Rectangle.Intersects(slashRectangle))
+                    {
+                        enemiesTouched.Add(enemy);
+                    }
+                }
+            }
+            foreach(Enemy enemy in enemiesTouched)
+            {
+                Enemies.Remove(enemy);
             }
         }
     }

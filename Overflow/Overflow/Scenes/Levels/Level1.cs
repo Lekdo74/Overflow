@@ -5,6 +5,7 @@ using MonoGame.Extended.Screens;
 using Overflow.src;
 using System;
 using MonoGame.Extended.Sprites;
+using System.Collections.Generic;
 
 namespace Overflow.Scenes
 {
@@ -29,8 +30,14 @@ namespace Overflow.Scenes
             Player.Perso = new AnimatedSprite(Art.playerSpriteSheet);
             Player.Health = 10;
             Player.IFramesDuration = 1f;
+            Player.TimeBetweenDashes = 1.5f;
+            Player.DashDuration = 0.3f;
+            Player.DashSpeed = 120;
+            Player.TimeBetweenDashEffects = 0.05f;
+            Player.DashEffectDuration = 0.1f;
             Player.KnockbackDuration = 0.12f;
             Player.KnockbackSpeed = 160;
+            Player.TimeBetweenAttacks = 1f;
             Player.Position = currentRoom.SpawnPoint;
             Player.Speed = 50;
             Player.NewPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
@@ -54,6 +61,7 @@ namespace Overflow.Scenes
         public override void Update(GameTime gameTime)
         {
             PlayerInputs.KeyBoardState = Keyboard.GetState();
+            PlayerInputs.MouseState = Mouse.GetState();
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -63,26 +71,21 @@ namespace Overflow.Scenes
             {
                 Game.LoadMainMenu();
             }
+
             map.Update(gameTime);
+
             Player.CurrentTile = currentRoom.GetPlayerTile();
             if (Player.CurrentTile != Player.PreviousTile)
             {
-                foreach(Enemy enemy in currentRoom.Enemies)
+                foreach (Enemy enemy in currentRoom.Enemies)
                 {
                     enemy.CalculPath = true;
                 }
             }
-            ChangeRoom();
-            Player.PreviousTile = Player.CurrentTile;
 
-            MouseState mouseState = Mouse.GetState();
-            if (PlayerSlash.RemainingAnimationTime > 0)
-                PlayerSlash.RemainingAnimationTime -= deltaTime;
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                PlayerSlash.Slash.Play("slash");
-                PlayerSlash.RemainingAnimationTime = 0.35f;
-            }
+            ChangeRoom();
+
+            Player.PreviousTile = Player.CurrentTile;
         }
 
         public override void Draw(GameTime gameTime)
@@ -115,24 +118,28 @@ namespace Overflow.Scenes
                 switch (Player.CurrentTile.Type)
                 {
                     case "DoorTop":
+                        currentRoom.Projectiles = new List<Projectile>();
                         map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] - 1 };
                         currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
                         Player.Position = currentRoom.SpawnPoints[2];
                         ChangedRoom();
                         break;
                     case "DoorRight":
+                        currentRoom.Projectiles = new List<Projectile>();
                         map.CurrentRoom = new int[] { map.CurrentRoom[0] + 1, map.CurrentRoom[1] };
                         currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
                         Player.Position = currentRoom.SpawnPoints[3];
                         ChangedRoom();
                         break;
                     case "DoorBottom":
+                        currentRoom.Projectiles = new List<Projectile>();
                         map.CurrentRoom = new int[] { map.CurrentRoom[0], map.CurrentRoom[1] + 1 };
                         currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
                         Player.Position = currentRoom.SpawnPoints[0];
                         ChangedRoom();
                         break;
                     case "DoorLeft":
+                        currentRoom.Projectiles = new List<Projectile>();
                         map.CurrentRoom = new int[] { map.CurrentRoom[0] - 1, map.CurrentRoom[1] };
                         currentRoom = map.Rooms[map.CurrentRoom[0], map.CurrentRoom[1]];
                         Player.Position = currentRoom.SpawnPoints[1];
@@ -145,6 +152,7 @@ namespace Overflow.Scenes
         private void ChangedRoom()
         {
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
+            Player.GhostEffectDashes = new List<GhostEffectDash>();
             Player.CanPassThroughDoor = false;
             Sound.ChangeBackgroundMusic(currentRoom.BackgroundMusic);
         }

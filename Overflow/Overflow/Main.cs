@@ -51,7 +51,7 @@ namespace Overflow
         {
             KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.Escape))
-                Exit();
+                LoadMainMenu();
             /*
             if (time >= 1)
             {

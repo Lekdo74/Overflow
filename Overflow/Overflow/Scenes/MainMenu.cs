@@ -41,9 +41,15 @@ namespace Overflow.Scenes
             };
             settingsButton.Click += SettingsButton_Click;
 
+            Button quitGameButton = new Button("Quitter")
+            {
+                Position = new Vector2(50, 160)
+            };
+            quitGameButton.Click += QuitButton_Click;
+
             buttons = new List<Button>()
             {
-                playButton, settingsButton
+                playButton, settingsButton, quitGameButton
             };
             base.LoadContent();
         }
@@ -58,36 +64,39 @@ namespace Overflow.Scenes
             Game.LoadSettingsMenu();
         }
 
+        private void QuitButton_Click(object sender, EventArgs e)
+        {
+            Game.Exit();
+        }
+
         public override void Update(GameTime gameTime)
         {
             foreach (Button button in buttons)
             {
                 button.Update(gameTime);
             }
+            PlayerInputs.KeyBoardState = Keyboard.GetState();
 
-            KeyboardState keyboardState;
-            keyboardState = Keyboard.GetState();
-
-            if (keyboardState.IsKeyDown(Keys.A)){
+            if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.A)){
                 Sound.ChangeBackgroundMusic(Sound.menu);
             }
-            else if (keyboardState.IsKeyDown(Keys.Z))
+            else if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.Z))
             {
                 Sound.ChangeBackgroundMusic(Sound.tutorial);
             }
-            else if (keyboardState.IsKeyDown(Keys.E))
+            else if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.E))
             {
                 Sound.ChangeBackgroundMusic(Sound.level1);
             }
-            else if (keyboardState.IsKeyDown(Keys.R))
+            else if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.R))
             {
                 Sound.ChangeBackgroundMusic(Sound.level2);
             }
-            else if (keyboardState.IsKeyDown(Keys.T))
+            else if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.T))
             {
                 Sound.ChangeBackgroundMusic(Sound.boss);
             }
-            else if (keyboardState.IsKeyDown(Keys.Y))
+            else if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.Y))
             {
                 Sound.ChangeBackgroundMusic(Sound.ending);
             }

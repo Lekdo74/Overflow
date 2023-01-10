@@ -33,6 +33,7 @@ namespace Overflow.src
         public static Texture2D player;
         public static SpriteSheet playerSpriteSheet;
         public static SpriteSheet slashSpriteSheet;
+        public static Texture2D[] dashEffect;
 
         public static void Load(ContentManager content)
         {
@@ -52,6 +53,7 @@ namespace Overflow.src
             player = content.Load<Texture2D>("Character/IdleLeft");
             playerSpriteSheet = content.Load<SpriteSheet>("Character/CharacterAnimations.sf", new JsonContentLoader());
             slashSpriteSheet = content.Load<SpriteSheet>("Character/Slash/SlashAnimations.sf", new JsonContentLoader());
+            dashEffect = new Texture2D[] { content.Load<Texture2D>("Character/DashEffect/DashUp"), content.Load<Texture2D>("Character/DashEffect/DashRightBack"), content.Load<Texture2D>("Character/DashEffect/DashRightFront"), content.Load<Texture2D>("Character/DashEffect/DashDown"), content.Load<Texture2D>("Character/DashEffect/DashLeftFront"), content.Load<Texture2D>("Character/DashEffect/DashLeftBack") };
         }
     }
 }

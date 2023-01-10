@@ -1,7 +1,7 @@
 {
   "textureAtlas": {
     "texture": "SpriteSheet.png",
-    "regionWidth": 14,
+    "regionWidth": 24,
     "regionHeight": 24
   },
   "cycles": {

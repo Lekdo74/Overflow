@@ -5,17 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Overflow.src
 {
     public static class PlayerInputs
     {
         private static KeyboardState _keyBoardState;
+        private static MouseState _mouseState;
 
         public static KeyboardState KeyBoardState
         {
             get { return _keyBoardState; }
             set { _keyBoardState = value; }
+        }
+
+        public static MouseState MouseState
+        {
+            get { return _mouseState; }
+            set { _mouseState = value; }
         }
 
         public static Vector2 MousePosition()
@@ -31,19 +39,19 @@ namespace Overflow.src
         public static Vector2 GetPlayerDirection(KeyboardState _keyboardState)
         {
             Vector2 direction = Vector2.Zero;
-            if (_keyboardState.IsKeyDown(Keys.Right) && !_keyboardState.IsKeyDown(Keys.Left))
+            if ((_keyboardState.IsKeyDown(Keys.D) || _keyboardState.IsKeyDown(Keys.Right)) && !(_keyboardState.IsKeyDown(Keys.Q) || _keyboardState.IsKeyDown(Keys.Left)))
             {
                 direction.X += 1;
             }
-            else if (_keyboardState.IsKeyDown(Keys.Left) && !_keyboardState.IsKeyDown(Keys.Right))
+            else if ((_keyboardState.IsKeyDown(Keys.Q) || _keyboardState.IsKeyDown(Keys.Left)) && !(_keyboardState.IsKeyDown(Keys.D) || _keyboardState.IsKeyDown(Keys.Right)))
             {
                 direction.X += -1;
             }
-            if (_keyboardState.IsKeyDown(Keys.Down) && !_keyboardState.IsKeyDown(Keys.Up))
+            if ((_keyboardState.IsKeyDown(Keys.S) || _keyboardState.IsKeyDown(Keys.Down)) && !(_keyboardState.IsKeyDown(Keys.Z) || _keyboardState.IsKeyDown(Keys.Up)))
             {
                 direction.Y += 1;
             }
-            else if (_keyboardState.IsKeyDown(Keys.Up) && !_keyboardState.IsKeyDown(Keys.Down))
+            else if ((_keyboardState.IsKeyDown(Keys.Z) || _keyboardState.IsKeyDown(Keys.Up)) && !(_keyboardState.IsKeyDown(Keys.S) || _keyboardState.IsKeyDown(Keys.Down)))
             {
                 direction.Y -= 1;
             }
@@ -52,29 +60,36 @@ namespace Overflow.src
             return direction;
         }
 
-        public static string GetAnimation(Vector2 oldDirection, Vector2 newDirection)
+        public static string GetAnimation(Vector2 oldDirection, Vector2 newDirection, ref Texture2D currentDashTexture)
         {
             if(newDirection == Vector2.Zero)
             {
                 if (oldDirection == Vector2.Zero)
+                {
+                    currentDashTexture = Player.CurrentDashTexture;
                     return Player.CurrentAnimation;
+                }
                 else if (oldDirection.Y < 0 || Player.CurrentAnimation == "leftBack" || Player.CurrentAnimation == "rightBack")
                 {
+                    currentDashTexture = Art.dashEffect[0];
                     Player.CurrentAnimation = "idleUp";
                     return "idleUp";
                 }
                 else if (oldDirection.X < 0)
                 {
+                    currentDashTexture = Art.dashEffect[4];
                     Player.CurrentAnimation = "idleLeft";
                     return "idleLeft";
                 }
                 else if(oldDirection.X > 0)
                 {
+                    currentDashTexture = Art.dashEffect[2];
                     Player.CurrentAnimation = "idleRight";
                     return "idleRight";
                 }
                 else
                 {
+                    currentDashTexture = Art.dashEffect[3];
                     Player.CurrentAnimation = "idleDown";
                     return "idleDown";
                 }
@@ -83,11 +98,13 @@ namespace Overflow.src
             {
                 if(newDirection.Y < 0)
                 {
+                    currentDashTexture = Art.dashEffect[0];
                     Player.CurrentAnimation = "up";
                     return "up";
                 }
                 else if (newDirection.Y > 0)
                 {
+                    currentDashTexture = Art.dashEffect[3];
                     Player.CurrentAnimation = "down";
                     return "down";
                 }
@@ -96,11 +113,13 @@ namespace Overflow.src
             {
                 if(newDirection.Y < 0)
                 {
+                    currentDashTexture = Art.dashEffect[5];
                     Player.CurrentAnimation = "leftBack";
                     return "leftBack";
                 }
                 else if (newDirection.Y >= 0)
                 {
+                    currentDashTexture = Art.dashEffect[4];
                     Player.CurrentAnimation = "leftFront";
                     return "leftFront";
                 }
@@ -109,11 +128,13 @@ namespace Overflow.src
             {
                 if (newDirection.Y < 0)
                 {
+                    currentDashTexture = Art.dashEffect[1];
                     Player.CurrentAnimation = "rightBack";
                     return "rightBack";
                 }
                 else if (newDirection.Y >= 0)
                 {
+                    currentDashTexture = Art.dashEffect[2];
                     Player.CurrentAnimation = "rightFront";
                     return "rightFront";
                 }
