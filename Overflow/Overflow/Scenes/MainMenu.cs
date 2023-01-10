@@ -31,19 +31,19 @@ namespace Overflow.Scenes
         {
             Button playButton = new Button("Jouer")
             {
-                Position = new Vector2(125, 120)
+                Position = new Vector2(30, 115)
             };
             playButton.Click += PlayButton_Click;
 
             Button settingsButton = new Button("Options")
             {
-                Position = new Vector2(275, 120)
+                Position = new Vector2(30, 150)
             };
             settingsButton.Click += SettingsButton_Click;
 
             Button quitGameButton = new Button("Quitter")
             {
-                Position = new Vector2(20, 230)
+                Position = new Vector2(30, 230)
             };
             quitGameButton.Click += QuitButton_Click;
 
@@ -105,10 +105,10 @@ namespace Overflow.Scenes
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(Main.renderTarget);
-            Game.GraphicsDevice.Clear(Color.CornflowerBlue);
+            Game.GraphicsDevice.Clear(Color.Black);
 
             Main._spriteBatch.Begin();
-            Main._spriteBatch.Draw(Art.backgroundMainMenu, Vector2.Zero, Color.White);
+            Main._spriteBatch.Draw(Art.backgroundMainMenu, Vector2.Zero, Color.White * 0.6f);
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, Main._spriteBatch);

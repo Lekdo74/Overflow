@@ -40,20 +40,20 @@ namespace Overflow.Scenes
             Game.IsMouseVisible = true;
 
             textResolution = $"{Settings.availableResolutionsStrings[Settings.currentResolution]}";
-            textResolutionPosition = new Vector2((Settings.nativeWidthResolution * 0.3f) - (Art.font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (Art.font.MeasureString(textResolution).Y / 2));
+            textResolutionPosition = new Vector2(140 - (Art.font.MeasureString(textResolution).X / 2), 68 - (Art.font.MeasureString(textResolution).Y / 2));
 
             textFps = $"{Settings.availableFps[Settings.currentFps]} FPS";
-            textFpsPosition = new Vector2((Settings.nativeWidthResolution * 0.3f) - (Art.font.MeasureString(textFps).X / 2), (int)(Settings.nativeHeightResolution * 0.5f) - (Art.font.MeasureString(textFps).Y / 2));
+            textFpsPosition = new Vector2(140 - Art.font.MeasureString(textFps).X / 2, 135 - Art.font.MeasureString(textFps).Y / 2);
 
             textFullscreen = "Fullscreen";
-            textFullscreenPosition = new Vector2((Settings.nativeWidthResolution * 0.5f) - (Art.font.MeasureString(textFullscreen).X / 2), (int)(Settings.nativeHeightResolution * 0.75f) - (Art.font.MeasureString(textFullscreen).Y / 2));
+            textFullscreenPosition = new Vector2(170, 190);
 
             textNoDamage = "No Damage";
-            textNoDamagePosition = new Vector2((Settings.nativeWidthResolution * 0.8f) - (Art.font.MeasureString(textFullscreen).X / 2), (int)(Settings.nativeHeightResolution * 0.9f) - (Art.font.MeasureString(textFullscreen).Y / 2));
+            textNoDamagePosition = new Vector2(304, 230);
 
             musicVolumeBar = Art.volumeBar[Settings.currentMusicVolume];
             textMusicVolume = "Musique";
-            musicVolumeBarPosition = new Vector2((int)((Settings.nativeWidthResolution * 0.7f - (Art.font.MeasureString(textMusicVolume).X / 2)) - (musicVolumeBar.Width - Art.font.MeasureString(textMusicVolume).X) / 2), (int)((Settings.nativeHeightResolution * 0.25f) - musicVolumeBar.Height / 2));
+            musicVolumeBarPosition = new Vector2(317 - Art.font.MeasureString(textMusicVolume).X / 2, 68 - musicVolumeBar.Height / 2);
             textMusicVolumePosition = new Vector2((int)(musicVolumeBarPosition.X + (musicVolumeBar.Width - Art.font.MeasureString(textMusicVolume).X) / 2), (int)(musicVolumeBarPosition.Y - Art.font.MeasureString(textMusicVolume).Y * 1.5f));
 
             base.Initialize();
@@ -133,7 +133,7 @@ namespace Overflow.Scenes
 
             Button returnButton = new Button("Retour")
             {
-                Position = new Vector2(10, (int)(Settings.nativeHeightResolution - Art.font.MeasureString("Retour").Y - 10))
+                Position = new Vector2(30, 230)
             };
             returnButton.Click += QuitButton_Click;
 
@@ -277,7 +277,7 @@ namespace Overflow.Scenes
             Main._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
             Main._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
             Main._graphics.ApplyChanges();
-            textResolutionPosition = new Vector2((Settings.nativeWidthResolution * 0.3f) - (Art.font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (Art.font.MeasureString(textResolution).Y / 2));
+            textResolutionPosition = new Vector2(140 - (Art.font.MeasureString(textResolution).X / 2), 68 - (Art.font.MeasureString(textResolution).Y / 2));
             buttons[0].Position = PlaceToLeft(textResolutionPosition, textResolution, Art.leftArrow);
             buttons[1].Position = PlaceToRight(textResolutionPosition, textResolution, Art.rightArrow);
         }
@@ -287,7 +287,7 @@ namespace Overflow.Scenes
             textFps = $"{Settings.availableFps[Settings.currentFps]} FPS";
             Game.TargetElapsedTime = TimeSpan.FromSeconds(1f / Settings.availableFps[Settings.currentFps]);
             Main._graphics.ApplyChanges();
-            textFpsPosition = new Vector2((Settings.nativeWidthResolution * 0.3f) - (Art.font.MeasureString(textFps).X / 2), (int)(Settings.nativeHeightResolution * 0.5f) - (Art.font.MeasureString(textFps).Y / 2));
+            textFpsPosition = new Vector2(140 - Art.font.MeasureString(textFps).X / 2, 135 - Art.font.MeasureString(textFps).Y / 2);
             buttons[2].Position = PlaceToLeft(textFpsPosition, textFps, Art.leftArrow);
             buttons[3].Position = PlaceToRight(textFpsPosition, textFps, Art.rightArrow);
         }
@@ -297,7 +297,7 @@ namespace Overflow.Scenes
             Main._graphics.PreferredBackBufferWidth = Settings.currentWidthResolution;
             Main._graphics.PreferredBackBufferHeight = Settings.currentHeightResolution;
             Main._graphics.ApplyChanges();
-            textResolutionPosition = new Vector2((Settings.nativeWidthResolution * 0.3f) - (Art.font.MeasureString(textResolution).X / 2), (int)(Settings.nativeHeightResolution * 0.25f) - (Art.font.MeasureString(textResolution).Y / 2));
+            textResolutionPosition = new Vector2(140 - (Art.font.MeasureString(textResolution).X / 2), 68 - (Art.font.MeasureString(textResolution).Y / 2));
             buttons[0].Position = PlaceToLeft(textResolutionPosition, textResolution, Art.leftArrow);
             buttons[1].Position = PlaceToRight(textResolutionPosition, textResolution, Art.rightArrow);
         }
@@ -320,19 +320,19 @@ namespace Overflow.Scenes
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(Main.renderTarget);
-            Game.GraphicsDevice.Clear(Color.CornflowerBlue);
+            Game.GraphicsDevice.Clear(Color.Black);
 
             Main._spriteBatch.Begin();
-            Main._spriteBatch.Draw(Art.backgroundSettingsMenu, Vector2.Zero, Color.White);
-            Main._spriteBatch.DrawString(Art.font, textResolution, textResolutionPosition, Color.Black);
-            Main._spriteBatch.DrawString(Art.font, textFullscreen, textFullscreenPosition, Color.Black);
-            Main._spriteBatch.DrawString(Art.font, textNoDamage, textNoDamagePosition, Color.Black);
-            Main._spriteBatch.DrawString(Art.font, textFps, textFpsPosition, Color.Black);
+            Main._spriteBatch.Draw(Art.backgroundSettingsMenu, Vector2.Zero, Color.White * 0.6f);
+            Main._spriteBatch.DrawString(Art.font, textResolution, textResolutionPosition, Color.White);
+            Main._spriteBatch.DrawString(Art.font, textFullscreen, textFullscreenPosition, Color.White);
+            Main._spriteBatch.DrawString(Art.font, textNoDamage, textNoDamagePosition, Color.White);
+            Main._spriteBatch.DrawString(Art.font, textFps, textFpsPosition, Color.White);
+            Main._spriteBatch.DrawString(Art.font, textMusicVolume, textMusicVolumePosition, Color.White);
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, Main._spriteBatch);
             }
-            Main._spriteBatch.DrawString(Art.font, textMusicVolume, textMusicVolumePosition, Color.Black);
             Main._spriteBatch.Draw(musicVolumeBar, musicVolumeBarPosition, Color.White);
             Main._spriteBatch.End();
 
