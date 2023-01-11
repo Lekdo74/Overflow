@@ -35,6 +35,11 @@ namespace Overflow.Scenes
         private Texture2D musicVolumeBar;
         private Vector2 musicVolumeBarPosition;
 
+        private string textSoundEffectVolume;
+        private Vector2 textSoundEffectVolumePosition;
+        private Texture2D soundEffectVolumeBar;
+        private Vector2 soundEffectVolumeBarPosition;
+
         public override void Initialize()
         {
             Game.IsMouseVisible = true;
@@ -55,6 +60,11 @@ namespace Overflow.Scenes
             textMusicVolume = "Musique";
             musicVolumeBarPosition = new Vector2(317 - Art.font.MeasureString(textMusicVolume).X / 2, 68 - musicVolumeBar.Height / 2);
             textMusicVolumePosition = new Vector2((int)(musicVolumeBarPosition.X + (musicVolumeBar.Width - Art.font.MeasureString(textMusicVolume).X) / 2), (int)(musicVolumeBarPosition.Y - Art.font.MeasureString(textMusicVolume).Y * 1.5f));
+
+            soundEffectVolumeBar = Art.volumeBar[Settings.currentSoundEffectVolume];
+            textSoundEffectVolume = "Effets Sonores";
+            soundEffectVolumeBarPosition = new Vector2(360 - Art.font.MeasureString(textSoundEffectVolume).X / 2, 135 - soundEffectVolumeBar.Height / 2);
+            textSoundEffectVolumePosition = new Vector2((int)(soundEffectVolumeBarPosition.X + (soundEffectVolumeBar.Width - Art.font.MeasureString(textSoundEffectVolume).X) / 2), (int)(soundEffectVolumeBarPosition.Y - Art.font.MeasureString(textSoundEffectVolume).Y * 1.5f));
 
             base.Initialize();
         }
@@ -119,27 +129,40 @@ namespace Overflow.Scenes
             }
             noDamage.Click += NoDamageButton_Click;
 
-            Button leftArrowVolumeButton = new Button(Art.leftArrow)
+            Button leftArrowMusicVolumeButton = new Button(Art.leftArrow)
             {
                 Position = PlaceToLeft(musicVolumeBarPosition, musicVolumeBar, Art.leftArrow)
             };
-            leftArrowVolumeButton.Click += LeftArrowVolumeButton_Click;
+            leftArrowMusicVolumeButton.Click += LeftArrowMusicVolumeButton_Click;
 
-            Button rightArrowVolumeButton = new Button(Art.rightArrow)
+            Button rightArrowMusicVolumeButton = new Button(Art.rightArrow)
             {
                 Position = PlaceToRight(musicVolumeBarPosition, musicVolumeBar, Art.rightArrow)
             };
-            rightArrowVolumeButton.Click += RightArrowVolumeButton_Click;
+            rightArrowMusicVolumeButton.Click += RightArrowMusicVolumeButton_Click;
+
+            Button leftArrowSoundEffectVolumeButton = new Button(Art.leftArrow)
+            {
+                Position = PlaceToLeft(soundEffectVolumeBarPosition, soundEffectVolumeBar, Art.leftArrow)
+            };
+            leftArrowSoundEffectVolumeButton.Click += LeftArrowSoundEffectVolumeButton_Click;
+
+            Button rightArrowSoundEffectVolumeButton = new Button(Art.rightArrow)
+            {
+                Position = PlaceToRight(soundEffectVolumeBarPosition, soundEffectVolumeBar, Art.rightArrow)
+            };
+            rightArrowSoundEffectVolumeButton.Click += RightArrowSoundEffectVolumeButton_Click;
 
             Button returnButton = new Button("Retour")
             {
                 Position = new Vector2(30, 230)
             };
+
             returnButton.Click += QuitButton_Click;
 
             buttons = new List<Button>()
             {
-                leftArrowResolutionButton, rightArrowResolutionButton, leftArrowFpsButton, rightArrowFpsButton, fullscreenButton, leftArrowVolumeButton, rightArrowVolumeButton, returnButton, noDamage
+                leftArrowResolutionButton, rightArrowResolutionButton, leftArrowFpsButton, rightArrowFpsButton, fullscreenButton, leftArrowMusicVolumeButton, rightArrowMusicVolumeButton, leftArrowSoundEffectVolumeButton, rightArrowSoundEffectVolumeButton, noDamage, returnButton
             };
 
             if (Settings.fullscreen)
@@ -159,6 +182,7 @@ namespace Overflow.Scenes
             if(Settings.currentResolution >= 1 && !Settings.fullscreen)
             {
                 Settings.currentResolution -= 1;
+                Sound.PlaySound(Sound.buttonSoundEffect);
                 ChangeResolution();
             }
         }
@@ -168,6 +192,7 @@ namespace Overflow.Scenes
             if (Settings.currentResolution <= Settings.availableResolutions.Length - 2 && !Settings.fullscreen)
             {
                 Settings.currentResolution += 1;
+                Sound.PlaySound(Sound.buttonSoundEffect);
                 ChangeResolution();
             }
         }
@@ -177,6 +202,7 @@ namespace Overflow.Scenes
             if(Settings.currentFps >= 1)
             {
                 Settings.currentFps -= 1;
+                Sound.PlaySound(Sound.buttonSoundEffect);
                 ChangeFPS();
             }
         }
@@ -186,6 +212,7 @@ namespace Overflow.Scenes
             if (Settings.currentFps <= Settings.availableFps.Length - 2)
             {
                 Settings.currentFps += 1;
+                Sound.PlaySound(Sound.buttonSoundEffect);
                 ChangeFPS();
             }
         }
@@ -210,6 +237,7 @@ namespace Overflow.Scenes
                 Settings.currentWidthResolution = Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
                 Settings.currentHeightResolution = Main._graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
             }
+            Sound.PlaySound(Sound.buttonSoundEffect);
             ChangeFullScreen();
         }
 
@@ -217,36 +245,60 @@ namespace Overflow.Scenes
         {
             if (Settings.noDamage)
             {
-                buttons[8].Texture = Art.emptyCase;
+                buttons[9].Texture = Art.emptyCase;
                 Settings.noDamage = false;
             }
             else
             {
-                buttons[8].Texture = Art.checkedCase;
+                buttons[9].Texture = Art.checkedCase;
                 Settings.noDamage = true;
             }
+            Sound.PlaySound(Sound.buttonSoundEffect);
         }
 
-        private void LeftArrowVolumeButton_Click(object sender, EventArgs e)
+        private void LeftArrowMusicVolumeButton_Click(object sender, EventArgs e)
         {
             if (Settings.currentMusicVolume >= 1)
             {
                 Settings.currentMusicVolume -= 1;
-                ChangeVolume();
+                ChangeMusicVolume();
             }
+            Sound.PlaySound(Sound.buttonSoundEffect);
         }
 
-        private void RightArrowVolumeButton_Click(object sender, EventArgs e)
+        private void RightArrowMusicVolumeButton_Click(object sender, EventArgs e)
         {
             if (Settings.currentMusicVolume <= Settings.availableMusicVolumes.Length - 2)
             {
                 Settings.currentMusicVolume += 1;
-                ChangeVolume();
+                ChangeMusicVolume();
             }
+            Sound.PlaySound(Sound.buttonSoundEffect);
+        }
+
+        private void LeftArrowSoundEffectVolumeButton_Click(object sender, EventArgs e)
+        {
+            if (Settings.currentSoundEffectVolume >= 1)
+            {
+                Settings.currentSoundEffectVolume -= 1;
+                ChangeSoundEffectVolume();
+            }
+            Sound.PlaySound(Sound.buttonSoundEffect);
+        }
+
+        private void RightArrowSoundEffectVolumeButton_Click(object sender, EventArgs e)
+        {
+            if (Settings.currentSoundEffectVolume <= Settings.availableSoundEffectVolumes.Length - 2)
+            {
+                Settings.currentSoundEffectVolume += 1;
+                ChangeSoundEffectVolume();
+            }
+            Sound.PlaySound(Sound.buttonSoundEffect);
         }
 
         private void QuitButton_Click(object sender, EventArgs e)
         {
+            Sound.PlaySound(Sound.buttonSoundEffect);
             Game.LoadMainMenu();
         }
 
@@ -302,11 +354,17 @@ namespace Overflow.Scenes
             buttons[1].Position = PlaceToRight(textResolutionPosition, textResolution, Art.rightArrow);
         }
 
-        private void ChangeVolume()
+        private void ChangeMusicVolume()
         {
             musicVolumeBar = Art.volumeBar[Settings.currentMusicVolume];
-            Settings.soundVolume = Settings.availableMusicVolumes[Settings.currentMusicVolume];
-            Sound.ApplyVolumeEqualizer(Sound.currentSong);
+            Settings.soundMusicVolume = Settings.availableMusicVolumes[Settings.currentMusicVolume];
+            Sound.ApplyVolumeEqualizeBackgroudMusic(Sound.currentSong);
+        }
+
+        private void ChangeSoundEffectVolume()
+        {
+            soundEffectVolumeBar = Art.volumeBar[Settings.currentSoundEffectVolume];
+            Settings.soundSoundEffectVolume = Settings.availableSoundEffectVolumes[Settings.currentSoundEffectVolume];
         }
 
         public override void Update(GameTime gameTime)
@@ -329,11 +387,13 @@ namespace Overflow.Scenes
             Main._spriteBatch.DrawString(Art.font, textNoDamage, textNoDamagePosition, Color.White);
             Main._spriteBatch.DrawString(Art.font, textFps, textFpsPosition, Color.White);
             Main._spriteBatch.DrawString(Art.font, textMusicVolume, textMusicVolumePosition, Color.White);
+            Main._spriteBatch.DrawString(Art.font, textSoundEffectVolume, textSoundEffectVolumePosition, Color.White);
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, Main._spriteBatch);
             }
             Main._spriteBatch.Draw(musicVolumeBar, musicVolumeBarPosition, Color.White);
+            Main._spriteBatch.Draw(soundEffectVolumeBar, soundEffectVolumeBarPosition, Color.White);
             Main._spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);

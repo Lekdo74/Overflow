@@ -34,7 +34,7 @@ namespace Overflow.Scenes
             Player.IFramesDuration = 1f;
             Player.TimeBetweenDashes = 1.5f;
             Player.DashDuration = 0.3f;
-            Player.DashSpeed = 120;
+            Player.DashSpeed = 130;
             Player.TimeBetweenDashEffects = 0.05f;
             Player.DashEffectDuration = 0.1f;
             Player.KnockbackDuration = 0.12f;
@@ -54,8 +54,8 @@ namespace Overflow.Scenes
             Boss.OffSetX = 16;
             Boss.OffSetY = 16;
             Boss.BossSprite.Origin = Vector2.Zero;
-            Boss.TimeBetweenAttacks = 3f;
-            Boss.TimeBetweenPassiveAttacks = 5f;
+            Boss.TimeBetweenAttacks = 2.5f;
+            Boss.TimeBetweenPassiveAttacks = 4f;
             Boss.AttackOneAnimationDuration = 1.56f;
             Boss.AttackOneAnimationDurationBeforeAttackFrame = 1.2f;
             Boss.AttackTwoAnimationDuration = 1.2f;
@@ -118,8 +118,6 @@ namespace Overflow.Scenes
             map.Draw(gameTime, Main._spriteBatch);
             PlayerHealthBar.Draw(Main._spriteBatch);
             Player.Draw(gameTime, Main._spriteBatch);
-            
-            Main._spriteBatch.Draw(Boss.HealthTexture, new Rectangle(10, 10, 100, 50), Color.White);
             Main._spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
@@ -174,6 +172,7 @@ namespace Overflow.Scenes
 
         private void ChangedRoom()
         {
+            Sound.PlaySound(Sound.changeRoom);
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
             Player.GhostEffectDashes = new List<GhostEffectDash>();
             Player.CanPassThroughDoor = false;

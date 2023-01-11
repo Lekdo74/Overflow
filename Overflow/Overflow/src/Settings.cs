@@ -30,7 +30,11 @@ namespace Overflow.src
 
         public static int currentMusicVolume = 3;
         public static float[] availableMusicVolumes = new float[] { 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1f };
-        public static float soundVolume = availableMusicVolumes[currentMusicVolume];
+        public static float soundMusicVolume = availableMusicVolumes[currentMusicVolume];
+
+        public static int currentSoundEffectVolume = 3;
+        public static float[] availableSoundEffectVolumes = new float[] { 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1f };
+        public static float soundSoundEffectVolume = availableSoundEffectVolumes[currentSoundEffectVolume];
 
         public static bool noDamage = false;
     }

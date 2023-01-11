@@ -516,12 +516,15 @@ namespace Overflow.src
 
         public void Shoot(Texture2D projectile)
         {
+            Sound.PlaySound(Sound.rangeEnemyAttack);
             Room.Projectiles.Add(new Projectile(projectile, CenteredPosition, Vector2.Normalize(Player.Position - Position), 100, Room));
         }
 
         public void BossAttackOne(Texture2D projectile)
         {
+            Sound.PlaySound(Sound.bossAttack1);
             int randomNumber = random.Next(0, 4);
+
             int speed = 100;
             switch (randomNumber)
             {
@@ -574,6 +577,7 @@ namespace Overflow.src
 
         public void BossAttackTwo(Texture2D projectile)
         {
+            Sound.PlaySound(Sound.bossAttack2);
             int randomNumber = random.Next(0, 4);
 
             int step = 8;
@@ -765,7 +769,7 @@ namespace Overflow.src
                 {
                     Boss.ProjectilesFollowingPlayer.Remove(projectile);
                 }
-
+                Console.WriteLine(Room.Projectiles.Count);
                 ApplyBehaviours();
             }
             
@@ -778,6 +782,7 @@ namespace Overflow.src
                 spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + Origin.X), (int)(Position.Y + Origin.Y), Texture.Width, Texture.Height), null, Color, Rotation, Origin, SpriteEffects.None, 0f);
             else
             {
+                Main._spriteBatch.Draw(Boss.HealthTexture, new Rectangle(275, 255, Health * 10, 10), Color.White);
                 spriteBatch.Draw(Boss.BossSprite, Boss.Position);
                 foreach(Projectile projectile in Boss.ProjectilesFollowingPlayer)
                 {
@@ -819,7 +824,7 @@ namespace Overflow.src
         public static Enemy CreateBoss(Vector2 position, Room room)
         {
             Enemy enemy;
-            enemy = new Enemy(room, "Boss", position, 5);
+            enemy = new Enemy(room, "Boss", position, 20);
             Boss.Position = position;
             Boss.Room = room;
             enemy.Speed = 20;

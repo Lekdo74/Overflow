@@ -62,7 +62,7 @@ namespace Overflow.src
             enemysetLevel1 = new EnemySet(new Texture2D[] { content.Load<Texture2D>("EnemySets/Level1/SeekerTentacles") }, new Texture2D[] { content.Load<Texture2D>("EnemySets/Level1/ArcherLaser") });
             laser = content.Load<Texture2D>("Projectiles/Laser");
             bouleRouge = content.Load<Texture2D>("Projectiles/bouleRouge");
-            bouleVerte = content.Load<Texture2D>("Projectiles/bouleVerte");
+            bouleVerte = content.Load<Texture2D>("Projectiles/bouleJaune");
 
             bossSpriteSheet = content.Load<SpriteSheet>("Boss/BossAnimations.sf", new JsonContentLoader());
 

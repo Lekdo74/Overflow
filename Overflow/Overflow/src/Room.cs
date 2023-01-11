@@ -668,6 +668,7 @@ namespace Overflow.src
                 {
                     if (enemy.AttackNumber != Player.AttackNumber && enemy.Rectangle.Intersects(slashRectangle))
                     {
+                        Sound.PlaySound(Sound.damageToEnemy);
                         if (enemy.Health > 1)
                         {
                             enemy.AttackNumber = Player.AttackNumber;

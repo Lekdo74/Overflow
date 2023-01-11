@@ -32,7 +32,7 @@ namespace Overflow.Scenes
             Game.IsMouseVisible = true;
             Sound.ChangeBackgroundMusic(Sound.ending);
 
-            remainingTime = 10f;
+            remainingTime = 116f;
 
             textEnd = "End";
             textEndPosition = new Vector2(205, 50);
@@ -61,6 +61,7 @@ namespace Overflow.Scenes
 
         private void MenuButton_Click(object sender, EventArgs e)
         {
+            Sound.PlaySound(Sound.buttonSoundEffect);
             Game.LoadMainMenu();
         }
 

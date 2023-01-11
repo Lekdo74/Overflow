@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using System;
@@ -20,7 +21,18 @@ namespace Overflow.src
         public static Song boss;
         public static Song ending;
 
-        private static float[] volumeEqualizer = new float[] { 0.9f, 1f, 1f, 1f, 1f, 1f};
+        private static float[] backgroundMusicVolumeEqualizer = new float[] { 0.7f, 0.8f, 0.8f, 0.8f, 0.8f, 0.8f };
+
+        public static SoundEffect buttonSoundEffect;
+        public static SoundEffect changeRoom;
+        public static SoundEffect damageToEnemy;
+        public static SoundEffect damageToPlayer;
+        public static SoundEffect rangeEnemyAttack;
+        public static SoundEffect bossAttack1;
+        public static SoundEffect bossAttack2;
+
+
+        private static float[] soundEffectVolumeEqualizer = new float[] { 1f, 0.5f, 1f, 0.6f, 1f, 1f, 1 };
 
         public static void Load(ContentManager content)
         {
@@ -31,6 +43,13 @@ namespace Overflow.src
             level2 = content.Load<Song>("Musics/Level2");
             boss = content.Load<Song>("Musics/Boss");
             ending = content.Load<Song>("Musics/Ending");
+            buttonSoundEffect = content.Load<SoundEffect>("SoundEffects/ButtonSoundEffect");
+            changeRoom = content.Load<SoundEffect>("SoundEffects/changeRoom");
+            damageToEnemy = content.Load<SoundEffect>("SoundEffects/damageToEnemy");
+            damageToPlayer = content.Load<SoundEffect>("SoundEffects/damageToPlayer");
+            rangeEnemyAttack = content.Load<SoundEffect>("SoundEffects/rangeEnemyAttack");
+            bossAttack1 = content.Load<SoundEffect>("SoundEffects/bossAttack1");
+            bossAttack2 = content.Load<SoundEffect>("SoundEffects/bossAttack2");
         }
 
         public static void ChangeBackgroundMusic(Song backgroundMusic)
@@ -39,37 +58,64 @@ namespace Overflow.src
                 return;
             MediaPlayer.Play(backgroundMusic);
             currentSong = backgroundMusic;
-            ApplyVolumeEqualizer(currentSong);
+            ApplyVolumeEqualizeBackgroudMusic(currentSong);
         }
 
-        public static void ApplyVolumeEqualizer(Song backgroundMusic)
+        public static void ApplyVolumeEqualizeBackgroudMusic(Song backgroundMusic)
         {
             switch (backgroundMusic)
             {
                 case Song value when value == menu:
-                    MediaPlayer.Volume = volumeEqualizer[0] * Settings.soundVolume;
+                    MediaPlayer.Volume = backgroundMusicVolumeEqualizer[0] * Settings.soundMusicVolume;
                     break;
 
                 case Song value when value == tutorial:
-                    MediaPlayer.Volume = volumeEqualizer[1] * Settings.soundVolume;
+                    MediaPlayer.Volume = backgroundMusicVolumeEqualizer[1] * Settings.soundMusicVolume;
                     break;
 
                 case Song value when value == level1:
-                    MediaPlayer.Volume = volumeEqualizer[2] * Settings.soundVolume;
+                    MediaPlayer.Volume = backgroundMusicVolumeEqualizer[2] * Settings.soundMusicVolume;
                     break;
 
                 case Song value when value == level2:
-                    MediaPlayer.Volume = volumeEqualizer[3] * Settings.soundVolume;
+                    MediaPlayer.Volume = backgroundMusicVolumeEqualizer[3] * Settings.soundMusicVolume;
                     break;
 
                 case Song value when value == boss:
-                    MediaPlayer.Volume = volumeEqualizer[4] * Settings.soundVolume;
+                    MediaPlayer.Volume = backgroundMusicVolumeEqualizer[4] * Settings.soundMusicVolume;
                     break;
 
                 case Song value when value == ending:
-                    MediaPlayer.Volume = volumeEqualizer[5] * Settings.soundVolume;
+                    MediaPlayer.Volume = backgroundMusicVolumeEqualizer[5] * Settings.soundMusicVolume;
                     break;
             }
+        }
+
+        public static void PlaySound(SoundEffect soundEffect)
+        {          
+            soundEffect.Play(getVolumeEqualizerSoundEffect(soundEffect), 0, 0);
+        }
+
+        public static float getVolumeEqualizerSoundEffect(SoundEffect soundEffect)
+        {
+            switch (soundEffect)
+            {
+                case SoundEffect value when value == buttonSoundEffect:
+                    return soundEffectVolumeEqualizer[0] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == changeRoom:
+                    return soundEffectVolumeEqualizer[1] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == damageToEnemy:
+                    return soundEffectVolumeEqualizer[2] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == damageToPlayer:
+                    return soundEffectVolumeEqualizer[3] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == rangeEnemyAttack:
+                    return soundEffectVolumeEqualizer[4] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == bossAttack1:
+                    return soundEffectVolumeEqualizer[5] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == bossAttack2:
+                    return soundEffectVolumeEqualizer[6] * Settings.soundSoundEffectVolume;
+            }
+            return 1;
         }
     }
 }

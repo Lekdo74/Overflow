@@ -106,6 +106,10 @@ namespace Overflow.src
                     _isExpired = true;
                 }
             }
+            else if((Position.X < -50 || Position.X > Settings.nativeWidthResolution + 50 || Position.Y < -50 || Position.Y > Settings.nativeHeightResolution + 50))
+            {
+                _isExpired = true;
+            }
         }
 
         public void Draw(SpriteBatch spritebatch)

@@ -19,10 +19,16 @@ namespace Overflow.Scenes
 
         private List<Button> buttons;
 
+        private string textOverFlow;
+        private Vector2 textOverFlowPosition;
+
         public override void Initialize()
         {
             Game.IsMouseVisible = true;
             Sound.ChangeBackgroundMusic(Sound.menu);
+
+            textOverFlow = "OverFlow";
+            textOverFlowPosition = new Vector2(10, 44);
 
             base.Initialize();
         }
@@ -56,16 +62,19 @@ namespace Overflow.Scenes
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
+            Sound.PlaySound(Sound.buttonSoundEffect);
             Game.LoadLevel1();
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
+            Sound.PlaySound(Sound.buttonSoundEffect);
             Game.LoadSettingsMenu();
         }
 
         private void QuitButton_Click(object sender, EventArgs e)
         {
+            Sound.PlaySound(Sound.buttonSoundEffect);
             Game.Exit();
         }
 
@@ -84,6 +93,7 @@ namespace Overflow.Scenes
 
             Main._spriteBatch.Begin();
             Main._spriteBatch.Draw(Art.backgroundMainMenu, Vector2.Zero, Color.White * 0.6f);
+            Main._spriteBatch.DrawString(Art.fontBig, textOverFlow, textOverFlowPosition, Color.White);
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, Main._spriteBatch);

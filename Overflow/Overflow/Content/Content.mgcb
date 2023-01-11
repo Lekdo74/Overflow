@@ -217,6 +217,18 @@
 /processorParam:Quality=Best
 /build:Musics/Tutorial.mp3
 
+#begin Projectiles/bouleJaune.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Projectiles/bouleJaune.png
+
 #begin Projectiles/bouleRouge.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -229,18 +241,6 @@
 /processorParam:TextureFormat=Color
 /build:Projectiles/bouleRouge.png
 
-#begin Projectiles/bouleVerte.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Projectiles/bouleVerte.png
-
 #begin Projectiles/Laser.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -252,6 +252,48 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Projectiles/Laser.png
+
+#begin SoundEffects/bossAttack1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/bossAttack1.mp3
+
+#begin SoundEffects/bossAttack2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/bossAttack2.mp3
+
+#begin SoundEffects/buttonSoundEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/buttonSoundEffect.mp3
+
+#begin SoundEffects/changeRoom.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/changeRoom.mp3
+
+#begin SoundEffects/damageToEnemy.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/damageToEnemy.mp3
+
+#begin SoundEffects/damageToPlayer.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/damageToPlayer.mp3
+
+#begin SoundEffects/rangeEnemyAttack.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/rangeEnemyAttack.mp3
 
 #begin TileSets/Level1/BottomDoor.png
 /importer:TextureImporter

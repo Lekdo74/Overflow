@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -39,9 +40,9 @@ namespace Overflow
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Art.Load(Content);
-            //Sound.Load(Content);
+            Sound.Load(Content);
 
-            LoadLevel1();
+            LoadMainMenu();
             base.Initialize();
         }
         protected override void Update(GameTime gameTime)
@@ -55,27 +56,27 @@ namespace Overflow
 
         public void LoadMainMenu()
         {
-            _screenManager.LoadScreen(new MainMenu(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new MainMenu(this), new FadeTransition(GraphicsDevice, Color.Black, 0.85f));
         }
 
         public void LoadSettingsMenu()
         {
-            _screenManager.LoadScreen(new SettingsMenu(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new SettingsMenu(this), new FadeTransition(GraphicsDevice, Color.Black, 0.85f));
         }
 
         public void LoadLevel1()
         {
-            _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black, 1f));
         }
 
         public void LoadEndScreen()
         {
-            _screenManager.LoadScreen(new EndScreen(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new EndScreen(this), new FadeTransition(GraphicsDevice, Color.Black, 1f));
         }
 
         public void LoadRoomTest()
         {
-            _screenManager.LoadScreen(new RoomTest(this), new FadeTransition(GraphicsDevice, Color.Black));
+            _screenManager.LoadScreen(new RoomTest(this), new FadeTransition(GraphicsDevice, Color.Black, 1f));
         }
     }
 }

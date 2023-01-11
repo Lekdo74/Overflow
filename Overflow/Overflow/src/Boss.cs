@@ -12,8 +12,6 @@ namespace Overflow.src
 {
     public static class Boss
     {
-        private static int _health;
-
         private static Room _room;
 
         private static bool _direction;
@@ -49,12 +47,6 @@ namespace Overflow.src
         private static int _speed;
 
         private static List<Projectile> _projectilesFollowingPlayer;
-
-        public static int Health
-        {
-            get { return _health; }
-            set { _health = value; }
-        }
 
         public static Room Room
         {

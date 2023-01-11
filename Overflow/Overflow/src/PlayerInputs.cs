@@ -39,19 +39,19 @@ namespace Overflow.src
         public static Vector2 GetPlayerDirection(KeyboardState _keyboardState)
         {
             Vector2 direction = Vector2.Zero;
-            if ((_keyboardState.IsKeyDown(Keys.D) || _keyboardState.IsKeyDown(Keys.Right)) && !(_keyboardState.IsKeyDown(Keys.Q) || _keyboardState.IsKeyDown(Keys.Left)))
+            if ((_keyboardState.IsKeyDown(Keys.D)) && !(_keyboardState.IsKeyDown(Keys.Q) || _keyboardState.IsKeyDown(Keys.A)))
             {
                 direction.X += 1;
             }
-            else if ((_keyboardState.IsKeyDown(Keys.Q) || _keyboardState.IsKeyDown(Keys.Left)) && !(_keyboardState.IsKeyDown(Keys.D) || _keyboardState.IsKeyDown(Keys.Right)))
+            else if ((_keyboardState.IsKeyDown(Keys.Q) || _keyboardState.IsKeyDown(Keys.A)) && !(_keyboardState.IsKeyDown(Keys.D)))
             {
                 direction.X += -1;
             }
-            if ((_keyboardState.IsKeyDown(Keys.S) || _keyboardState.IsKeyDown(Keys.Down)) && !(_keyboardState.IsKeyDown(Keys.Z) || _keyboardState.IsKeyDown(Keys.Up)))
+            if ((_keyboardState.IsKeyDown(Keys.S)) && !(_keyboardState.IsKeyDown(Keys.Z) || _keyboardState.IsKeyDown(Keys.W)))
             {
                 direction.Y += 1;
             }
-            else if ((_keyboardState.IsKeyDown(Keys.Z) || _keyboardState.IsKeyDown(Keys.Up)) && !(_keyboardState.IsKeyDown(Keys.S) || _keyboardState.IsKeyDown(Keys.Down)))
+            else if ((_keyboardState.IsKeyDown(Keys.Z) || _keyboardState.IsKeyDown(Keys.W)) && !(_keyboardState.IsKeyDown(Keys.S)))
             {
                 direction.Y -= 1;
             }

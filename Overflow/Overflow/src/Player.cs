@@ -345,6 +345,7 @@ namespace Overflow.src
             {
                 if(IFramesTimeRemaining <= 0)
                 {
+                    Sound.PlaySound(Sound.damageToPlayer);
                     Health -= damage;
                     KnockbackTimeRemaining = KnockbackDuration;
                     IFramesTimeRemaining = IFramesDuration;
