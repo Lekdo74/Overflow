@@ -409,17 +409,25 @@ namespace Overflow.src
                     Velocity = KnockbackDirection * KnockbackSpeed * _deltaTime;
                 }
 
-                Boss.Position += Velocity;
-
                 if (Velocity.X < 0)
                     Boss.Direction = false;
                 else if (Velocity.X > 0)
                     Boss.Direction = true;
 
                 if(Boss.AttackAnimationTimeRemaining <= 0)
+                {
                     Boss.AttackAnimation = false;
+                    Boss.Position += Velocity;
+                }
                 else
+                {
                     Boss.AttackAnimation = true;
+                    if(KnockbackTimeRemaining > 0)
+                    {
+                        Boss.Position += Velocity;
+                    }
+                }
+                    
 
                 if (Boss.TimeBeforeNextAttack <= 0)
                 {
@@ -464,8 +472,17 @@ namespace Overflow.src
                 }
                 if(Boss.AttackAnimationTimeRemainingBeforeAttackFrame <= 0 && Boss.AttackAnimation)
                 {
-                    Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackOneAnimationDuration;
-                    BossAttackOne(Art.bouleRouge);
+                    switch (Boss.CurrentAnimation)
+                    {
+                        case 1:
+                            Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackOneAnimationDuration;
+                            BossAttackTwo(Art.bouleRouge);
+                            break;
+                        case 2:
+                            Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackTwoAnimationDuration;
+                            BossAttackTwo(Art.bouleRouge);
+                            break;
+                    }
                 }
 
                 if (_previousTile != _currentTile)
@@ -496,33 +513,79 @@ namespace Overflow.src
 
         public void BossAttackOne(Texture2D projectile)
         {
-            int randomNumber = random.Next(0, 2);
-            int step = 10;
+            int randomNumber = random.Next(0, 4);
+            int speed = 100;
             switch (randomNumber)
             {
                 case 0:
-                    int offsetY = -8;
-                    for (int i = 1; i < Room.Size.X * 20 / step; i++)
+                    int offSetY = -8;
+                    for (int i = 1; i < Room.Size.X; i++)
                     {
                         if (i % 2 == 0)
-                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, offsetY), Vector2.Normalize(new Vector2(0, 1)), 200, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, offSetY), Vector2.Normalize(new Vector2(0, 1)), speed, Room));
                         else
-                        {
-                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20 + 10, -20 + offsetY), Vector2.Normalize(new Vector2(0, 1)), 200, Room));
-                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, -40 + offsetY), Vector2.Normalize(new Vector2(0, 1)), 200, Room));
-                        }
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, offSetY - 20), Vector2.Normalize(new Vector2(0, 1)), speed, Room));
                     }
                     return;
                 case 1:
-                    for (int j = 1; j < Room.Size.Y * 20 / step; j++)
+                    for (int j = 1; j < Room.Size.Y; j++)
                     {
                         if (j % 2 == 0)
-                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 + 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 200, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 + 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), speed + 50, Room));
                         else
                         {
-                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 200, Room));
-                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 + 40, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 200, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), speed + 50, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 + 40, j * 20), Vector2.Normalize(new Vector2(-1, 0)), speed + 50, Room));
                         }
+                    }
+                    return;
+                case 2:
+                    for (int i = 1; i < Room.Size.X; i++)
+                    {
+                        if (i % 2 == 0)
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, Room.Size.Y * 20), Vector2.Normalize(new Vector2(0, -1)), speed, Room));
+                        else
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, Room.Size.Y * 20 + 20), Vector2.Normalize(new Vector2(0, -1)), speed, Room));
+                    }
+                    return;
+                case 3:
+                    int offSetX = -8;
+                    for (int j = 1; j < Room.Size.Y; j++)
+                    {
+                        if (j % 2 == 0)
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX - 20, j * 20), Vector2.Normalize(new Vector2(1, 0)), speed + 50, Room));
+                        else
+                        {
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX, j * 20), Vector2.Normalize(new Vector2(1, 0)), speed + 50, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX - 40, j * 20), Vector2.Normalize(new Vector2(1, 0)), speed + 50, Room));
+                        }
+                    }
+                    return;
+            }
+        }
+
+        public void BossAttackTwo(Texture2D projectile)
+        {
+            int randomNumber = random.Next(0, 1);
+            int step = 8;
+            float rotation;
+            Vector2 direction;
+            int speed = 60;
+            switch (randomNumber)
+            {
+                case 0:
+                    rotation = 0;
+                    int offSetX = -8;
+                    int offSetY = -8;
+                    while(rotation < 90)
+                    {
+                        rotation += step;
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(-rotation * Math.PI / 180), (float)Math.Sin(rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX, offSetY), direction, speed + 50, Room));
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(rotation * Math.PI / 180), (float)Math.Sin(-rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX,Room.Size.Y * 20 - offSetY), direction, speed + 50, Room));
                     }
                     return;
             }

@@ -16,7 +16,7 @@ namespace Overflow.src
         private Vector2 _position;
         private Vector2 _direction;
         private float _rotation;
-        private int _speed;
+        private float _speed;
         private Vector2 _origin;
 
         private Room _room;
@@ -53,7 +53,7 @@ namespace Overflow.src
             get { return _rotation; }
             set { _rotation = value; }
         }
-        public int Speed
+        public float Speed
         {
             get { return _speed; }
             set { _speed = value; }

@@ -673,7 +673,6 @@ namespace Overflow.src
                             enemy.AttackNumber = Player.AttackNumber;
                             enemy.Health -= 1;
                             enemy.KnockbackDirection = Vector2.Normalize(enemy.CenteredPosition - Player.CenteredPosition);
-                            Console.WriteLine(enemy.KnockbackDirection);
                             enemy.KnockbackTimeRemaining = enemy.KnockbackDuration;
                         }
                         else
