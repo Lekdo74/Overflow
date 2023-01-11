@@ -470,19 +470,27 @@ namespace Overflow.src
                     }
                     Boss.TimeBeforeNextAttack = Boss.TimeBetweenAttacks;
                 }
+
                 if(Boss.AttackAnimationTimeRemainingBeforeAttackFrame <= 0 && Boss.AttackAnimation)
                 {
                     switch (Boss.CurrentAnimation)
                     {
                         case 1:
                             Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackOneAnimationDuration;
-                            BossAttackTwo(Art.bouleRouge);
+                            BossAttackOne(Art.bouleRouge);
                             break;
                         case 2:
                             Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackTwoAnimationDuration;
                             BossAttackTwo(Art.bouleRouge);
                             break;
                     }
+
+                }
+
+                if(Boss.TimeBeforeNextPassiveAttack <= 0)
+                {
+                    BossPassiveAttack();
+                    Boss.TimeBeforeNextPassiveAttack = Boss.TimeBetweenPassiveAttacks;
                 }
 
                 if (_previousTile != _currentTile)
@@ -566,18 +574,21 @@ namespace Overflow.src
 
         public void BossAttackTwo(Texture2D projectile)
         {
-            int randomNumber = random.Next(0, 1);
+            int randomNumber = random.Next(0, 4);
+
             int step = 8;
-            float rotation;
+            float rotation = 0;
+
             Vector2 direction;
             int speed = 60;
+
+            int offSetX = -8;
+            int offSetY = -8;
+
             switch (randomNumber)
             {
                 case 0:
-                    rotation = 0;
-                    int offSetX = -8;
-                    int offSetY = -8;
-                    while(rotation < 90)
+                    while (rotation < 90)
                     {
                         rotation += step;
 
@@ -585,10 +596,68 @@ namespace Overflow.src
                         Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX, offSetY), direction, speed + 50, Room));
 
                         direction = Vector2.Normalize(new Vector2((float)Math.Cos(rotation * Math.PI / 180), (float)Math.Sin(-rotation * Math.PI / 180)));
-                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX,Room.Size.Y * 20 - offSetY), direction, speed + 50, Room));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 - offSetX, offSetY), -direction, speed + 50, Room));
+                    }
+                    return;
+                case 1:
+                    while (rotation < 90)
+                    {
+                        rotation += step;
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(-rotation * Math.PI / 180), (float)Math.Sin(rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, Room.Size.Y * 20), -direction, speed + 50, Room));
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(rotation * Math.PI / 180), (float)Math.Sin(-rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 - offSetX, offSetY), -direction, speed + 50, Room));
+                    }
+                    return;
+                case 2:
+                    while (rotation < 90)
+                    {
+                        rotation += step;
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(-rotation * Math.PI / 180), (float)Math.Sin(rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, Room.Size.Y * 20), -direction, speed + 50, Room));
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(rotation * Math.PI / 180), (float)Math.Sin(-rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX, Room.Size.Y * 20 - offSetY), direction, speed + 50, Room));
+                    }
+                    return;
+                case 3:
+                    while (rotation < 90)
+                    {
+                        rotation += step;
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(-rotation * Math.PI / 180), (float)Math.Sin(rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX, offSetY), direction, speed + 50, Room));
+
+                        direction = Vector2.Normalize(new Vector2((float)Math.Cos(rotation * Math.PI / 180), (float)Math.Sin(-rotation * Math.PI / 180)));
+                        Room.Projectiles.Add(new Projectile(projectile, new Vector2(offSetX, Room.Size.Y * 20 - offSetY), direction, speed + 50, Room));
                     }
                     return;
             }
+        }
+
+        private void BossPassiveAttack()
+        {
+            int randomNumber = random.Next(0, 4);
+
+            switch (randomNumber)
+            {
+                case 0:
+                    Boss.ProjectilesFollowingPlayer.Add(new Projectile(Art.bouleVerte, new Vector2(random.Next(0, Settings.nativeWidthResolution), -20), Vector2.Normalize(Player.CenteredPosition - Boss.CenteredPosition), 15, Room, 20f));
+                    return;
+                case 1:
+                    Boss.ProjectilesFollowingPlayer.Add(new Projectile(Art.bouleVerte, new Vector2(Settings.nativeWidthResolution + 20, random.Next(0, Settings.nativeHeightResolution)), Vector2.Normalize(Player.CenteredPosition - Boss.CenteredPosition), 15, Room, 20f));
+                    return;
+                case 2:
+                    Boss.ProjectilesFollowingPlayer.Add(new Projectile(Art.bouleVerte, new Vector2(random.Next(0, Settings.nativeWidthResolution), Room.Size.Y * 20 + 20), Vector2.Normalize(Player.CenteredPosition - Boss.CenteredPosition), 15, Room, 20f));
+                    return;
+                case 3:
+                    Boss.ProjectilesFollowingPlayer.Add(new Projectile(Art.bouleVerte, new Vector2(-20, random.Next(0, Settings.nativeHeightResolution)), Vector2.Normalize(Player.CenteredPosition - Boss.CenteredPosition), 15, Room, 20f));
+                    return;
+            }
+            return;
         }
 
         private void AddBehaviour(IEnumerable<int> behaviour)
@@ -655,7 +724,7 @@ namespace Overflow.src
                         _position.Y = initPosition.Y;
                 }
             }
-            else
+            else //Boss
             {
                 if (Boss.AttackAnimationTimeRemaining <= 0)
                 {
@@ -675,6 +744,28 @@ namespace Overflow.src
                     Boss.TimeBeforeNextAttack -= deltaTime;
                 }
 
+                if(Boss.TimeBeforeNextPassiveAttack > 0)
+                {
+                    Boss.TimeBeforeNextPassiveAttack -= deltaTime;
+                }
+
+                List<Projectile> projectilesToDelete = new List<Projectile>();
+                foreach (Projectile projectile in Boss.ProjectilesFollowingPlayer)
+                {
+                    projectile.RemainingTime -= deltaTime;
+                    if(projectile.RemainingTime < 0)
+                    {
+                        projectilesToDelete.Add(projectile);
+                    }
+
+                    projectile.Direction = Vector2.Normalize(Player.CenteredPosition - projectile.Position);
+                    projectile.Update(gameTime);
+                }
+                foreach (Projectile projectile in projectilesToDelete)
+                {
+                    Boss.ProjectilesFollowingPlayer.Remove(projectile);
+                }
+
                 ApplyBehaviours();
             }
             
@@ -688,6 +779,10 @@ namespace Overflow.src
             else
             {
                 spriteBatch.Draw(Boss.BossSprite, Boss.Position);
+                foreach(Projectile projectile in Boss.ProjectilesFollowingPlayer)
+                {
+                    projectile.Draw(spriteBatch);
+                }
             }
         }
 

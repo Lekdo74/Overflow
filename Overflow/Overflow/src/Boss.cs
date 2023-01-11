@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace Overflow.src
         private static float _timeBetweenAttacks;
         private static float _timeBeforeNextAttack;
 
+        private static float _timeBetweenPassiveAttacks;
+        private static float _timeBeforeNextPassiveAttack;
 
         private static bool _attackAnimation;
         private static int _currentAnimation;
@@ -36,6 +39,7 @@ namespace Overflow.src
         private static float _attackAnimationTimeRemainingBeforeAttackFrame;
 
         private static AnimatedSprite _bossSprite;
+        private static Texture2D _healthTexture;
 
         private static int _width;
         private static int _height;
@@ -43,6 +47,8 @@ namespace Overflow.src
         private static int _offSetY;
 
         private static int _speed;
+
+        private static List<Projectile> _projectilesFollowingPlayer;
 
         public static int Health
         {
@@ -87,6 +93,18 @@ namespace Overflow.src
         {
             get { return _timeBeforeNextAttack; }
             set { _timeBeforeNextAttack = value; }
+        }
+
+        public static float TimeBetweenPassiveAttacks
+        {
+            get { return _timeBetweenPassiveAttacks; }
+            set { _timeBetweenPassiveAttacks = value; }
+        }
+
+        public static float TimeBeforeNextPassiveAttack
+        {
+            get { return _timeBeforeNextPassiveAttack; }
+            set { _timeBeforeNextPassiveAttack = value; }
         }
 
         public static bool AttackAnimation
@@ -143,6 +161,12 @@ namespace Overflow.src
             set { _bossSprite = value; }
         }
 
+        public static Texture2D HealthTexture
+        {
+            get { return _healthTexture; }
+            set { _healthTexture = value; }
+        }
+
         public static int Width
         {
             get { return _width; }
@@ -171,6 +195,12 @@ namespace Overflow.src
         {
             get { return _speed; }
             set { _speed = value; }
+        }
+
+        public static List<Projectile> ProjectilesFollowingPlayer
+        {
+            get { return _projectilesFollowingPlayer; }
+            set { _projectilesFollowingPlayer = value; }
         }
 
         public static Rectangle Rectangle

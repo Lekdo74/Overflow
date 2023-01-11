@@ -17,6 +17,8 @@ namespace Overflow.Scenes
         private Map map;
         private Room currentRoom;
 
+        private static bool end = false;
+
         public override void Initialize()
         {
             base.Initialize();
@@ -53,10 +55,14 @@ namespace Overflow.Scenes
             Boss.OffSetY = 16;
             Boss.BossSprite.Origin = Vector2.Zero;
             Boss.TimeBetweenAttacks = 3f;
+            Boss.TimeBetweenPassiveAttacks = 5f;
             Boss.AttackOneAnimationDuration = 1.56f;
             Boss.AttackOneAnimationDurationBeforeAttackFrame = 1.2f;
             Boss.AttackTwoAnimationDuration = 1.2f;
             Boss.AttackTwoAnimationDurationBeforeAttackFrame = 0.96f;
+            Boss.ProjectilesFollowingPlayer = new List<Projectile>();
+            Boss.HealthTexture = new Texture2D(GraphicsDevice, 1, 1);
+            Boss.HealthTexture.SetData(new[] { new Color(173, 200, 56)});
 
             Player.CanPassThroughDoor = true;
             Player.PreviousTile = currentRoom.GetPlayerTile();
@@ -71,6 +77,11 @@ namespace Overflow.Scenes
         
         public override void Update(GameTime gameTime)
         {
+            if (end)
+            {
+                Game.LoadEndScreen();
+            }
+
             PlayerInputs.KeyBoardState = Keyboard.GetState();
             PlayerInputs.MouseState = Mouse.GetState();
 
@@ -82,8 +93,7 @@ namespace Overflow.Scenes
             {
                 Game.LoadMainMenu();
             }
-
-            map.Update(gameTime);
+            map.Update(gameTime, Game);
 
             Player.CurrentTile = currentRoom.GetPlayerTile();
             if (Player.CurrentTile != Player.PreviousTile)
@@ -108,6 +118,8 @@ namespace Overflow.Scenes
             map.Draw(gameTime, Main._spriteBatch);
             PlayerHealthBar.Draw(Main._spriteBatch);
             Player.Draw(gameTime, Main._spriteBatch);
+            
+            Main._spriteBatch.Draw(Boss.HealthTexture, new Rectangle(10, 10, 100, 50), Color.White);
             Main._spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);

@@ -229,6 +229,18 @@
 /processorParam:TextureFormat=Color
 /build:Projectiles/bouleRouge.png
 
+#begin Projectiles/bouleVerte.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Projectiles/bouleVerte.png
+
 #begin Projectiles/Laser.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -697,6 +709,18 @@
 /processorParam:TextureFormat=Color
 /build:UI/DifferentButtonSizes/Button15.png
 
+#begin UI/DifferentButtonSizes/Button16.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/DifferentButtonSizes/Button16.png
+
 #begin UI/DifferentButtonSizes/Button2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -811,6 +835,13 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:UI/Font/Font.spritefont
+
+#begin UI/Font/FontBig.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Font/FontBig.spritefont
 
 #begin UI/HealthBar/HealthBar1.png
 /importer:TextureImporter

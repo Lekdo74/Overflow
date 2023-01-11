@@ -12,61 +12,56 @@ using System.Threading.Tasks;
 
 namespace Overflow.Scenes
 {
-    public class MainMenu : GameScreen
+    public class EndScreen : GameScreen
     {
         private new Main Game => (Main)base.Game;
-        public MainMenu(Main game) : base(game) { }
+        public EndScreen(Main game) : base(game) { }
+
+        private float remainingTime;
 
         private List<Button> buttons;
+
+        private string textEnd;
+        private Vector2 textEndPosition;
+
+        private string textMerci;
+        private Vector2 textMerciPosition;
 
         public override void Initialize()
         {
             Game.IsMouseVisible = true;
-            Sound.ChangeBackgroundMusic(Sound.menu);
+            Sound.ChangeBackgroundMusic(Sound.ending);
+
+            remainingTime = 10f;
+
+            textEnd = "End";
+            textEndPosition = new Vector2(205, 50);
+
+            textMerci = "Merci d'avoir joue ;)";
+            textMerciPosition = new Vector2(25, 120);
 
             base.Initialize();
         }
 
         public override void LoadContent()
         {
-            Button playButton = new Button("Jouer")
+            Button menuButton = new Button("Retour au menu")
             {
-                Position = new Vector2(30, 115)
+                Position = new Vector2(145, 200)
             };
-            playButton.Click += PlayButton_Click;
-
-            Button settingsButton = new Button("Options")
-            {
-                Position = new Vector2(30, 172)
-            };
-            settingsButton.Click += SettingsButton_Click;
-
-            Button quitGameButton = new Button("Quitter")
-            {
-                Position = new Vector2(30, 230)
-            };
-            quitGameButton.Click += QuitButton_Click;
+            menuButton.Click += MenuButton_Click;
 
             buttons = new List<Button>()
             {
-                playButton, settingsButton, quitGameButton
+                menuButton
             };
+
             base.LoadContent();
         }
 
-        private void PlayButton_Click(object sender, EventArgs e)
+        private void MenuButton_Click(object sender, EventArgs e)
         {
-            Game.LoadLevel1();
-        }
-
-        private void SettingsButton_Click(object sender, EventArgs e)
-        {
-            Game.LoadSettingsMenu();
-        }
-
-        private void QuitButton_Click(object sender, EventArgs e)
-        {
-            Game.Exit();
+            Game.LoadMainMenu();
         }
 
         public override void Update(GameTime gameTime)
@@ -75,6 +70,11 @@ namespace Overflow.Scenes
             {
                 button.Update(gameTime);
             }
+
+            remainingTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (remainingTime <= 0)
+                Game.LoadMainMenu();
         }
 
         public override void Draw(GameTime gameTime)
@@ -83,7 +83,8 @@ namespace Overflow.Scenes
             Game.GraphicsDevice.Clear(Color.Black);
 
             Main._spriteBatch.Begin();
-            Main._spriteBatch.Draw(Art.backgroundMainMenu, Vector2.Zero, Color.White * 0.6f);
+            Main._spriteBatch.DrawString(Art.fontBig, textEnd, textEndPosition, Color.White);
+            Main._spriteBatch.DrawString(Art.fontBig, textMerci, textMerciPosition, Color.White);
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, Main._spriteBatch);

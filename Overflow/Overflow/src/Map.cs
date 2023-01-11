@@ -226,9 +226,9 @@ namespace Overflow.src
             return faresetRoomCoordinates;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Main game)
         {
-            _rooms[CurrentRoom[0], CurrentRoom[1]].Update(gameTime);
+            _rooms[CurrentRoom[0], CurrentRoom[1]].Update(gameTime, game);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spritebatch)

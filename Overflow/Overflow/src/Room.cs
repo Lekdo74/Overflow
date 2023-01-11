@@ -641,7 +641,7 @@ namespace Overflow.src
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Main game)
         {
             foreach(Enemy enemy in _enemies)
             {
@@ -676,7 +676,13 @@ namespace Overflow.src
                             enemy.KnockbackTimeRemaining = enemy.KnockbackDuration;
                         }
                         else
+                        {
                             enemiesToDelete.Add(enemy);
+                            if (enemy.Type == "Boss")
+                            {
+                                game.LoadEndScreen();
+                            }
+                        }
                     }
                 }
             }

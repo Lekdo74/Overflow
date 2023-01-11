@@ -290,8 +290,21 @@ namespace Overflow.src
                 return 0;
             if(IFramesTimeRemaining <= 0)
             {
+                Projectile projectileFollowingPlayerThatTouched = null;
                 foreach (Enemy enemy in currentRoom.Enemies)
                 {
+                    if(enemy.Type == "Boss")
+                    {
+                        foreach(Projectile projectile in Boss.ProjectilesFollowingPlayer)
+                        {
+                            if (HitBox.Intersects(projectile.Rectangle))
+                            {
+                                NewPlayerDirection = Vector2.Normalize(projectile.Direction);
+                                projectileFollowingPlayerThatTouched = projectile;
+                            }
+                        }
+                    }
+
                     if (HitBox.Intersects(enemy.Rectangle))
                     {
                         if (enemy.Direction != Vector2.Zero)
@@ -301,6 +314,13 @@ namespace Overflow.src
                         return 1;
                     }
                 }
+
+                if (projectileFollowingPlayerThatTouched != null)
+                {
+                    Boss.ProjectilesFollowingPlayer.Remove(projectileFollowingPlayerThatTouched);
+                    return 1;
+                }
+
                 Projectile projectileThatTouched = null;
                 foreach (Projectile projectile in currentRoom.Projectiles)
                 {

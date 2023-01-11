@@ -41,27 +41,15 @@ namespace Overflow
             Art.Load(Content);
             //Sound.Load(Content);
 
-            LoadMainMenu();
+            LoadLevel1();
             base.Initialize();
         }
-
-        //float time = 0;
-        //int nbUpdate = 0;
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.Escape))
                 LoadMainMenu();
-            /*
-            if (time >= 1)
-            {
-                Console.WriteLine($"FPS : {nbUpdate}");
-                time = 0;
-                nbUpdate = 0;
-            }
-            time += gameTime.GetElapsedSeconds();
-            nbUpdate++;
-            */
+
             base.Update(gameTime);
         }
 
@@ -78,6 +66,11 @@ namespace Overflow
         public void LoadLevel1()
         {
             _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black));
+        }
+
+        public void LoadEndScreen()
+        {
+            _screenManager.LoadScreen(new EndScreen(this), new FadeTransition(GraphicsDevice, Color.Black));
         }
 
         public void LoadRoomTest()

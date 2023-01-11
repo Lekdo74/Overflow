@@ -15,7 +15,6 @@ namespace Overflow.src
 
         private Vector2 _position;
         private Vector2 _direction;
-        private float _rotation;
         private float _speed;
         private Vector2 _origin;
 
@@ -23,14 +22,25 @@ namespace Overflow.src
 
         private bool _isExpired = false;
 
+        private float _remainingTime;
+
         public Projectile(Texture2D texture, Vector2 position, Vector2 direction, int speed, Room room)
         {
             Texture = texture;
             Position = position;
             Direction = direction;
-            Rotation = (float)Math.Atan2(Direction.Y, Direction.X);
             Speed = speed;
             Room = room;
+        }
+
+        public Projectile(Texture2D texture, Vector2 position, Vector2 direction, int speed, Room room, float remainingTime)
+        {
+            Texture = texture;
+            Position = position;
+            Direction = direction;
+            Speed = speed;
+            Room = room;
+            RemainingTime = remainingTime;
         }
 
         public Texture2D Texture
@@ -48,11 +58,7 @@ namespace Overflow.src
             get { return _direction; }
             set { _direction = value; }
         }
-        public float Rotation
-        {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
+        
         public float Speed
         {
             get { return _speed; }
@@ -74,9 +80,18 @@ namespace Overflow.src
             set { _isExpired = value; }
         }
 
+        public float RemainingTime
+        {
+            get { return _remainingTime; }
+            set { _remainingTime = value; }
+        }
+
         public Rectangle Rectangle
         {
-            get { return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height); }
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -95,7 +110,7 @@ namespace Overflow.src
 
         public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(Texture, Rectangle, null, Color.White, Rotation, Origin, SpriteEffects.None, 0);
+            spritebatch.Draw(Texture, Rectangle, null, Color.White, 0, Origin, SpriteEffects.None, 0);
         }
     }
 }

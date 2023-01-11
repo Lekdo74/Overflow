@@ -21,6 +21,7 @@ namespace Overflow.src
 
         //UI
         public static SpriteFont font;
+        public static SpriteFont fontBig;
         public static Texture2D leftArrow;
         public static Texture2D rightArrow;
         public static Texture2D emptyCase;
@@ -33,6 +34,7 @@ namespace Overflow.src
         public static EnemySet enemysetLevel1;
         public static Texture2D laser;
         public static Texture2D bouleRouge;
+        public static Texture2D bouleVerte;
 
         public static SpriteSheet bossSpriteSheet;
 
@@ -47,11 +49,12 @@ namespace Overflow.src
             backgroundSettingsMenu = content.Load<Texture2D>("BackgroundMenus/SettingsMenu");
 
             font = content.Load<SpriteFont>("UI/Font/Font");
+            fontBig = content.Load<SpriteFont>("UI/Font/FontBig");
             leftArrow = content.Load<Texture2D>("UI/LeftArrow");
             rightArrow = content.Load<Texture2D>("UI/RightArrow");
             emptyCase = content.Load<Texture2D>("UI/EmptyCase");
             checkedCase = content.Load<Texture2D>("UI/CheckedCase");
-            buttons = new Texture2D[] { content.Load<Texture2D>("UI/DifferentButtonSizes/Button1"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button2"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button3"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button4"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button5"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button6"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button7"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button8"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button9"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button10"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button11"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button12"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button13"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button14"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button15") };
+            buttons = new Texture2D[] { content.Load<Texture2D>("UI/DifferentButtonSizes/Button1"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button2"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button3"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button4"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button5"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button6"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button7"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button8"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button9"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button10"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button11"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button12"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button13"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button14"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button15"), content.Load<Texture2D>("UI/DifferentButtonSizes/Button16") };
             volumeBar = new Texture2D[] { content.Load<Texture2D>("UI/VolumeBar/VolumeBar1"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar2"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar3"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar4"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar5"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar6"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar7"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar8"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar9"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar10"), content.Load<Texture2D>("UI/VolumeBar/VolumeBar11") };
             healthBar = new Texture2D[] { content.Load<Texture2D>("UI/HealthBar/HealthBar1"), content.Load<Texture2D>("UI/HealthBar/HealthBar2"), content.Load<Texture2D>("UI/HealthBar/HealthBar3"), content.Load<Texture2D>("UI/HealthBar/HealthBar4"), content.Load<Texture2D>("UI/HealthBar/HealthBar5"), content.Load<Texture2D>("UI/HealthBar/HealthBar6"), content.Load<Texture2D>("UI/HealthBar/HealthBar7"), content.Load<Texture2D>("UI/HealthBar/HealthBar8"), content.Load<Texture2D>("UI/HealthBar/HealthBar9"), content.Load<Texture2D>("UI/HealthBar/HealthBar10") };
 
@@ -59,6 +62,7 @@ namespace Overflow.src
             enemysetLevel1 = new EnemySet(new Texture2D[] { content.Load<Texture2D>("EnemySets/Level1/SeekerTentacles") }, new Texture2D[] { content.Load<Texture2D>("EnemySets/Level1/ArcherLaser") });
             laser = content.Load<Texture2D>("Projectiles/Laser");
             bouleRouge = content.Load<Texture2D>("Projectiles/bouleRouge");
+            bouleVerte = content.Load<Texture2D>("Projectiles/bouleVerte");
 
             bossSpriteSheet = content.Load<SpriteSheet>("Boss/BossAnimations.sf", new JsonContentLoader());
 
