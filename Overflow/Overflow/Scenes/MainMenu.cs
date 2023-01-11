@@ -37,7 +37,7 @@ namespace Overflow.Scenes
 
             Button settingsButton = new Button("Options")
             {
-                Position = new Vector2(30, 150)
+                Position = new Vector2(30, 172)
             };
             settingsButton.Click += SettingsButton_Click;
 

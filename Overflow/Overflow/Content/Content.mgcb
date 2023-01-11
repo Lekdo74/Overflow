@@ -217,6 +217,18 @@
 /processorParam:Quality=Best
 /build:Musics/Tutorial.mp3
 
+#begin Projectiles/bouleRouge.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Projectiles/bouleRouge.png
+
 #begin Projectiles/Laser.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -468,6 +480,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:TileSets/Level1/Terrain9.png
+
+#begin TileSets/Level1/TerrainFonce.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TileSets/Level1/TerrainFonce.png
 
 #begin TileSets/Level1/TerrainWithWall.png
 /importer:TextureImporter

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace Overflow.src
 {
@@ -12,14 +13,30 @@ namespace Overflow.src
     {
         private static int _health;
 
+        private static Room _room;
+
+        private static bool _direction;
         private static Vector2 _position;
 
-        private static int _currentAttack;
         private static int _numberOfAttacks;
-        private static float _timeBetweenAttacksOne;
+        private static float _timeBetweenAttacks;
         private static float _timeBeforeNextAttack;
 
+
+        private static bool _attackAnimation;
+        private static int _currentAnimation;
+
+        private static float _attackOneAnimationDuration;
+        private static float _attackOneAnimationDurationBeforeAttackFrame;
+
+        private static float _attackTwoAnimationDuration;
+        private static float _attackTwoAnimationDurationBeforeAttackFrame;
+
+        private static float _attackAnimationTimeRemaining;
+        private static float _attackAnimationTimeRemainingBeforeAttackFrame;
+
         private static AnimatedSprite _bossSprite;
+
         private static int _width;
         private static int _height;
         private static int _offSetX;
@@ -33,10 +50,27 @@ namespace Overflow.src
             set { _health = value; }
         }
 
+        public static Room Room
+        {
+            get { return _room; }
+            set { _room = value; }
+        }
+
+        public static bool Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
+
         public static Vector2 Position
         {
             get { return _position; }
             set { _position = value; }
+        }
+
+        public static Vector2 CenteredPosition
+        {
+            get { return Position + new Vector2(OffSetX + Width / 2, OffSetY + Height / 2); }
         }
 
         public static int NumberOfAttacks
@@ -44,15 +78,63 @@ namespace Overflow.src
             get { return _numberOfAttacks; }
             set { _numberOfAttacks = value; }
         }
-        public static float TimeBetweenAttacksOne
+        public static float TimeBetweenAttacks
         {
-            get { return _timeBetweenAttacksOne; }
-            set { _timeBetweenAttacksOne = value; }
+            get { return _timeBetweenAttacks; }
+            set { _timeBetweenAttacks = value; }
         }
         public static float TimeBeforeNextAttack
         {
             get { return _timeBeforeNextAttack; }
             set { _timeBeforeNextAttack = value; }
+        }
+
+        public static bool AttackAnimation
+        {
+            get { return _attackAnimation; }
+            set { _attackAnimation = value; }
+        }
+
+        public static int CurrentAnimation
+        {
+            get { return _currentAnimation; }
+            set { _currentAnimation = value; }
+        }
+
+        public static float AttackOneAnimationDuration
+        {
+            get { return _attackOneAnimationDuration; }
+            set { _attackOneAnimationDuration = value; }
+        }
+
+        public static float AttackAnimationTimeRemaining
+        {
+            get { return _attackAnimationTimeRemaining; }
+            set { _attackAnimationTimeRemaining = value; }
+        }
+
+        public static float AttackOneAnimationDurationBeforeAttackFrame
+        {
+            get { return _attackOneAnimationDurationBeforeAttackFrame; }
+            set { _attackOneAnimationDurationBeforeAttackFrame = value; }
+        }
+
+        public static float AttackAnimationTimeRemainingBeforeAttackFrame
+        {
+            get { return _attackAnimationTimeRemainingBeforeAttackFrame; }
+            set { _attackAnimationTimeRemainingBeforeAttackFrame = value; }
+        }
+
+        public static float AttackTwoAnimationDuration
+        {
+            get { return _attackTwoAnimationDuration; }
+            set { _attackTwoAnimationDuration = value; }
+        }
+
+        public static float AttackTwoAnimationDurationBeforeAttackFrame
+        {
+            get { return _attackTwoAnimationDurationBeforeAttackFrame; }
+            set { _attackTwoAnimationDurationBeforeAttackFrame = value; }
         }
 
         public static AnimatedSprite BossSprite
@@ -94,6 +176,14 @@ namespace Overflow.src
         public static Rectangle Rectangle
         {
             get { return new Rectangle((int)Position.X + OffSetX, (int)Position.Y + OffSetY, Width, Height); }
+        }
+
+        public static Vector2 FindTileToRoamTo(float distance)
+        {
+            Tile tile = Room.GetRandomTerrainTileInRoom();
+            while(Vector2.Distance(tile.Position, Position) < distance)
+                tile = Room.GetRandomTerrainTileInRoom();
+            return tile.Position;
         }
     }
 }

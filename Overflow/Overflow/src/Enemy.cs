@@ -129,7 +129,7 @@ namespace Overflow.src
             {
                 if (!(Type == "Boss"))
                     return Position + new Vector2(Texture.Width / 2, Texture.Height / 2);
-                return Position + new Vector2(Boss.OffSetX + Boss.Width / 2,Boss.OffSetY + Boss.Height / 2);
+                return Boss.Position + new Vector2(Boss.OffSetX + Boss.Width / 2,Boss.OffSetY + Boss.Height / 2);
             }
         }
 
@@ -397,10 +397,80 @@ namespace Overflow.src
         {
             while (true)
             {
+                Vector2 initPosition = Boss.Position;
+
+                if (KnockbackTimeRemaining <= 0)
+                {
+                    Direction = (Player.CenteredPosition - Boss.CenteredPosition);
+                    Velocity = Vector2.Normalize(Direction) * _speed * _deltaTime;
+                }
+                else
+                {
+                    Velocity = KnockbackDirection * KnockbackSpeed * _deltaTime;
+                }
+
+                Boss.Position += Velocity;
+
+                if (Velocity.X < 0)
+                    Boss.Direction = false;
+                else if (Velocity.X > 0)
+                    Boss.Direction = true;
+
+                if(Boss.AttackAnimationTimeRemaining <= 0)
+                    Boss.AttackAnimation = false;
+                else
+                    Boss.AttackAnimation = true;
+
                 if (Boss.TimeBeforeNextAttack <= 0)
                 {
-                    BossAttackOne(Art.laser);
-                    Boss.TimeBeforeNextAttack = Boss.TimeBetweenAttacksOne;
+                    Boss.CurrentAnimation = random.Next(1, 3);
+                    if (Boss.Direction)
+                    {
+                        switch (Boss.CurrentAnimation)
+                        {
+                            case 1:
+                                Boss.BossSprite.Play("attackOneRight");
+                                break;
+                            case 2:
+                                Boss.BossSprite.Play("attackTwoRight");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (Boss.CurrentAnimation)
+                        {
+                            case 1:
+                                Boss.BossSprite.Play("attackOneLeft");
+                                break;
+                            case 2:
+                                Boss.BossSprite.Play("attackTwoLeft");
+                                break;
+                        }
+                    }
+                    Boss.AttackAnimation = true;
+                    switch (Boss.CurrentAnimation)
+                    {
+                        case 1:
+                            Boss.AttackAnimationTimeRemaining = Boss.AttackOneAnimationDuration;
+                            Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackOneAnimationDurationBeforeAttackFrame;
+                            break;
+                        case 2:
+                            Boss.AttackAnimationTimeRemaining = Boss.AttackTwoAnimationDuration;
+                            Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackTwoAnimationDurationBeforeAttackFrame;
+                            break;
+                    }
+                    Boss.TimeBeforeNextAttack = Boss.TimeBetweenAttacks;
+                }
+                if(Boss.AttackAnimationTimeRemainingBeforeAttackFrame <= 0 && Boss.AttackAnimation)
+                {
+                    Boss.AttackAnimationTimeRemainingBeforeAttackFrame = Boss.AttackOneAnimationDuration;
+                    BossAttackOne(Art.bouleRouge);
+                }
+
+                if (_previousTile != _currentTile)
+                {
+                    CalculPath = true;
                 }
 
                 yield return 0;
@@ -426,10 +496,35 @@ namespace Overflow.src
 
         public void BossAttackOne(Texture2D projectile)
         {
+            int randomNumber = random.Next(0, 2);
             int step = 10;
-            for (int j = 1; j < Room.Size.Y * 20 / step; j++)
+            switch (randomNumber)
             {
-                Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 100, Room));
+                case 0:
+                    int offsetY = -8;
+                    for (int i = 1; i < Room.Size.X * 20 / step; i++)
+                    {
+                        if (i % 2 == 0)
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, offsetY), Vector2.Normalize(new Vector2(0, 1)), 200, Room));
+                        else
+                        {
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20 + 10, -20 + offsetY), Vector2.Normalize(new Vector2(0, 1)), 200, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(i * 20, -40 + offsetY), Vector2.Normalize(new Vector2(0, 1)), 200, Room));
+                        }
+                    }
+                    return;
+                case 1:
+                    for (int j = 1; j < Room.Size.Y * 20 / step; j++)
+                    {
+                        if (j % 2 == 0)
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 + 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 200, Room));
+                        else
+                        {
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 200, Room));
+                            Room.Projectiles.Add(new Projectile(projectile, new Vector2(Room.Size.X * 20 + 40, j * 20), Vector2.Normalize(new Vector2(-1, 0)), 200, Room));
+                        }
+                    }
+                    return;
             }
         }
 
@@ -451,16 +546,28 @@ namespace Overflow.src
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _deltaTime = deltaTime;
+            _previousTile = Room.GetTile(Position);
 
             if (KnockbackTimeRemaining > 0)
             {
                 KnockbackTimeRemaining -= deltaTime;
             }
+
+            if(Boss.AttackAnimationTimeRemaining > 0)
+            {
+                Boss.AttackAnimationTimeRemaining -= deltaTime;
+            }
+
+            if(Boss.AttackAnimationTimeRemainingBeforeAttackFrame > 0)
+            {
+                Boss.AttackAnimationTimeRemainingBeforeAttackFrame -= deltaTime;
+            }
+
+
             if(Type != "Boss")
             {
                 if (KnockbackTimeRemaining <= 0)
                 {
-                    _previousTile = Room.GetTile(Position);
                     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                     TimeSinceLastShot += deltaTime;
                     if (_calculPath)
@@ -487,10 +594,24 @@ namespace Overflow.src
             }
             else
             {
+                if (Boss.AttackAnimationTimeRemaining <= 0)
+                {
+                    if (Velocity.X < 0)
+                    {
+                        Boss.BossSprite.Play("walkLeft");
+                    }
+                    else if (Velocity.X > 0)
+                    {
+                        Boss.BossSprite.Play("walkRight");
+                    }
+                }
+                Boss.BossSprite.Update(deltaTime);
+
                 if (Boss.TimeBeforeNextAttack > 0)
                 {
                     Boss.TimeBeforeNextAttack -= deltaTime;
                 }
+
                 ApplyBehaviours();
             }
             
@@ -503,12 +624,8 @@ namespace Overflow.src
                 spriteBatch.Draw(Texture, new Rectangle((int)(Position.X + Origin.X), (int)(Position.Y + Origin.Y), Texture.Width, Texture.Height), null, Color, Rotation, Origin, SpriteEffects.None, 0f);
             else
             {
-                spriteBatch.Draw(Boss.BossSprite, Position);
+                spriteBatch.Draw(Boss.BossSprite, Boss.Position);
             }
-            /*foreach (Vector2 position in PathFinding.FindPath((Position + new Vector2(Texture.Width / 2, Texture.Height / 2) - Room.Position) / 20, (Player.Position + new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2) - Room.Position) / 20, Room))
-            {
-                spriteBatch.Draw(Art.tilesetLevel1.TopDoor, position, Color.Red);
-            }*/
         }
 
         public static Enemy CreateSeeker(Texture2D texture, Vector2 position, Room room)
@@ -546,7 +663,8 @@ namespace Overflow.src
             Enemy enemy;
             enemy = new Enemy(room, "Boss", position, 5);
             Boss.Position = position;
-            enemy.Speed = 35;
+            Boss.Room = room;
+            enemy.Speed = 20;
             enemy.AddBehaviour(enemy.BossState());
 
             return enemy;

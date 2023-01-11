@@ -52,8 +52,11 @@ namespace Overflow.Scenes
             Boss.OffSetX = 16;
             Boss.OffSetY = 16;
             Boss.BossSprite.Origin = Vector2.Zero;
-            Boss.TimeBetweenAttacksOne = 2f;
-
+            Boss.TimeBetweenAttacks = 3f;
+            Boss.AttackOneAnimationDuration = 1.56f;
+            Boss.AttackOneAnimationDurationBeforeAttackFrame = 1.2f;
+            Boss.AttackTwoAnimationDuration = 1.2f;
+            Boss.AttackTwoAnimationDurationBeforeAttackFrame = 0.96f;
 
             Player.CanPassThroughDoor = true;
             Player.PreviousTile = currentRoom.GetPlayerTile();

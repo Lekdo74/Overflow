@@ -9,6 +9,8 @@ namespace Overflow.src
 {
     public class Room
     {
+        private static Random random = new Random();
+
         private static List<string> _doorsTypes = new List<string> { "DoorTop", "DoorRight", "DoorBottom", "DoorLeft" };
 
         private string[] _room;
@@ -237,6 +239,10 @@ namespace Overflow.src
                         {
                             tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileset.Terrain, "Grass", i, j);
                         }
+                    }
+                    else if (character == "F")
+                    {
+                        tiles[i, j] = new Tile(new Vector2(20 * i, 20 * j), _tileset.DarkTerrain, "Grass", i, j);
                     }
                     else if(character == "x")
                     {
@@ -478,7 +484,6 @@ namespace Overflow.src
 
         private List<Enemy> CreateEnemies()
         {
-            Random random = new Random();
             List<Enemy> enemies = new List<Enemy>();
             for(int i = 0; i < random.Next(_enemyNb[0], _enemyNb[1]); i++)
             {
@@ -512,6 +517,19 @@ namespace Overflow.src
         public Tile GetPlayerTile()
         {
             return Tiles[((int)Player.Position.X - (int)Position.X + Player.Texture.Width / 2) / _tileset.TileSize, ((int)Player.Position.Y - (int)Position.Y + Player.Texture.Height / 2) / _tileset.TileSize];
+        }
+
+        public Tile GetRandomTerrainTileInRoom()
+        {
+            List<Tile> availableTiles = new List<Tile>();
+            foreach(Tile tile in Tiles)
+            {
+                if (tile != null && tile.Type == "Grass")
+                    availableTiles.Add(tile);
+            }
+            if (availableTiles.Count == 0)
+                return null;
+            return availableTiles[random.Next(0, availableTiles.Count)];
         }
 
         public bool InsideRoom(Vector2 position)
@@ -654,11 +672,9 @@ namespace Overflow.src
                         {
                             enemy.AttackNumber = Player.AttackNumber;
                             enemy.Health -= 1;
-                            if(enemy.Type != "Boss")
-                            {
-                                enemy.KnockbackDirection = Vector2.Normalize(enemy.CenteredPosition - Player.CenteredPosition);
-                                enemy.KnockbackTimeRemaining = enemy.KnockbackDuration;
-                            }
+                            enemy.KnockbackDirection = Vector2.Normalize(enemy.CenteredPosition - Player.CenteredPosition);
+                            Console.WriteLine(enemy.KnockbackDirection);
+                            enemy.KnockbackTimeRemaining = enemy.KnockbackDuration;
                         }
                         else
                             enemiesToDelete.Add(enemy);

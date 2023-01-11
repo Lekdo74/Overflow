@@ -34,7 +34,9 @@ namespace Overflow.src
         private Texture2D[] _bottomDoor;
         private Texture2D[] _leftDoor;
 
-        public TileSet(int tileSize, Texture2D[] topWall, Texture2D[] rightWall, Texture2D[] bottomWall, Texture2D[] leftWall, Texture2D[] topLeftWall, Texture2D[] topRightWall, Texture2D[] bottomRightWall, Texture2D[] bottomLeftWall, Texture2D[] topLeftCorner, Texture2D[] topRightCorner, Texture2D[] bottomRightCorner, Texture2D[] bottomLeftCorner, Texture2D[] terrain, Texture2D[] terrainWithWall, Texture2D[] terrainWithWallBorderLeft, Texture2D[] terrainWithWallBorderRight, Texture2D[] topDoor, Texture2D[] rightDoor, Texture2D[] bottomDoor, Texture2D[] leftDoor)
+        private Texture2D[] _darkTerrain;
+
+        public TileSet(int tileSize, Texture2D[] topWall, Texture2D[] rightWall, Texture2D[] bottomWall, Texture2D[] leftWall, Texture2D[] topLeftWall, Texture2D[] topRightWall, Texture2D[] bottomRightWall, Texture2D[] bottomLeftWall, Texture2D[] topLeftCorner, Texture2D[] topRightCorner, Texture2D[] bottomRightCorner, Texture2D[] bottomLeftCorner, Texture2D[] terrain, Texture2D[] terrainWithWall, Texture2D[] terrainWithWallBorderLeft, Texture2D[] terrainWithWallBorderRight, Texture2D[] topDoor, Texture2D[] rightDoor, Texture2D[] bottomDoor, Texture2D[] leftDoor, Texture2D[] darkTerrain)
         {
             _tileSize = tileSize;
 
@@ -62,6 +64,8 @@ namespace Overflow.src
             _rightDoor = rightDoor;
             _bottomDoor = bottomDoor;
             _leftDoor = leftDoor;
+
+            _darkTerrain = darkTerrain;
         }
 
         public int TileSize
@@ -157,6 +161,11 @@ namespace Overflow.src
         public Texture2D LeftDoor
         {
             get { return _leftDoor[random.Next(0, _leftDoor.Length)]; }
+        }
+
+        public Texture2D DarkTerrain
+        {
+            get { return _darkTerrain[random.Next(0, _leftDoor.Length)]; }
         }
     }
 }
