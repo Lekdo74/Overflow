@@ -885,6 +885,13 @@
 /processorParam:TextureFormat=Compressed
 /build:UI/Font/FontBig.spritefont
 
+#begin UI/Font/FontLittle.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:UI/Font/FontLittle.spritefont
+
 #begin UI/HealthBar/HealthBar1.png
 /importer:TextureImporter
 /processor:TextureProcessor

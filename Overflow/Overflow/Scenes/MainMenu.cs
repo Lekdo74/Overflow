@@ -63,7 +63,10 @@ namespace Overflow.Scenes
         private void PlayButton_Click(object sender, EventArgs e)
         {
             Sound.PlaySound(Sound.buttonSoundEffect);
-            Game.LoadLevel1();
+            if(Player.PastTutorial)
+                Game.LoadLevel1();
+            else
+                Game.LoadTutorial();
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)

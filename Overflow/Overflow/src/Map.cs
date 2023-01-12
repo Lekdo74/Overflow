@@ -22,6 +22,8 @@ namespace Overflow.src
         private EnemySet _enemyset;
         private Song _backgroundMusic;
 
+        private bool _niveau;
+
         public Map(int roomNb, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroundMusic)
         {
             _roomNb = roomNb;
@@ -30,6 +32,17 @@ namespace Overflow.src
             _tileSet = tileSet;
             _enemyset = enemyset;
             _rooms = GenerateMap();
+        }
+
+        public Map(int roomNb, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroundMusic, bool niveau)
+        {
+            _roomNb = roomNb;
+            _enemyNb = enemyNb;
+            _backgroundMusic = backgroundMusic;
+            _tileSet = tileSet;
+            _enemyset = enemyset;
+            _rooms = GenerateMapTuto();
+            _niveau = niveau;
         }
 
         public int RoomNb
@@ -62,6 +75,36 @@ namespace Overflow.src
             {
                 _currentRoom = value;
             }
+        }
+
+        public bool Niveau
+        { 
+            get { return _niveau; }
+            set { _niveau = value; }
+        }
+
+        private Room[,] GenerateMapTuto()
+        {
+            List<int[]> roomCoordinates = new List<int[]>();
+            roomCoordinates.Add(new int[] { 0, 0 });
+
+
+            Room[,] rooms = new Room[_mapSizeX, _mapSizeY];
+            foreach (int[] coordinates in roomCoordinates)
+            {
+                int[][] coord = new int[][] { new int[] { 0, 0 }, new int[] { 1, 0 }, new int[] { 2, 0 } };
+                rooms = new Room[3, 1];
+
+                bool[] doors = new bool[4];
+
+                rooms[2, 0] = PremadeRooms.RoomTuto(new bool[] { false, false, false, true }, 1, new int[] {0, 0}, _tileSet, _enemyset, _backgroundMusic);
+                rooms[1, 0] = PremadeRooms.RoomTuto(new bool[] { false, true, true, false }, 2, new int[] { 2, 2 }, _tileSet, _enemyset, _backgroundMusic);
+                rooms[0, 0] = PremadeRooms.RoomTuto(new bool[] { false, true, false, false }, 3, new int[] { 4, 4 }, _tileSet, _enemyset, _backgroundMusic);
+
+                CurrentRoom = new int[] { 2, 0 };
+                Console.WriteLine(CurrentRoom);
+            }
+            return rooms;
         }
 
         private Room[,] GenerateMap()

@@ -49,6 +49,9 @@ namespace Overflow.src
         private static Tile _previousTile;
         private static Tile _currentTile;
 
+        private static bool _tutorial;
+        private static bool _pastTutorial;
+
         public static int Health
         {
             get { return _health; }
@@ -254,6 +257,18 @@ namespace Overflow.src
             {
                 _currentTile = value;
             }
+        }
+        
+        public static bool Tutorial
+        {
+            get { return _tutorial; }
+            set { _tutorial = value; }
+        }
+
+        public static bool PastTutorial
+        {
+            get { return _pastTutorial; }
+            set { _pastTutorial = value; }
         }
 
         public static Rectangle Rectangle

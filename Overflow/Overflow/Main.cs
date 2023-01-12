@@ -64,6 +64,11 @@ namespace Overflow
             _screenManager.LoadScreen(new SettingsMenu(this), new FadeTransition(GraphicsDevice, Color.Black, 0.85f));
         }
 
+        public void LoadTutorial()
+        {
+            _screenManager.LoadScreen(new Tutorial(this), new FadeTransition(GraphicsDevice, Color.Black));
+        }
+
         public void LoadLevel1()
         {
             _screenManager.LoadScreen(new Level1(this), new FadeTransition(GraphicsDevice, Color.Black, 1f));

@@ -22,6 +22,7 @@ namespace Overflow.src
         //UI
         public static SpriteFont font;
         public static SpriteFont fontBig;
+        public static SpriteFont fontLittle;
         public static Texture2D leftArrow;
         public static Texture2D rightArrow;
         public static Texture2D emptyCase;
@@ -50,6 +51,7 @@ namespace Overflow.src
 
             font = content.Load<SpriteFont>("UI/Font/Font");
             fontBig = content.Load<SpriteFont>("UI/Font/FontBig");
+            fontLittle = content.Load<SpriteFont>("UI/Font/FontLittle");
             leftArrow = content.Load<Texture2D>("UI/LeftArrow");
             rightArrow = content.Load<Texture2D>("UI/RightArrow");
             emptyCase = content.Load<Texture2D>("UI/EmptyCase");

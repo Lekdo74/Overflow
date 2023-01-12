@@ -489,14 +489,21 @@ namespace Overflow.src
             {
                 int currentEnemySpawnPoint = random.Next(0, _spawnPointsEnemies.Count - 1);
 
-                int randomEnemy = random.Next(0, 2);
-                if(randomEnemy == 0)
-                {
-                    enemies.Add(Enemy.CreateSeeker(_enemyset.Seeker, _spawnPointsEnemies[currentEnemySpawnPoint], this));
-                }
-                else if(randomEnemy == 1)
+                if (Player.Tutorial && SpawnPoints[1] != Vector2.Zero && SpawnPoints[3] != Vector2.Zero)
                 {
                     enemies.Add(Enemy.CreateArcher(_enemyset.Archer, _spawnPointsEnemies[currentEnemySpawnPoint], this));
+                }
+                else
+                {
+                    int randomEnemy = random.Next(0, 2);
+                    if (randomEnemy == 0)
+                    {
+                        enemies.Add(Enemy.CreateSeeker(_enemyset.Seeker, _spawnPointsEnemies[currentEnemySpawnPoint], this));
+                    }
+                    else if (randomEnemy == 1)
+                    {
+                        enemies.Add(Enemy.CreateArcher(_enemyset.Archer, _spawnPointsEnemies[currentEnemySpawnPoint], this));
+                    }
                 }
                 
                 _spawnPointsEnemies.RemoveAt(currentEnemySpawnPoint);

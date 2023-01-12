@@ -40,6 +40,81 @@ namespace Overflow.src
 
         private static Random random = new Random();
 
+        public static Room RoomTuto(bool[] doors, int roomType, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroungMusic)
+        {
+            Console.WriteLine(roomType);
+            if (roomType == 1)
+            {
+                string[][] room =
+                {
+                    new string[]
+                    {
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeeee.-----.eeeeeee",
+                        "eeeeeee.--⅃     L.eeeeee",
+                        ".------⅃         |eeeeee",
+                        "|              Γ-.eeeeee",
+                        "o      x      Γ.eeeeeeee",
+                        "|             |eeeeeeeee",
+                        ".⅂           Γ.eeeeeeeee",
+                        "e.⅂         Γ.eeeeeeeeee",
+                        "ee.---------.eeeeeeeeeee",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                    }
+                };
+                return new Room(room[0], doors, 1, enemyNb, tileSet, enemyset, backgroungMusic);
+            }
+            else if (roomType == 2)
+            {
+                string[][] room =
+                {
+                    new string[]
+                    {
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeee.------.eeeeeeeee",
+                        "eeeeeee|      L.eeeeeeee",
+                        ".------⅃       L-------.",
+                        "|                      |",
+                        "o           x          o",
+                        "|                      |",
+                        "|                      |",
+                        "|                     Γ.",
+                        ".--⅂        Γ---------.e",
+                        "eee.⅂      Γ.eeeeeeeeeee",
+                        "eeee.------.eeeeeeeeeeee",
+                    }
+                };
+                return new Room(room[0], doors, 2, enemyNb, tileSet, enemyset, backgroungMusic);
+            }
+            else if (roomType == 3)
+            {
+                string[][] room =
+                {
+                    new string []
+                    {
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeee.-------------.",
+                        "eeeeeeee.⅃             |",
+                        "eeeeeeee|              |",
+                        "eeeeeeee|              |",
+                        "eeeeeee.⅃       x      o",
+                        "eeeeee.⅃               |",
+                        "eeeeee|                |",
+                        "eeeeee.⅂              Γ.",
+                        "eeeeeee.--------------.e",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                        "eeeeeeeeeeeeeeeeeeeeeeee",
+                    }
+                };
+                return new Room(room[0], doors, 2, enemyNb, tileSet, enemyset, backgroungMusic);
+            }
+            throw new Exception("Cette salle n'est pas faite pour le tutoriel !");
+        }
+
         public static Room BossRoom(bool[] doors, int roomType, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroungMusic)
         {
             if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true)
