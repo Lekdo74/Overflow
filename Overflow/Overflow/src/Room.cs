@@ -369,7 +369,6 @@ namespace Overflow.src
             {
                 return _tileset.BottomWall;
             }
-            Console.WriteLine((position[0], position[1]));
             throw new Exception("Une tile mur horizontal n'est pas définie");
         }
         private Texture2D SelectVerticalWall(int[] position)

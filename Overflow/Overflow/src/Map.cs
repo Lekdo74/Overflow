@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-using System;
 using System.Collections.Generic;
-using System.IO;
+using System;
 
 namespace Overflow.src
 {
@@ -102,7 +101,6 @@ namespace Overflow.src
                 rooms[0, 0] = PremadeRooms.RoomTuto(new bool[] { false, true, false, false }, 3, new int[] { 4, 4 }, _tileSet, _enemyset, _backgroundMusic);
 
                 CurrentRoom = new int[] { 2, 0 };
-                Console.WriteLine(CurrentRoom);
             }
             return rooms;
         }
@@ -162,7 +160,6 @@ namespace Overflow.src
 
             int[] farestRoomFromStartCoordinates = FarestRoom(roomCoordinates);
             map[farestRoomFromStartCoordinates[0] - xMin, farestRoomFromStartCoordinates[1] - yMin] = 3;
-
             for (int j = 0; j < map.GetLength(1); j++)
             {
                 for (int i = 0; i < map.GetLength(0); i++)

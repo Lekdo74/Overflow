@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.TextureAtlases;
-using System;
 using System.Collections.Generic;
 
 namespace Overflow.src
@@ -470,6 +468,7 @@ namespace Overflow.src
 
             if ((PlayerInputs.KeyBoardState.IsKeyDown(Keys.LeftShift) || PlayerInputs.KeyBoardState.IsKeyDown(Keys.Space)) && TimeBeforeNextDash <= 0)
             {
+                Sound.PlaySound(Sound.dashPlayer);
                 DashTimeRemaining = DashDuration;
                 TimeBeforeNextDash = TimeBetweenDashes;
                 IFramesTimeRemaining = DashDuration;

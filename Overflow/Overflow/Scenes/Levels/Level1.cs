@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Screens;
 using Overflow.src;
-using System;
-using MonoGame.Extended.Sprites;
 using System.Collections.Generic;
 
 namespace Overflow.Scenes

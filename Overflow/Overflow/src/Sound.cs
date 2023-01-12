@@ -1,12 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Overflow.src
 {
@@ -30,9 +24,10 @@ namespace Overflow.src
         public static SoundEffect rangeEnemyAttack;
         public static SoundEffect bossAttack1;
         public static SoundEffect bossAttack2;
+        public static SoundEffect dashPlayer;
 
 
-        private static float[] soundEffectVolumeEqualizer = new float[] { 1f, 0.5f, 1f, 0.6f, 1f, 1f, 1 };
+        private static float[] soundEffectVolumeEqualizer = new float[] { 1f, 0.5f, 1f, 0.6f, 1f, 1f, 1f, 1f };
 
         public static void Load(ContentManager content)
         {
@@ -50,6 +45,7 @@ namespace Overflow.src
             rangeEnemyAttack = content.Load<SoundEffect>("SoundEffects/rangeEnemyAttack");
             bossAttack1 = content.Load<SoundEffect>("SoundEffects/bossAttack1");
             bossAttack2 = content.Load<SoundEffect>("SoundEffects/bossAttack2");
+            dashPlayer = content.Load<SoundEffect>("SoundEffects/dashSoundEffect");
         }
 
         public static void ChangeBackgroundMusic(Song backgroundMusic)
@@ -114,6 +110,8 @@ namespace Overflow.src
                     return soundEffectVolumeEqualizer[5] * Settings.soundSoundEffectVolume;
                 case SoundEffect value when value == bossAttack2:
                     return soundEffectVolumeEqualizer[6] * Settings.soundSoundEffectVolume;
+                case SoundEffect value when value == dashPlayer:
+                    return soundEffectVolumeEqualizer[7] * Settings.soundSoundEffectVolume;
             }
             return 1;
         }

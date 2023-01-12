@@ -289,6 +289,12 @@
 /processorParam:Quality=Best
 /build:SoundEffects/damageToPlayer.mp3
 
+#begin SoundEffects/dashSoundEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/dashSoundEffect.mp3
+
 #begin SoundEffects/rangeEnemyAttack.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor

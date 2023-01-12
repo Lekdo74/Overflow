@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
-using MonoGame.Extended;
 using MonoGame.Extended.Screens;
 using System.Collections.Generic;
 using System;
-using System.Linq;
 using Overflow.src;
-using Microsoft.Xna.Framework.Media;
-using System.Runtime.InteropServices;
 
 namespace Overflow.Scenes
 {

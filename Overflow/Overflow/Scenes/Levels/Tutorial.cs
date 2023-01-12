@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Screens;
 using Overflow.src;
-using System;
 using System.Collections.Generic;
 using MonoGame.Extended.Sprites;
 
@@ -119,6 +118,10 @@ namespace Overflow.Scenes
             Player.Draw(gameTime, Main._spriteBatch);
             PlayerHealthBar.Draw(Main._spriteBatch);
             Main._spriteBatch.DrawString(Art.fontLittle, "Clic gauche pour attaquer \nZ : Haut\nQ : Gauche\nS : Bas\nD : Droite\nShift ou Espace : Dash", new Vector2(20, 30), Color.White);
+            
+            if (mapTuto.CurrentRoom[0] == 2)
+                Main._spriteBatch.DrawString(Art.fontLittle, "N'oublie pas, le dash te rend invincible", new Vector2(20, 215), Color.White);
+            
             if (mapTuto.CurrentRoom[0] == 1)
             {
                 if (currentRoom.Enemies.Count <= 0)
@@ -235,9 +238,10 @@ namespace Overflow.Scenes
 
         private void ChangedRoom()
         {
+            Sound.PlaySound(Sound.changeRoom);
             Player.Position -= new Vector2(Player.Texture.Width / 2, Player.Texture.Height / 2);
+            Player.GhostEffectDashes = new List<GhostEffectDash>();
             Player.CanPassThroughDoor = false;
-            //Sound.ChangeBackgroundMusic(currentRoom.BackgroundMusic);
         }
     }
 }

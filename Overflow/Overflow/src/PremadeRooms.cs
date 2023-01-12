@@ -1,10 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Overflow.src
 {
@@ -81,8 +77,8 @@ namespace Overflow.src
                         "o           x          o",
                         "|                      |",
                         "|                      |",
-                        "|                     Γ.",
-                        ".--⅂        Γ---------.e",
+                        ".⅂                    Γ.",
+                        "e.-⅂        Γ---------.e",
                         "eee.⅂      Γ.eeeeeeeeeee",
                         "eeee.------.eeeeeeeeeeee",
                     }

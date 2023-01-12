@@ -1,12 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Sprites;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
 
 namespace Overflow.src
 {
@@ -43,7 +38,7 @@ namespace Overflow.src
         private static int _offSetX;
         private static int _offSetY;
 
-        private static List<Projectile> _projectilesFollowingPlayer = new List<Projectile>();
+        private static List<Projectile> _projectilesFollowingPlayer;
 
         public static Room Room
         {
@@ -199,6 +194,7 @@ namespace Overflow.src
             AttackTwoAnimationDurationBeforeAttackFrame = 0.96f;
             _attackAnimationTimeRemaining = 0;
             BossSprite = new AnimatedSprite(Art.bossSpriteSheet);
+            ProjectilesFollowingPlayer = new List<Projectile>();
 
             Width = 32;
             Height = 32;
