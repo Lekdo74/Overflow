@@ -34,8 +34,8 @@ namespace Overflow.Scenes
 
             remainingTime = 116f;
 
-            textEnd = "End";
-            textEndPosition = new Vector2(205, 50);
+            textEnd = "The End";
+            textEndPosition = new Vector2(160, 50);
 
             textMerci = "Merci d'avoir joue ;)";
             textMerciPosition = new Vector2(25, 120);

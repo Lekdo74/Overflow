@@ -769,7 +769,6 @@ namespace Overflow.src
                 {
                     Boss.ProjectilesFollowingPlayer.Remove(projectile);
                 }
-                Console.WriteLine(Room.Projectiles.Count);
                 ApplyBehaviours();
             }
             

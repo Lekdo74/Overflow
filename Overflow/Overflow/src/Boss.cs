@@ -17,7 +17,6 @@ namespace Overflow.src
         private static bool _direction;
         private static Vector2 _position;
 
-        private static int _numberOfAttacks;
         private static float _timeBetweenAttacks;
         private static float _timeBeforeNextAttack;
 
@@ -44,9 +43,7 @@ namespace Overflow.src
         private static int _offSetX;
         private static int _offSetY;
 
-        private static int _speed;
-
-        private static List<Projectile> _projectilesFollowingPlayer;
+        private static List<Projectile> _projectilesFollowingPlayer = new List<Projectile>();
 
         public static Room Room
         {
@@ -71,11 +68,6 @@ namespace Overflow.src
             get { return Position + new Vector2(OffSetX + Width / 2, OffSetY + Height / 2); }
         }
 
-        public static int NumberOfAttacks
-        {
-            get { return _numberOfAttacks; }
-            set { _numberOfAttacks = value; }
-        }
         public static float TimeBetweenAttacks
         {
             get { return _timeBetweenAttacks; }
@@ -183,12 +175,6 @@ namespace Overflow.src
             set { _offSetY = value; }
         }
 
-        public static int Speed
-        {
-            get { return _speed; }
-            set { _speed = value; }
-        }
-
         public static List<Projectile> ProjectilesFollowingPlayer
         {
             get { return _projectilesFollowingPlayer; }
@@ -198,6 +184,27 @@ namespace Overflow.src
         public static Rectangle Rectangle
         {
             get { return new Rectangle((int)Position.X + OffSetX, (int)Position.Y + OffSetY, Width, Height); }
+        }
+
+        public static void InitializeBoss()
+        {
+            TimeBetweenAttacks = 2.5f;
+            TimeBeforeNextAttack = 1f;
+            TimeBetweenPassiveAttacks = 4f;
+            TimeBeforeNextPassiveAttack = TimeBetweenPassiveAttacks;
+            AttackAnimation = false;
+            AttackOneAnimationDuration = 1.56f;
+            AttackOneAnimationDurationBeforeAttackFrame = 1.2f;
+            AttackTwoAnimationDuration = 1.2f;
+            AttackTwoAnimationDurationBeforeAttackFrame = 0.96f;
+            _attackAnimationTimeRemaining = 0;
+            BossSprite = new AnimatedSprite(Art.bossSpriteSheet);
+
+            Width = 32;
+            Height = 32;
+            OffSetX = 16;
+            OffSetY = 16;
+            BossSprite.Origin = Vector2.Zero;
         }
 
         public static Vector2 FindTileToRoamTo(float distance)

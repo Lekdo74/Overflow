@@ -324,17 +324,33 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.---.eeeeee",
-                    ".---⅃   L-.eeee",
-                    "|         L.eee",
-                    ".⅂         L-.e",
-                    ".⅃           L.",
-                    "o      x      |",
-                    "|             |",
-                    "|             |",
-                    ".⅂   Γ-⅂      |",
-                    "e.⅂  |e.⅂  Γ--.",
-                    "ee.--.ee.--.eee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeee.---.eeeeeeeeeeeeeee",
+                    ".---⅃   L-.eeeeeeeeeeeee",
+                    "|         L.eeeeeeeeeeee",
+                    ".⅂         L-.eeeeeeeeee",
+                    ".⅃           L.eeeeeeeee",
+                    "o      x      |eeeeeeeee",
+                    "|             |eeeeeeeee",
+                    "|             |eeeeeeeee",
+                    ".⅂   Γ-⅂      |eeeeeeeee",
+                    "e.⅂  |e.⅂  Γ--.eeeeeeeee",
+                    "ee.--.ee.--.eeeeeeeeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    }, new string[] {
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeee.---.eeeeeeeeeeeeeee",
+                    ".---⅃   L-.eeeeeeeeeeeee",
+                    "|         L.eee.--.eeeee",
+                    ".⅂         L-..⅃  L.eeee",
+                    ".⅃           L⅃    |eeee",
+                    "o                  |eeee",
+                    "|             x    |eeee",
+                    "|                 Γ.eeee",
+                    ".⅂   Γ-⅂         Γ.eeeee",
+                    "e.⅂  |e.⅂  Γ-----.eeeeee",
+                    "ee.--.ee.--.eeeeeeeeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -342,17 +358,33 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.---.eeeeee",
-                    ".---⅃   L.e.-.e",
-                    "|        L-⅃ |e",
-                    ".⅂           L.",
-                    "e|            |",
-                    ".⅃      x     |",
-                    "|             |",
-                    "|             |",
-                    ".⅂ Γ⅂         |",
-                    "e.-..⅂     Γ--.",
-                    "eeeee.-o---.eee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeeee.---.eeeeeeeeeee",
+                    "eeee.---⅃   L.e.-.eeeeee",
+                    "eeee|        L-⅃ |eeeeee",
+                    "eeee.⅂           L.eeeee",
+                    "eeeee|            |eeeee",
+                    "eeee.⅃      x     |eeeee",
+                    "eeee|             |eeeee",
+                    "eeee|             |eeeee",
+                    "eeee.⅂ Γ⅂         |eeeee",
+                    "eeeee.-..⅂     Γ--.eeeee",
+                    "eeeeeeeee.-o---.eeeeeeee",
+                    }, new string[] {
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeee.--------.eeeeeee",
+                    "eeeeee.⅃        L.eeeeee",
+                    "eeeee.⅃          L.eeeee",
+                    "eeeee|            |eeeee",
+                    "eeee.⅃      x     L.eeee",
+                    "eeee|              |eeee",
+                    "eeee|             Γ.eeee",
+                    "eeee.⅂ Γ⅂         |eeeee",
+                    "eeeee.-..⅂     Γ--.eeeee",
+                    "eeeeeeeee.-o---.eeeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -360,19 +392,33 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.---.eee.--.eeee",
-                    ".---⅃   L.e.⅃  |eeee",
-                    "|        L-⅃   L.eee",
-                    ".⅂              L-.e",
-                    ".⅃                L.",
-                    "|                  |",
-                    "o         x        |",
-                    "|                  |",
-                    "|                  |",
-                    "|                 Γ.",
-                    ".⅂ Γ⅂            Γ.e",
-                    "e.-..---⅂  Γ-⅂ Γ-.ee",
-                    "eeeeeeee.-o.e.-.eeee",
+                    "eeee.---.eee.---.eeeeeeee",
+                    ".---⅃   L.e.⅃   |eeeeeeee",
+                    "|        L-⅃    L.eeeeeee",
+                    ".⅂               L-.eeeee",
+                    ".⅃                 L.eeee",
+                    "|                   |eeee",
+                    "o         x         |eeee",
+                    "|                   |eeee",
+                    "|                   |eeee",
+                    "|                  Γ.eeee",
+                    ".⅂ Γ⅂             Γ.eeeee",
+                    "e.-..---⅂   Γ-⅂ Γ-.eeeeee",
+                    "eeeeeeee.-o-.e.-.eeeeeeee",
+                    }, new string[] {
+                    "eeee.---.eee.--.eeeeeeee",
+                    ".---⅃   L.e.⅃  |eeeeeeee",
+                    "|        L-⅃   L.eeeeeee",
+                    ".⅂              L-.eeeee",
+                    ".⅃                L.eeee",
+                    "|                  L-.ee",
+                    "o         x          L.e",
+                    "|                     |e",
+                    ".---⅂                 |e",
+                    "eeee.--⅂            Γ-.e",
+                    "eeeeeee|          Γ-.eee",
+                    "eeeeeee.⅂   Γ-⅂ Γ-.eeeee",
+                    "eeeeeeee.-o-.e.-.eeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -380,17 +426,19 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.-----.eeee",
-                    ".---⅃     L-.ee",
-                    "|           L.e",
-                    ".⅂           L.",
-                    "e|      x     |",
-                    ".⅃            o",
-                    "|             |",
-                    "|             |",
-                    ".⅂   Γ-⅂      |",
-                    "e.⅂  |e.⅂  Γ--.",
-                    "ee.--.ee.--.eee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeeeeeeeee.-----.eeee",
+                    "eeeeeeeee.---⅃     L-.ee",
+                    "eeeeeeeee|           L.e",
+                    "eeeeeeeee.⅂           L.",
+                    "eeeeeeeeee|      x     |",
+                    "eeeeeeeee.⅃            o",
+                    "eeeeeeeee|             |",
+                    "eeeeeeeee|             |",
+                    "eeeeeeeee.⅂   Γ-⅂      |",
+                    "eeeeeeeeee.⅂  |e.⅂  Γ--.",
+                    "eeeeeeeeeee.--.ee.--.eee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -398,37 +446,53 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eee.----.eee.--.eeee",
-                    ".--⅃    L.e.⅃  L-.ee",
-                    "|        L-⅃     L.e",
-                    ".⅂                L.",
-                    ".⅃                 |",
-                    "|         x        |",
-                    "o                  o",
-                    "|                  |",
-                    "|                  |",
-                    ".⅂      Γ-⅂        |",
-                    "e.⅂     |e.⅂    Γ--.",
-                    "ee.-----.ee.----.eee",
-                    } };
+                    "eee.------.eee.----.eeee",
+                    ".--⅃      L.e.⅃    L-.ee",
+                    "|          L-⅃       L.e",
+                    ".⅂                    L.",
+                    ".⅃                     |",
+                    "|           x          |",
+                    "o                      o",
+                    "|                      |",
+                    "|                      |",
+                    ".⅂        Γ-⅂          |",
+                    "e.⅂       |e.⅂      Γ--.",
+                    "ee.-------.ee.------.eee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    },  new string[] {
+                    "eee.---.eeeeeee.---.eeee",
+                    ".--⅃   L.eeeee.⅃   L-.ee",
+                    "|       L.eee.⅃      L.e",
+                    ".⅂       |eee|        L.",
+                    ".⅃       |eee|         |",
+                    "|      Γ-.eee|         |",
+                    "o      |eeeee.⅂        o",
+                    "|      L------⅃        |",
+                    "|                     Γ.",
+                    ".⅂                   Γ.e",
+                    "e.-⅂             Γ---.ee.",
+                    "eee.-------------.eeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    }};
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
             else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == false)
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.-.eee.---.eeee",
-                    ".---⅃ L.e.⅃   L-.ee",
-                    "|      L-⅃      L.e",
-                    ".⅂               L.",
-                    "e|                |",
-                    ".⅃                o",
-                    "|         x       |",
-                    "|                 |",
-                    ".⅂ Γ⅂             |",
-                    "e.-..⅂         Γ--.",
-                    "eeeee|        Γ.eee",
-                    "eeeee.---o----.eeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeeeeeee.-.eee.---.eeee",
+                    "eeeee.---⅃ L.e.⅃   L-.ee",
+                    "eeeee|      L-⅃      L.e",
+                    "eeeee.⅂               L.",
+                    "eeeeee|                |",
+                    "eeeee.⅃                o",
+                    "eeeee|         x       |",
+                    "eeeee|                 |",
+                    "eeeee.⅂ Γ⅂             |",
+                    "eeeeee.-..⅂         Γ--.",
+                    "eeeeeeeeee|     Γ---.eee",
+                    "eeeeeeeeee.-o---.eeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -436,18 +500,19 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.-.eeeeee.---.eeee",
-                    ".---⅃ L.eeee.⅃   L-.ee",
-                    "|      L.ee.⅃      L.e",
-                    ".⅂      L..⅃        L.",
-                    ".⅃       L⅃          |",
-                    "|                    o",
-                    "o                    |",
-                    "|           x        |",
-                    ".⅂ Γ⅂                |",
-                    "e.-..⅂            Γ--.",
-                    "eeeee|           Γ.eee",
-                    "eeeee.-----o-----.eeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
+                    "eeeee.-.eeeeee.---.eeeee",
+                    ".----⅃ L.eeee.⅃   L-.eee",
+                    "|       L.ee.⅃      L.ee",
+                    ".⅂       L..⅃        L-.",
+                    ".⅃        L⅃           |",
+                    "|                      |",
+                    "o                      o",
+                    "|           x          |",
+                    ".-⅂ Γ⅂                Γ.",
+                    "ee.-..⅂            Γ--.e",
+                    "eeeeee|           Γ.eeee",
+                    "eeeeee.-----o-----.eeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -455,18 +520,19 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "ee.----o---.eee",
-                    "e.⅃        L.ee",
-                    ".⅃          L.e",
-                    "|            |e",
-                    ".⅂          Γ.e",
-                    "e.⅂         |ee",
-                    "e.⅃    x    L-.",
-                    "e|            |",
-                    "e|           Γ.",
-                    "e.⅂         Γ.e",
-                    "ee.⅂  Γ-⅂   |ee",
-                    "eee.--.e.---.ee",
+                    "eeeeeee.----o---.eeeeeee",
+                    "eeeeee.⅃        L.eeeeee",
+                    "eeeee.⅃          L.eeeee",
+                    "eeeee|            |eeeee",
+                    "eeeee.⅂          Γ.eeeee",
+                    "eeeeee.⅂         |eeeeee",
+                    "eeeeee.⅃    x    L-.eeee",
+                    "eeeeee|            |eeee",
+                    "eeeeee|           Γ.eeee",
+                    "eeeeee.⅂         Γ.eeeee",
+                    "eeeeeee.⅂  Γ-⅂   |eeeeee",
+                    "eeeeeeee.--.e.---.eeeeee",
+                    "eeeeeeeeeeeeeeeeeeeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -474,19 +540,19 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eee.---o-.ee.---.",
-                    "ee.⅃     L--⅃   |",
-                    "ee|            Γ.",
-                    "ee|           Γ.e",
-                    "e.⅃    Γ⅂     |ee",
-                    ".⅃    Γ..⅂    L.e",
-                    "|    Γ.e.⅃     L.",
-                    "o    |e.⅃       |",
-                    "|    L-⅃    x   |",
-                    "|               |",
-                    ".⅂            Γ-.",
-                    "e.⅂     Γ-⅂   |ee",
-                    "ee.-----.e.---.ee"},
+                    "eeeeee.---o-.ee.---.eeee",
+                    "eee.--⅃     L--⅃   |eeee",
+                    "ee.⅃              Γ.eeee",
+                    "ee|              Γ.eeeee",
+                    "e.⅃     Γ⅂       |eeeeee",
+                    ".⅃     Γ..⅂      L.eeeee",
+                    "|     Γ.e.⅃       L.eeee",
+                    "o     |e.⅃         |eeee",
+                    "|     L-⅃    x     |eeee",
+                    "|                  |eeee",
+                    ".⅂               Γ-.eeee",
+                    "e.⅂       Γ-⅂    |eeeeee",
+                    "ee.-------.e.----.eeeeee"}
                     };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -494,51 +560,52 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "ee.----o---.eee",
-                    "e.⅃        L.ee",
-                    ".⅃          L.e",
-                    "|            |e",
-                    "|           Γ.e",
-                    "|           |ee",
-                    "|      x    L-.",
-                    "|             |",
-                    "|             |",
-                    "|            Γ.",
-                    ".-⅂         Γ.e",
-                    "ee.⅂        |ee",
-                    "eee.---o----.ee"},
+                    "eeeeeee.----o---.eeeeeee",
+                    "eeeeee.⅃        L.eeeeee",
+                    "eeeee.⅃          L.eeeee",
+                    "eeeee|            |eeeee",
+                    "eeeee|           Γ.eeeee",
+                    "eeeee|           |eeeeee",
+                    "eeeee|      x    L-.eeee",
+                    "eeeee|             |eeee",
+                    "eeeee|             |eeee",
+                    "eeeee|            Γ.eeee",
+                    "eeeee.-⅂         Γ.eeeee",
+                    "eeeeeee.⅂        |eeeeee",
+                    "eeeeeeee.---o----.eeeeee"},
                     new string[] {
-                    "eeeee.--o---.eee",
-                    "eeee.⅃      L.ee",
-                    ".---⅃        L.e",
-                    "|             |e",
-                    ".⅂           Γ.e",
-                    "e.⅂          |ee",
-                    ".-⅃          L-.",
-                    "|       x      |",
-                    "|              |",
-                    "|             Γ.",
-                    ".⅂           Γ.e",
-                    "e.⅂  Γ⅂ Γ⅂   |ee",
-                    "ee.--..o..---.ee"} };
+                    "eeeeeeee.---o---.eeeeeee",
+                    "eeeeeee.⅃       L-.eeeee",
+                    "eee.---⅃          L.eeee",
+                    "eee|               |eeee",
+                    "eee.⅂             Γ.eeee",
+                    "eeee.⅂            |eeeee",
+                    "eee.-⅃            L-.eee",
+                    "eee|        x       |eee",
+                    "eee|                |eee",
+                    "eee|               Γ.eee",
+                    "eee.⅂             Γ.eeee",
+                    "eeee.⅂  Γ⅂   Γ⅂   |eeeee",
+                    "eeeee.--..-o-..---.eeeee"} };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
             else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == true)
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.--o--.e.---.e",
-                    ".---⅃     L-⅃   L.",
-                    "|                |",
-                    ".⅂               |",
-                    "e|       Γ-⅂  x  |",
-                    "e|      Γ.e|     |",
-                    ".⅃      L..⅃   Γ-.",
-                    "o        L⅃   Γ.ee",
-                    "|             |eee",
-                    ".⅂   Γ-⅂      |eee",
-                    "e.⅂  |e.⅂  Γ--.eee",
-                    "ee.--.ee.o-.eeeeee",
+                    "eeee.--.e.-o-----.eeeeee",
+                    ".---⅃  L-⅃       L.eeeee",
+                    "|                 |eeeee",
+                    "|                 |eeeee",
+                    ".⅂                |eeeee",
+                    "e|       Γ-⅂  x   |eeeee",
+                    ".⅃      Γ.e|      |eeeee",
+                    "o       L..⅃    Γ-.eeeee",
+                    "|        L⅃    Γ.eeeeeee",
+                    "|              |eeeeeeee",
+                    ".⅂   Γ-⅂       |eeeeeeee",
+                    "e.⅂  |e.⅂   Γ--.eeeeeeee",
+                    "ee.--.ee.-o-.eeeeeeeeeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -546,19 +613,19 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eeee.--o--.eeeee",
-                    ".---⅃     L-.eee",
-                    "|           L.ee",
-                    ".⅂           L.e",
-                    "e|     Γ-⅂    |e",
-                    ".⅃    Γ.e.⅂   L.",
-                    "|     L.ee.⅂   |",
-                    "|      L-..⅃   o",
-                    "|   x    L⅃    |",
-                    "|              |",
-                    ".⅂   Γ⅂      Γ-.",
-                    "e.⅂  |.⅂   Γ-.ee",
-                    "ee.--.e.---.eeee",
+                    "eeeeeeeee.-o------.eeeee",
+                    "eeeeeeeee|        L-.eee",
+                    "eeeeeeeee.--⅂       L.ee",
+                    "eeeeeeee.---⅃        L.e",
+                    "eeeeeeee|      Γ-⅂    |e",
+                    "eeeeeeee.⅂    Γ.e.⅂   L.",
+                    "eeeeeeeee|    L.ee.⅂   |",
+                    "eeeeeeee.⅃     L-..⅃   o",
+                    "eeeeeeee|   x    L⅃    |",
+                    "eeeeeeee|              |",
+                    "eeeeeeee.⅂   Γ⅂      Γ-.",
+                    "eeeeeeeee.⅂  |.⅂   Γ-.ee",
+                    "eeeeeeeeee.--.e.---.eeee",
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }
@@ -587,19 +654,19 @@ namespace Overflow.src
             {
                 string[][] rooms = {
                     new string[] {
-                    "eee.----o-----.eeeee",
-                    "ee.⅃          L.eeee",
-                    "e.⅃         x  |eeee",
-                    "e|      Γ⅂    Γ.eeee",
-                    "e.⅂    Γ..⅂  Γ..---.",
-                    "e.⅃   Γ.ee.--..⅃   |",
-                    ".⅃   Γ.eeeeeee|    o",
-                    "|    L..---.e.⅃    |",
-                    "|     L⅃   L-⅃    Γ.",
-                    ".⅂                |e",
-                    "e.-⅂             Γ.e",
-                    "eee.⅂     Γ-⅂  Γ-.ee",
-                    "eeee.---o-.e.--.eeee"
+                    "eeeeee.----o-----.eeeeee",
+                    "eeeee.⅃          L.eeeee",
+                    "eeee.⅃         x  |eeeee",
+                    "eeee|      Γ⅂    Γ.e.-.e",
+                    "eeee.⅂    Γ..⅂  Γ..-⅃ L.",
+                    "eeee.⅃   Γ.ee.--..⅃    |",
+                    "eee.⅃   Γ.eeeeeee|     o",
+                    "eee|    L..---.e.⅃     |",
+                    "eee|     L⅃   L-⅃     Γ.",
+                    "eee.⅂                 |e",
+                    "eeee.-⅂              Γ.e",
+                    "eeeeee.⅂      Γ-⅂  Γ-.ee",
+                    "eeeeeee.---o--.e.--.eeee"
                     } };
                 return new Room(rooms[random.Next(0, rooms.Length)], doors, roomType, enemyNb, tileSet, enemyset, backgroungMusic);
             }

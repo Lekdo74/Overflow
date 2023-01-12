@@ -31,7 +31,7 @@ namespace Overflow.src
         private static float _knockbackTimeRemaining;
         private static int _knockbackSpeed;
 
-        private static int _attackNumber = 1; // Pour ne pas qu'un ennemi puisse recevoir plusieurs fois des dégâts avec une seule attaque du joueur
+        private static int _attackNumber; // Pour ne pas qu'un ennemi puisse recevoir plusieurs fois des dégâts avec une seule attaque du joueur
         private static float _timeBetweenAttacks;
         private static float _timeBeforeNextAttack;
 
@@ -272,6 +272,34 @@ namespace Overflow.src
             }
         }
 
+        public static void InitializePlayer()
+        {
+            Health = 10;
+            IFramesDuration = 1f;
+            IFramesTimeRemaining = 0f;
+            TimeBetweenDashes = 1.4f;
+            TimeBeforeNextDash = 0f;
+            DashDuration = 0.3f;
+            DashTimeRemaining = 0f;
+            DashSpeed = 130;
+            TimeBetweenDashEffects = 0.05f;
+            TimeBeforeNextDashEffect = 0f;
+            DashEffectDuration = 0.1f;
+            KnockbackDuration = 0.12f;
+            KnockbackTimeRemaining = 0f;
+            KnockbackSpeed = 160;
+            AttackNumber = 0;
+            TimeBetweenAttacks = 1f;
+            TimeBeforeNextAttack = 0f;
+            Texture = Art.player;
+            CurrentAnimation = "idleRight";
+            PersoSprite = new AnimatedSprite(Art.playerSpriteSheet);
+            PersoSprite.Origin = Vector2.Zero;
+            OldPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
+            NewPlayerDirection = OldPlayerDirection;
+            Speed = 50;
+        }
+
         private static bool CheckCollision(List<Rectangle> obstacles)
         {
             foreach (Rectangle obstacle in obstacles)
@@ -425,7 +453,7 @@ namespace Overflow.src
             }
             PlayerSlash.Update(deltaTime);
 
-            if (PlayerInputs.KeyBoardState.IsKeyDown(Keys.LeftShift) && TimeBeforeNextDash <= 0)
+            if ((PlayerInputs.KeyBoardState.IsKeyDown(Keys.LeftShift) || PlayerInputs.KeyBoardState.IsKeyDown(Keys.Space)) && TimeBeforeNextDash <= 0)
             {
                 DashTimeRemaining = DashDuration;
                 TimeBeforeNextDash = TimeBetweenDashes;
