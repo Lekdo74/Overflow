@@ -19,6 +19,7 @@ namespace Overflow.src
         {
             get { return _seeker; }
         }
+
         public Texture2D Seeker
         {
             get { return _seeker[random.Next(0, _seeker.Length)]; }

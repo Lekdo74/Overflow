@@ -73,7 +73,7 @@ namespace Overflow.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(Main.renderTarget);
+            GraphicsDevice.SetRenderTarget(Main._renderTarget);
             Game.GraphicsDevice.Clear(Color.Black);
 
             Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
@@ -85,7 +85,7 @@ namespace Overflow.Scenes
             GraphicsDevice.SetRenderTarget(null);
 
             Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            Main._spriteBatch.Draw(Main.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
+            Main._spriteBatch.Draw(Main._renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
             Main._spriteBatch.End();
         }
 

@@ -461,7 +461,7 @@ namespace Overflow.src
             {
                 AttackNumber += 1;
                 TimeBeforeNextAttack = TimeBetweenAttacks;
-                PlayerSlash.RemainingAnimationTime = 0.35f;
+                PlayerSlash.RemainingAnimationTime = PlayerSlash.AnimationDuration;
                 PlayerSlash.Slash.Play("slash");
             }
             PlayerSlash.Update(deltaTime);

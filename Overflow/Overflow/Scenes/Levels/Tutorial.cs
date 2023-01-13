@@ -31,25 +31,8 @@ namespace Overflow.Scenes
 
             currentRoom = mapTuto.Rooms[mapTuto.CurrentRoom[0], mapTuto.CurrentRoom[1]];
 
-            Player.Texture = Art.player;
-            Player.PersoSprite = new AnimatedSprite(Art.playerSpriteSheet);
-            Player.Health = 10;
-            Player.IFramesDuration = 1f;
-            Player.TimeBetweenDashes = 1.5f;
-            Player.DashEffectDuration = 0.1f;
-            Player.KnockbackDuration = 0.2f;
-            Player.DashDuration = 0.3f;
-            Player.TimeBetweenDashEffects = 0.05f;
-            Player.DashSpeed = 120;
-            Player.KnockbackSpeed = 160;
-            Player.TimeBetweenAttacks = 1f;
+            Player.InitializePlayer();
             Player.Position = currentRoom.SpawnPoint;
-            Player.Speed = 50;
-            Player.NewPlayerDirection = PlayerInputs.GetPlayerDirection(PlayerInputs.KeyBoardState);
-            Player.OldPlayerDirection = Player.NewPlayerDirection;
-            Player.CurrentAnimation = "idleRight";
-            Player.PersoSprite.Origin = new Vector2(0, 0);
-            PlayerSlash.Slash.Play("slash");
 
 
             Player.CanPassThroughDoor = true;
@@ -80,7 +63,7 @@ namespace Overflow.Scenes
             Player.Update(gameTime, currentRoom);
             Player.TakeDamage(Player.CheckDamage(currentRoom));
 
-            if (currentRoom.RoomType == 2 && currentRoom.Enemies.Count == 0 && currentRoom.Doors[1] == true && currentRoom.Doors[3] == false)
+            if (mapTuto.CurrentRoom[0] == 0 && currentRoom.Enemies.Count == 0)
             {
                 Player.PastTutorial = true;
                 Player.Tutorial = false;
@@ -110,7 +93,7 @@ namespace Overflow.Scenes
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(Main.renderTarget);
+            GraphicsDevice.SetRenderTarget(Main._renderTarget);
             Game.GraphicsDevice.Clear(Color.Black);
 
             Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
@@ -193,7 +176,7 @@ namespace Overflow.Scenes
             GraphicsDevice.SetRenderTarget(null);
 
             Main._spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
-            Main._spriteBatch.Draw(Main.renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
+            Main._spriteBatch.Draw(Main._renderTarget, new Rectangle(0, 0, Settings.currentWidthResolution, Settings.currentHeightResolution), Color.White);
             Main._spriteBatch.End();
         }
 

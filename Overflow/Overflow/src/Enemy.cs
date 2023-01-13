@@ -488,11 +488,6 @@ namespace Overflow.src
                     Boss.TimeBeforeNextPassiveAttack = Boss.TimeBetweenPassiveAttacks;
                 }
 
-                if (_previousTile != _currentTile)
-                {
-                    CalculPath = true;
-                }
-
                 yield return 0;
             }
         }
@@ -699,7 +694,6 @@ namespace Overflow.src
             {
                 if (KnockbackTimeRemaining <= 0)
                 {
-                    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
                     TimeSinceLastShot += deltaTime;
                     if (_calculPath)
                     {

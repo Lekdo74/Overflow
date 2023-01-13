@@ -9,7 +9,12 @@ namespace Overflow.src
 
         private static Texture2D Texture
         {
-            get { return Art.healthBar[Player.Health - 1]; }
+            get
+            {
+                if(Player.Health > 10)
+                    return Art.healthBar[9];
+                return Art.healthBar[Player.Health - 1];
+            }
         }
 
         public static void Update(GameTime gameTime)

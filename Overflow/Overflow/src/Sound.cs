@@ -27,7 +27,7 @@ namespace Overflow.src
         public static SoundEffect dashPlayer;
 
 
-        private static float[] soundEffectVolumeEqualizer = new float[] { 1f, 0.5f, 1f, 0.6f, 1f, 1f, 1f, 1f };
+        private static float[] soundEffectVolumeEqualizer = new float[] { 1f, 0.5f, 1f, 0.6f, 1f, 1f, 1f, 0.38f };
 
         public static void Load(ContentManager content)
         {

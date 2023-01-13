@@ -8,6 +8,7 @@ namespace Overflow.src
     public static class PlayerSlash
     {
         private static AnimatedSprite _slash = new AnimatedSprite(Art.slashSpriteSheet);
+        private static float _animationDuration = 0.20f;
         private static float _remainingAnimationTime;
 
         private static Vector2 _offSetPosition;
@@ -25,6 +26,12 @@ namespace Overflow.src
         {
             get { return _slash; }
             set { _slash = value; }
+        }
+
+        public static float AnimationDuration
+        {
+            get { return _animationDuration; }
+            set { _animationDuration = value; }
         }
 
         public static float RemainingAnimationTime

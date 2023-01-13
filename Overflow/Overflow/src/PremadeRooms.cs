@@ -38,7 +38,6 @@ namespace Overflow.src
 
         public static Room RoomTuto(bool[] doors, int roomType, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroungMusic)
         {
-            Console.WriteLine(roomType);
             if (roomType == 1)
             {
                 string[][] room =

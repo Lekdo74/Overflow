@@ -21,8 +21,6 @@ namespace Overflow.src
         private EnemySet _enemyset;
         private Song _backgroundMusic;
 
-        private bool _niveau;
-
         public Map(int roomNb, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroundMusic)
         {
             _roomNb = roomNb;
@@ -33,7 +31,7 @@ namespace Overflow.src
             _rooms = GenerateMap();
         }
 
-        public Map(int roomNb, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroundMusic, bool niveau)
+        public Map(int roomNb, int[] enemyNb, TileSet tileSet, EnemySet enemyset, Song backgroundMusic, bool tuto)
         {
             _roomNb = roomNb;
             _enemyNb = enemyNb;
@@ -41,7 +39,6 @@ namespace Overflow.src
             _tileSet = tileSet;
             _enemyset = enemyset;
             _rooms = GenerateMapTuto();
-            _niveau = niveau;
         }
 
         public int RoomNb
@@ -74,12 +71,6 @@ namespace Overflow.src
             {
                 _currentRoom = value;
             }
-        }
-
-        public bool Niveau
-        { 
-            get { return _niveau; }
-            set { _niveau = value; }
         }
 
         private Room[,] GenerateMapTuto()
@@ -211,7 +202,6 @@ namespace Overflow.src
                 else
                     rooms[x, y] = PremadeRooms.Room(doors, map[x, y], _enemyNb, _tileSet, _enemyset, _backgroundMusic);
             }
-            //Console.WriteLine((CurrentRoom[0], CurrentRoom[1]));
 
             return rooms;
         }

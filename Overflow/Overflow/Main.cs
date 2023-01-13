@@ -16,7 +16,7 @@ namespace Overflow
         private readonly ScreenManager _screenManager;
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
-        public static RenderTarget2D renderTarget;
+        public static RenderTarget2D _renderTarget;
 
         public Main()
         {
@@ -35,7 +35,7 @@ namespace Overflow
             _graphics.PreferredBackBufferWidth = Settings.launchWidthResolution;
             _graphics.PreferredBackBufferHeight = Settings.launchHeightResolution;
             _graphics.ApplyChanges();
-            renderTarget = new RenderTarget2D(GraphicsDevice, Settings.nativeWidthResolution, Settings.nativeHeightResolution);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, Settings.nativeWidthResolution, Settings.nativeHeightResolution);
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
