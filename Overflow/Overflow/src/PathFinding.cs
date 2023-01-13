@@ -43,11 +43,6 @@ namespace Overflow.src
                 if(currentTile == targetTile)
                 {
                     List<Tile> path = RetracePath(startTile, targetTile);
-                    List<Vector2> waypoints = new List<Vector2>();
-                    foreach (Tile tile in path)
-                    {
-                        waypoints.Add(tile.Position);
-                    }
                     return SymplifyPath(path);
                 }
 
